@@ -1,0 +1,8 @@
+
+{
+  "name": "jonah",
+  "email": "user@email.com",
+  "id": "either it is -sub- or there is sub and also this? what about oauth key? here or separate?",
+  "is_staff": true,
+  "bookedEvents": [list of event objects]
+}
