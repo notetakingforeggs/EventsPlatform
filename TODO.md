@@ -8,4 +8,5 @@ Misc "to do" list
 - refresh why using Long not long for ids
 - decide naming conventions: appuser always?#
 - also in service class, specify events or know it will be like eventservieimpl.getById so dont need twice events?
-- 
+- need to robustify methods in service impls, especially update. feels jank rn.
+- need to solidify what "id" is gonna be, as i think it is currently autogenned by the orm. is that an issue?
