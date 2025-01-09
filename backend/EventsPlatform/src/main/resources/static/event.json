@@ -1,9 +1,9 @@
 {
-  "id"
-  "name":"flying trapeze beginners", // enum this maybe?
+  "id": 1,
+  "name":"flying trapeze beginners",
   "startDate": "2025-01-08T10:30:00Z",
   "endDate": "2025-01-08T12:30:00Z",
   "attendees": [
-    -list of user objects
+   null
   ]
 }

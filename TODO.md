@@ -1,0 +1,11 @@
+Misc "to do" list
+---
+- Create AppUser DTO rather than passing full users around
+- Create error handlers to gracefully handle exceptions etc
+- FIgure out that thing about how jpa repository has automatic methods depending on class attributes?
+- set up postman/curl some endpoints
+- create an sql seed/init for testing purposes
+- refresh why using Long not long for ids
+- decide naming conventions: appuser always?#
+- also in service class, specify events or know it will be like eventservieimpl.getById so dont need twice events?
+- 
