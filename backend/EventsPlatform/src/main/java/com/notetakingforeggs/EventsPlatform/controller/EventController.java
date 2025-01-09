@@ -23,7 +23,6 @@ public class EventController {
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
-    // TODO better to return the newly saved event than true to ensure successful posting
     @PostMapping
     public ResponseEntity<Event> addEvent(@RequestBody Event newEvent){
         System.out.println("post req received");

@@ -31,10 +31,11 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Boolean deleteById(Long id) {
+    public Event deleteById(Long id) {
         try{
+            Event temp = eventRepository.getReferenceById(id);
             eventRepository.deleteById(id);
-            return true;
+            return temp;
         }
         catch (Exception e) {
             // TODO handle better
@@ -44,12 +45,12 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Boolean update(Event updatedEvent, Long id) {
+    public Event update(Event updatedEvent, Long id) {
 
         try{
             eventRepository.deleteById(id);
-            eventRepository.save(updatedEvent);
-            return true;
+            return eventRepository.save(updatedEvent);
+
         } catch (Exception e) {
             // TODO handle better
             throw new RuntimeException(e);

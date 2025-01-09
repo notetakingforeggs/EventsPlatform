@@ -11,8 +11,8 @@ public interface EventService {
     List<Event> getAllEvents();
     List<Event> getByName(String name);
     Event getById(Long id);
-    Boolean deleteById(Long id);
-    Boolean update(Event updatedEvent, Long id);
+    Event deleteById(Long id);
+    Event update(Event updatedEvent, Long id);
     Event add(Event newEvent);
 
 }
