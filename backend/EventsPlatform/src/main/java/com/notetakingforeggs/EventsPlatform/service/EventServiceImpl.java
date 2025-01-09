@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService{
@@ -14,15 +15,13 @@ public class EventServiceImpl implements EventService{
     EventRepository eventRepository;
 
     @Override
-    public List<Event> getAllEvents() {
+    public List<Event> getAll() {
         return eventRepository.findAll();
     }
 
-    // what is the auto findby attribute that is offered by jpa repo?
     @Override
     public List<Event> getByName(String name) {
-//        return eventRepository.findBy(name);
-        return null;
+        return eventRepository.findByName(name);
     }
 
     @Override
@@ -48,7 +47,8 @@ public class EventServiceImpl implements EventService{
     public Event update(Event updatedEvent, Long id) {
 
         try{
-            eventRepository.deleteById(id);
+            Optional<Event> originalEvent = eventRepository.findById(id);
+            originalEvent = Optional.ofNullable(updatedEvent);
             return eventRepository.save(updatedEvent);
 
         } catch (Exception e) {
@@ -61,8 +61,6 @@ public class EventServiceImpl implements EventService{
     @Override
     public Event add(Event newEvent) {
         try{
-            System.out.println("000000000000");
-            System.out.println(newEvent.getStartDate().getZone());
             return eventRepository.save(newEvent);
 
         } catch (Exception e) {

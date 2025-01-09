@@ -19,7 +19,7 @@ public class EventController {
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents(){
         System.out.println("getting all events");
-        List<Event> events = eventService.getAllEvents();
+        List<Event> events = eventService.getAll();
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 

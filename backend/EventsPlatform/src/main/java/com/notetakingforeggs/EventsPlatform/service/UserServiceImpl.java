@@ -13,25 +13,25 @@ public class UserServiceImpl implements UserService{
     UserRepository userRepository;
 
     @Override
-    public AppUser getUserById(Long id) {
+    public AppUser getById(Long id) {
         return userRepository.getReferenceById(id);
     }
 
     @Override
-    public List<AppUser> getAllUsers() {
+    public List<AppUser> getAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public AppUser deleteUserById(Long id) {
-        AppUser temp = getUserById(id);
+    public AppUser deleteById(Long id) {
+        AppUser temp = getById(id);
         userRepository.deleteById(id);
         return temp;
     }
 
     @Override
-    public Boolean deleteAllUsers() {
-        deleteAllUsers();
+    public Boolean deleteAll() {
+        deleteAll();
         return true;
     }
 

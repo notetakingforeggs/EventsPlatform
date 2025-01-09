@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface UserService {
 
-    AppUser getUserById(Long id);
-    List<AppUser> getAllUsers();
-    AppUser deleteUserById(Long id);
-    Boolean deleteAllUsers();
-    AppUser updateAppUser(AppUser updatedAppUser, Long id);
-    AppUser addAppUser(AppUser appUser);
+    AppUser getById(Long id);
+    List<AppUser> getAll();
+    AppUser deleteById(Long id);
+    Boolean deleteAll();
+    AppUser update(AppUser updatedAppUser, Long id);
+    AppUser add(AppUser appUser);
 
 }
