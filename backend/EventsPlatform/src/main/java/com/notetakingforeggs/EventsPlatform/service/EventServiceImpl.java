@@ -58,10 +58,12 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Boolean add(Event newEvent) {
+    public Event add(Event newEvent) {
         try{
-            eventRepository.save(newEvent);
-            return true;
+            System.out.println("000000000000");
+            System.out.println(newEvent.getStartDate().getZone());
+            return eventRepository.save(newEvent);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -13,6 +13,6 @@ public interface EventService {
     Event getById(Long id);
     Boolean deleteById(Long id);
     Boolean update(Event updatedEvent, Long id);
-    Boolean add(Event newEvent);
+    Event add(Event newEvent);
 
 }

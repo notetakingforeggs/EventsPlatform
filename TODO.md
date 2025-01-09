@@ -10,3 +10,5 @@ Misc "to do" list
 - also in service class, specify events or know it will be like eventservieimpl.getById so dont need twice events?
 - need to robustify methods in service impls, especially update. feels jank rn.
 - need to solidify what "id" is gonna be, as i think it is currently autogenned by the orm. is that an issue?q
+- __need to convert String times into datetime objs for storage__
+- Am i forgetting jackson/gson de/serialisation at this point?
