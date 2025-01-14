@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // The line below came with the firebase snippet, but may not be needed for now?
+  // show defaultTargetPlatform, kIsWeb, TargetPlatform;
   runApp(const MyApp());
 }
 

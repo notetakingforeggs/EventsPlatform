@@ -7,10 +7,7 @@ import 'firebase_options.dart';
 
 // ... This section below, unsure if this is where it needs to be?
 
-await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-);
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
