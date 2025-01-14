@@ -9,7 +9,7 @@ import java.util.List;
 public interface EventService {
 
     List<Event> getAll();
-    List<Event> getByName(String name);
+    List<Event> getByEventName(String name);
     Event getById(Long id);
     Event deleteById(Long id);
     Event update(Event updatedEvent, Long id);

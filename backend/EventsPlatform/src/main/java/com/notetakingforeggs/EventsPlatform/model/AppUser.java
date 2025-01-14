@@ -14,6 +14,10 @@ public class AppUser {
 
     private String name;
 
+    private String email;
+
+    private Boolean isStaff;
+
     @ManyToMany(mappedBy = "attendees")
     private List<Event> events;
 

@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public AppUser updateAppUser(AppUser updatedAppUser, Long id) {
+    public AppUser update(AppUser updatedAppUser, Long id) {
         userRepository.deleteById(id);
         return userRepository.save(updatedAppUser);
     }
 
     @Override
-    public AppUser addAppUser(AppUser appUser) {
+    public AppUser add(AppUser appUser) {
         return userRepository.save(appUser);
     }
 }
