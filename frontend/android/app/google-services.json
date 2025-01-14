@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "546223906141",
+    "project_id": "eventsplatform-6b54e",
+    "storage_bucket": "eventsplatform-6b54e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546223906141:android:89cbe92b3133a3f4f9dcb4",
+        "android_client_info": {
+          "package_name": "com.notetakingforeggs.events_platform_frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo97SbJUl2ZZXsXpX-oLDEg_sACoBBcsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
