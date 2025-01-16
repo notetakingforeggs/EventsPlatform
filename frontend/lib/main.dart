@@ -1,4 +1,5 @@
 import 'package:events_platform_frontend/pages/login_page.dart';
+import 'package:events_platform_frontend/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -18,9 +19,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: const LoginPage(),
+      theme: lightMode,
+      // darkTheme: make a darkmode theme later and put it here
     );
   }
 }
