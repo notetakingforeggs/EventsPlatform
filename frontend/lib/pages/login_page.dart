@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 
+import 'junk.dart';
+
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -25,7 +27,11 @@ class LoginPage extends StatelessWidget {
             ),
             // Google Sign In button
             ElevatedButton(
-              onPressed: () => AuthService().signInWithGoogle(),
+              onPressed: () {
+                AuthService().signInWithGoogle();
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Junk()));
+              },
               child: Text(
                 "Google Sign In",
                 style: TextStyle(color: Colors.black),
