@@ -14,15 +14,20 @@ class AuthService {
   signInWithGoogle() async {
     // begin sign in process
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    print(gUser);
+    // check for cancel
+    if (gUser == null) return;
 
     // obtain details from the request
-    final GoogleSignInAuthentication gauth = await gUser!.authentication;
+    final GoogleSignInAuthentication gAuth = await gUser.authentication;
+    print(gAuth);
 
     // create new credentials for the user.
     final credential = GoogleAuthProvider.credential(
-      accessToken: gauth.accessToken,
-      idToken: gauth.idToken,
+      accessToken: gAuth.accessToken,
+      idToken: gAuth.idToken,
     );
+    print("credential is $credential");
 
     // sign in
     return await _firebaseAuth.signInWithCredential(credential);
