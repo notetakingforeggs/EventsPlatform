@@ -35,3 +35,5 @@ build/
 ### .properties ###
 *.properties
 .properties
+
+src/main/resources/credentials.json
