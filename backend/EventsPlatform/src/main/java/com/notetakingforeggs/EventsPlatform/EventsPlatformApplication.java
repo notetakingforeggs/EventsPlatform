@@ -8,6 +8,11 @@ public class EventsPlatformApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EventsPlatformApplication.class, args);
+		System.out.println("running");
+
+		CalendarQuickStart calendarQuickStart = new CalendarQuickStart();
 	}
+
+
 
 }
