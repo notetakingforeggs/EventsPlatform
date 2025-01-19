@@ -12,6 +12,13 @@ class AuthService {
 
   // google sign in
   signInWithGoogle() async {
+
+
+    // check if user is signed in
+
+
+
+
     // begin sign in process
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
     print(gUser);

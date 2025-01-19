@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 import 'junk.dart';
 
@@ -24,6 +26,8 @@ class LoginPage extends StatelessWidget {
                 iconSize: 90,
                 onPressed: () {
                   print("printing");
+                  User? user = AuthService().getCurrentUser();
+                  print(user);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                         content: Text(
@@ -43,15 +47,19 @@ class LoginPage extends StatelessWidget {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Junk()));
                 } catch (e) {
-                  print("flim");
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text(
-                      "LogInFailed... but why?",
-                      style: TextStyle(fontSize: 32),
-                    )),
-                  );
-                }
+                  print(e);
+                  print("Pppppppppppppppppppppp");
+                };
+
+                //   print("flim");
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //         content: Text(
+                //       "LogInFailed... but why?",
+                //       style: TextStyle(fontSize: 32),
+                //     )),
+                //   );
+                // }
               },
               child: Text(
                 "Google Sign In",

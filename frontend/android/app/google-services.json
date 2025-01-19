@@ -12,7 +12,12 @@
           "package_name": "com.notetakingforeggs.events_platform_frontend"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "418175155676-a02084oqa15vgp17io0uqv5mvc8mrh6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBeFTLykG-QrY-OPUZYL0odbyQoX-uYFis"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418175155676-a02084oqa15vgp17io0uqv5mvc8mrh6e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "418175155676-1f747p59e3vbcthkh7l3j9dvqgpaq2hf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.notetakingforeggs.eventsPlatformFrontend"
+              }
+            }
+          ]
         }
       }
     }
