@@ -8,7 +8,9 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
+//import com.google.api.client.json.gson.GsonFactory;
+//import com.google.code.gson.GsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
@@ -33,7 +35,9 @@ public class CalendarQuickStart {
     /**
      * Global instance of the JSON factory.
      */
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+//    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+            // some weirdness with the "required" google.api.client not finding the gson package?
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     /**
      * Directory to store authorization tokens for this application.
      */
