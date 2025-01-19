@@ -12,31 +12,35 @@ class AuthService {
 
   // google sign in
   signInWithGoogle() async {
-
-
     // check if user is signed in
-
-
+    print("ghost");
 
 
     // begin sign in process
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-    print(gUser);
-    // check for cancel
-    if (gUser == null) return;
+    try {
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      print("printing");
 
-    // obtain details from the request
-    final GoogleSignInAuthentication gAuth = await gUser.authentication;
-    print(gAuth);
+      // check for cancel
+      if (gUser == null) return;
 
-    // create new credentials for the user.
-    final credential = GoogleAuthProvider.credential(
-      accessToken: gAuth.accessToken,
-      idToken: gAuth.idToken,
-    );
-    print("credential is $credential");
+      // obtain details from the request
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
+      print(gAuth);
 
-    // sign in
-    return await _firebaseAuth.signInWithCredential(credential);
+      // create new credentials for the user.
+      final credential = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
+      print("credential is $credential");
+
+      // sign in
+      return await _firebaseAuth.signInWithCredential(credential);
+    }
+    catch (error) {
+      print("user unable to sign in error: $error");
+      rethrow;
+    }
   }
 }

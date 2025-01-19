@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
@@ -49,7 +48,7 @@ class LoginPage extends StatelessWidget {
                 } catch (e) {
                   print(e);
                   print("Pppppppppppppppppppppp");
-                };
+                }
 
                 //   print("flim");
                 //   ScaffoldMessenger.of(context).showSnackBar(

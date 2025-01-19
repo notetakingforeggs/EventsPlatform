@@ -1,5 +1,3 @@
-import "package:events_platform_frontend/table_calendar_example/basics_example.dart";
-import "package:events_platform_frontend/table_calendar_example/complex_example.dart";
 import "package:events_platform_frontend/table_calendar_example/events_example.dart";
 import "package:flutter/material.dart";
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,7 +39,7 @@ User? user   = FirebaseAuth.instance.currentUser;
                         child: const Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(
+                              padding: EdgeInsets.fromLTRB(
                                 20,
                                 0,
                                 20,
