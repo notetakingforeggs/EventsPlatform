@@ -18,6 +18,8 @@ class AuthService {
 
     // begin sign in process
     try {
+
+
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
       print("printing");
 

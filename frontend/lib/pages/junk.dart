@@ -1,3 +1,4 @@
+import "package:events_platform_frontend/services/auth/auth_service.dart";
 import "package:events_platform_frontend/table_calendar_example/events_example.dart";
 import "package:flutter/material.dart";
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,7 +37,7 @@ User? user   = FirebaseAuth.instance.currentUser;
                           color: Colors.purple,
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: const Row(
+                        child:  Row(
                           children: [
                             Padding(
                               padding: EdgeInsets.fromLTRB(
@@ -47,7 +48,14 @@ User? user   = FirebaseAuth.instance.currentUser;
                               ),
                               child: Icon(Icons.panorama_fish_eye),
                             ),
-                            Text("Google Sign In")
+                            OutlinedButton(
+                                child: Text("sometext"),
+                                onPressed:() {
+                              print("somthing");
+                              User? user = AuthService().getCurrentUser();
+                              print(user);
+                            }),
+
                           ],
                         ),
                       ),
