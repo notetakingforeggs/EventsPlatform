@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'junk.dart';
 
@@ -18,19 +19,39 @@ class LoginPage extends StatelessWidget {
             Text("Events Platform", style: TextStyle(fontSize: 36)),
             SizedBox(height: 50),
             // Logo
-            Icon(
-              Icons.calendar_view_week_sharp,
-              size: 90,
-            ),
+            IconButton(
+                icon: Icon(Icons.remove_red_eye),
+                iconSize: 90,
+                onPressed: () {
+                  print("printing");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(
+                      "something",
+                      style: TextStyle(fontSize: 32),
+                    )),
+                  );
+                }),
             SizedBox(
               height: 100,
             ),
             // Google Sign In button
             ElevatedButton(
-              onPressed: () {
-                AuthService().signInWithGoogle();
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Junk()));
+              onPressed: () async {
+                try {
+                  await AuthService().signInWithGoogle();
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Junk()));
+                } catch (e) {
+                  print("flim");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(
+                      "LogInFailed... but why?",
+                      style: TextStyle(fontSize: 32),
+                    )),
+                  );
+                }
               },
               child: Text(
                 "Google Sign In",

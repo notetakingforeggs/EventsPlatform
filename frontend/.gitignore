@@ -43,5 +43,5 @@ app.*.map.json
 /android/app/release
 
 # to avoid API key leakage
-firebase_options.dart
-
+lib/firebase_options.dart
+android/app/google-services.json

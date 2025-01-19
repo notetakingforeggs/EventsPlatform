@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey:
+      GlobalKey<ScaffoldMessengerState>(),
       debugShowCheckedModeBanner: false,
       home: const LoginPage(),
       theme: lightMode,
