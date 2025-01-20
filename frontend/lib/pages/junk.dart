@@ -1,3 +1,4 @@
+import "package:events_platform_frontend/components/ColourChangingButton.dart";
 import "package:events_platform_frontend/pages/login_page.dart";
 import "package:events_platform_frontend/services/auth/auth_service.dart";
 import "package:events_platform_frontend/table_calendar_example/events_example.dart";
@@ -34,12 +35,7 @@ class Junk extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    IconButton(
-                      icon: Icon(Icons.add_a_photo),
-                      onPressed: () {
-                        print("iconButton");
-                      },
-                    ),
+                    ColourChangingButton(),
                     Stack(children: [
                       Container(
                         width: 200,
