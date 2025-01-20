@@ -1,20 +1,19 @@
+import "package:events_platform_frontend/pages/login_page.dart";
 import "package:events_platform_frontend/services/auth/auth_service.dart";
 import "package:events_platform_frontend/table_calendar_example/events_example.dart";
 import "package:flutter/material.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Junk extends StatelessWidget {
-
-User? user   = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
 
   Junk({super.key});
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.blueGrey,
         title: const Text("Events Platform"),
       ),
       body: Container(
@@ -23,12 +22,24 @@ User? user   = FirebaseAuth.instance.currentUser;
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.access_alarm_outlined),
+              ElevatedButton(
+                  onPressed: () {
+                    print("elevated button");
+                  },
+                  child: Icon(
+                    Icons.access_alarm_outlined,
+                    color: Colors.black,
+                  )),
               Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Icons.add_a_photo),
+                    IconButton(
+                      icon: Icon(Icons.add_a_photo),
+                      onPressed: () {
+                        print("iconButton");
+                      },
+                    ),
                     Stack(children: [
                       Container(
                         width: 200,
@@ -37,7 +48,7 @@ User? user   = FirebaseAuth.instance.currentUser;
                           color: Colors.purple,
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child:  Row(
+                        child: Row(
                           children: [
                             Padding(
                               padding: EdgeInsets.fromLTRB(
@@ -50,12 +61,11 @@ User? user   = FirebaseAuth.instance.currentUser;
                             ),
                             OutlinedButton(
                                 child: Text("sometext"),
-                                onPressed:() {
-                              print("somthing");
-                              User? user = AuthService().getCurrentUser();
-                              print(user);
-                            }),
-
+                                onPressed: () {
+                                  print("outlinedButton");
+                                  User? user = AuthService().getCurrentUser();
+                                  print(user);
+                                }),
                           ],
                         ),
                       ),
@@ -65,6 +75,7 @@ User? user   = FirebaseAuth.instance.currentUser;
               FloatingActionButton(
                   child: Icon(Icons.add_a_photo),
                   onPressed: () {
+                    print("floating action button");
                     print(user);
                   }),
             ]),
@@ -75,9 +86,19 @@ User? user   = FirebaseAuth.instance.currentUser;
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => TableEventsExample()));
           }),
-      bottomNavigationBar: BottomNavigationBar(items: const [
+      bottomNavigationBar: BottomNavigationBar(items:  [
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
+          icon: IconButton(
+            icon: Icon(
+              Icons.exit_to_app,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              AuthService().signOut();
+              print("logging out");
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            },
+          ),
           label: "search",
         ),
         BottomNavigationBarItem(
