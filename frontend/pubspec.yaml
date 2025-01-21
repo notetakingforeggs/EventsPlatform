@@ -38,6 +38,7 @@ dependencies:
   fluttertoast: ^8.2.10
 
   intl: any
+  http: ^1.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

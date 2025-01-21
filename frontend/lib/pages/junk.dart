@@ -4,6 +4,7 @@ import "package:events_platform_frontend/services/auth/auth_service.dart";
 import "package:events_platform_frontend/table_calendar_example/events_example.dart";
 import "package:flutter/material.dart";
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart';
 
 class Junk extends StatelessWidget {
   User? user = FirebaseAuth.instance.currentUser;
@@ -99,7 +100,7 @@ class Junk extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.map),
-          label: "map",
+          label: "map", 
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_2_sharp),
