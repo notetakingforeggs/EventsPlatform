@@ -6,20 +6,37 @@ import "package:flutter/material.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
 import 'junk0.dart';
+import "junk1.dart";
 
-class Junk extends StatelessWidget {
+class Junk extends StatefulWidget {
+  Junk({super.key});
+
+  @override
+  State<Junk> createState() => _JunkState();
+}
+
+class _JunkState extends State<Junk> {
   User? user = FirebaseAuth.instance.currentUser;
 
-  Junk({super.key});
+  final List<Widget> _junkPages = [
+    Junk0(),
+    Junk1(),
+  ];
+
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        title: const Text("Events Platform"),
-      ),
-      body: Junk0(),
+          backgroundColor: Colors.blueGrey,
+          title: const Text("Events Platform"),
+          leading: BackButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )),
+      body: _junkPages[_currentIndex],
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -27,23 +44,26 @@ class Junk extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => TableEventsExample()));
           }),
       bottomNavigationBar: BottomNavigationBar(
-          onTap: (index) {
+          onTap: (int index) {
             print("index is $index");
+            setState(() {
+              _currentIndex = index;
+            });
           },
           items: [
             BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(
-                  Icons.exit_to_app,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  AuthService().signOut();
-                  print("logging out");
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
+              // icon: IconButton(
+              icon: Icon(
+                Icons.exit_to_app,
+                color: Colors.black,
               ),
+              // onPressed: () {
+              // AuthService().signOut();
+              // print("logging out");
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => LoginPage()));
+              // },
+              // ),
               label: "search",
             ),
             BottomNavigationBarItem(
