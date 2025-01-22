@@ -14,3 +14,7 @@ Misc "to do" list
 - have it so you have one google calendar account that is admin, and can input items but not take them. makes it transferrable easily between different orgs, and reduces the need for a cms/admin
 
 - https (lets encrypt) for backend.
+## fading out - currently working on: 
+- ensuring compatability of backened users to google calendar users to allow event adding
+- sending OAUTH key thing from frontend to back end and immediately wrapping in credential objs to then feed into the calendar service
+- for the above, need a new controller method etc..

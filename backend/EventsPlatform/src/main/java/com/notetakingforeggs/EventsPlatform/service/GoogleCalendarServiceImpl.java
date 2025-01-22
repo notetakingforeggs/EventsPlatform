@@ -2,6 +2,7 @@ package com.notetakingforeggs.EventsPlatform.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.notetakingforeggs.EventsPlatform.model.Event;
 import com.google.api.services.calendar.Calendar;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,11 @@ public class GoogleCalendarServiceImpl implements CalendarService{
         if (calendarId == null){
             calendarId = "primary";
         }
-        Calendar calendarService = new Calendar.Builder()
+        Calendar calendarService = new Calendar.Builder(httpTransport, JacksonFactory.getDefaultInstance(), credential)
+                .setApplicationName("why put a name here?")
+                .build();
+
+        calendarService.events().insert(calendarId, event).execute();
 
     }
 
