@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../components/ColourChangingButton.dart';
 import '../services/auth/auth_service.dart';
 
-class Junk0 extends StatelessWidget {
-  Junk0({super.key});
+class Playground extends StatelessWidget {
+  Playground({super.key});
 
   User? user;
 

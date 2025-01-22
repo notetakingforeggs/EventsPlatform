@@ -5,8 +5,8 @@ import "package:events_platform_frontend/table_calendar_example/events_example.d
 import "package:flutter/material.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
-import 'junk0.dart';
-import "junk1.dart";
+import 'playground.dart';
+import "http_playground.dart";
 
 class Junk extends StatefulWidget {
   Junk({super.key});
@@ -16,11 +16,13 @@ class Junk extends StatefulWidget {
 }
 
 class _JunkState extends State<Junk> {
+
+  
   User? user = FirebaseAuth.instance.currentUser;
 
   final List<Widget> _junkPages = [
-    Junk0(),
-    Junk1(),
+    Playground(),
+    HttpPlayground(),
   ];
 
   int _currentIndex = 0;
