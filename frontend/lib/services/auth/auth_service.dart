@@ -34,7 +34,7 @@ class AuthService {
         accessToken: gAuth.accessToken,
         idToken: gAuth.idToken,
       );
-      
+
 
       // Method to send the token to the backend
       // send credential.accessToken

@@ -58,6 +58,7 @@ public class CalendarQuickStart {
      * @return An authorized Credential object.uri
      * @throws IOException If the credentials.json file cannot be found.
      */
+//    This is all getting credentials as in doing OAuth thing, that i am choosing to do on frontend.
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException {
         // Load client secrets.
@@ -77,12 +78,17 @@ public class CalendarQuickStart {
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
         //returns an authorized Credential object.
+
+        // is it here that i can insert the credential from the front end?
+        System.out.println("credentials are: " +credential);
         return credential;
     }
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+
+        // !!!!!!!!!!! here is where the credentials get fed in. can i just feed in the ones from front end? !!!!!!!!!!!!!!!!!!!
         Calendar service =
                 new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                         .setApplicationName(APPLICATION_NAME)
