@@ -4,7 +4,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   // instance of auth
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes:[
+    'email',
+    'https://www.googleapis.com/auth/calendar',
+  ]);
 
   // get current user
   User? getCurrentUser() {
@@ -38,6 +41,21 @@ class AuthService {
     } catch (error) {
       print("user unable to sign in error: $error");
       rethrow;
+    }
+  }
+
+  // Get OAuth Token - NOT WORKING
+  Future<dynamic> getOAuthAccessToken() async{
+    User? user = getCurrentUser();
+    if(user != null){
+      final idToken = await user.getIdToken();
+      final info = await user.getIdTokenResult();
+      // print("$idToken");
+      print("Claims:${info.claims}");
+
+      final googleAccessToken = info.claims?['oauthAccessToken'];
+      print("Google Access Token:  $googleAccessToken");
+      return googleAccessToken;
     }
   }
 

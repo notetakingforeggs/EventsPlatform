@@ -50,7 +50,7 @@ class Playground extends StatelessWidget {
                               child: Icon(Icons.panorama_fish_eye),
                             ),
                             OutlinedButton(
-                                child: Text("sometext"),
+                                child: Text("User info"),
                                 onPressed: () {
                                   print("outlinedButton");
                                   user = AuthService().getCurrentUser();
@@ -60,7 +60,14 @@ class Playground extends StatelessWidget {
                         ),
                       ),
                     ]),
-                    Icon(Icons.accessible_rounded),
+                    IconButton(
+                      icon: Icon(Icons.accessible_rounded),
+                      onPressed: () {
+                        print("get OAuth Access token");
+                        AuthService().getOAuthAccessToken();
+
+                      },
+                    ),
                   ]),
               FloatingActionButton(
                   child: Icon(Icons.add_a_photo),
