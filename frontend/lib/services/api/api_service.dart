@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -20,7 +22,15 @@ class ApiService {
         print(e);
       }
   }
-  // POST
-  // Future<void> postData(String endpoint, )
+  // POST access token to backend
+  Future<void> sendAccessTokenToBackend(String? token) async{
+    if(token != null){
+      await http.post(
+          Uri.parse("$baseUrl/api/"),
+          headers:{'Authorization': 'Bearer $token'},
+          body: jsonEncode({'token': token})
+      );
+    }
+  }
 
 }

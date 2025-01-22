@@ -54,18 +54,18 @@ class _JunkState extends State<Junk> {
           },
           items: [
             BottomNavigationBarItem(
-              // icon: IconButton(
+              icon: IconButton(
               icon: Icon(
                 Icons.exit_to_app,
                 color: Colors.black,
               ),
-              // onPressed: () {
-              // AuthService().signOut();
-              // print("logging out");
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => LoginPage()));
-              // },
-              // ),
+              onPressed: () {
+              AuthService().signOut();
+              print("logging out");
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+              ),
               label: "search",
             ),
             BottomNavigationBarItem(

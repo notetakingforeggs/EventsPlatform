@@ -55,7 +55,7 @@ public class CalendarQuickStart {
      * Creates an authorized Credential object.
      *
      * @param HTTP_TRANSPORT The network HTTP Transport.
-     * @return An authorized Credential object.
+     * @return An authorized Credential object.uri
      * @throws IOException If the credentials.json file cannot be found.
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)

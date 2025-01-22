@@ -10,4 +10,6 @@ Misc "to do" list
 
 - Write tests for service methods and controllers
 - decide which service methods are actually gonna get used
-
+- set it up with a config file that has Strings and images that you can change and it customises your app?
+- have it so you have one google calendar account that is admin, and can input items but not take them. makes it transferrable easily between different orgs, and reduces the need for a cms/admin
+## Tomorrow! implement logout methods on one button and start to figure out how to send google token to backend etx. 
