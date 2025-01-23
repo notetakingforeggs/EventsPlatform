@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Event {
+public class AppEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

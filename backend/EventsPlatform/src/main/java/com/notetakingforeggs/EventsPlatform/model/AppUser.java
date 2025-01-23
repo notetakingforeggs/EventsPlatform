@@ -19,6 +19,6 @@ public class AppUser {
     private Boolean isStaff;
 
     @ManyToMany(mappedBy = "attendees")
-    private List<Event> events;
+    private List<AppEvent> events;
 
 }

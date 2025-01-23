@@ -1,8 +1,7 @@
 package com.notetakingforeggs.EventsPlatform.service;
 
-import com.notetakingforeggs.EventsPlatform.model.Event;
+import com.notetakingforeggs.EventsPlatform.model.AppEvent;
 import com.notetakingforeggs.EventsPlatform.repository.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,24 +18,24 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<Event> getAll() {
+    public List<AppEvent> getAll() {
         return eventRepository.findAll();
     }
 
     @Override
-    public List<Event> getByEventName(String name) {
+    public List<AppEvent> getByEventName(String name) {
         return eventRepository.findByEventName(name);
     }
 
     @Override
-    public Event getById(Long id) {
+    public AppEvent getById(Long id) {
         return eventRepository.getReferenceById(id);
     }
 
     @Override
-    public Event deleteById(Long id) {
+    public AppEvent deleteById(Long id) {
         try{
-            Event temp = eventRepository.getReferenceById(id);
+            AppEvent temp = eventRepository.getReferenceById(id);
             eventRepository.deleteById(id);
             return temp;
         }
@@ -48,10 +47,10 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Event update(Event updatedEvent, Long id) {
+    public AppEvent update(AppEvent updatedEvent, Long id) {
 
         try{
-            Optional<Event> originalEvent = eventRepository.findById(id);
+            Optional<AppEvent> originalEvent = eventRepository.findById(id);
             originalEvent = Optional.ofNullable(updatedEvent);
             return eventRepository.save(updatedEvent);
 
@@ -63,7 +62,7 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Event add(Event newEvent) {
+    public AppEvent add(AppEvent newEvent) {
         try{
             return eventRepository.save(newEvent);
 
