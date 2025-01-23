@@ -30,7 +30,7 @@ public class AuthController {
 
     @PostMapping("/register-login")
     public ResponseEntity<AppUser> addUser(@RequestParam AppUser appUser, HttpSession httpSession) {
-        if (!userService.existsByuid(appUser.getUid())) {
+        if (!userService.existsByUid(appUser.getUid())) {
             AppUser newUser = userService.add(appUser);
             httpSession.setAttribute("userUid", appUser.getUid());
             System.out.println("new user registered in db and sesion initialised");
