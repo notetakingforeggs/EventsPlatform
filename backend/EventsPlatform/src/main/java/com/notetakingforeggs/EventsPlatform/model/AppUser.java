@@ -12,6 +12,8 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long uid;
+
     // TODO do not store like this in prod
     private String googleOAuthToken;
 

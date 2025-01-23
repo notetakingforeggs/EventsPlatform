@@ -49,4 +49,11 @@ public class UserServiceImpl implements UserService{
     public AppUser add(AppUser appUser) {
         return userRepository.save(appUser);
     }
+
+    @Override
+    public Boolean existsByuid(Long uid){ return userRepository.existsByUid(uid);}
+
+    @Override
+    public AppUser getByUid(Long uid){return userRepository.getByUid(uid);}
 }
+

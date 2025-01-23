@@ -36,7 +36,7 @@ class AuthService {
       );
 
 
-      // Method to send the token to the backend
+      // Method to send the token to the backend, also send the user here?
       // send credential.accessToken
 
 

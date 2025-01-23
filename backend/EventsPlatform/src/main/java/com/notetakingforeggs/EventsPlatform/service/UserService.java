@@ -15,5 +15,7 @@ public interface UserService {
     Boolean deleteAll();
     AppUser update(AppUser updatedAppUser, Long id);
     AppUser add(AppUser appUser);
+    Boolean existsByUid(Long uid);
+    AppUser getByUid(Long id);
 
 }
