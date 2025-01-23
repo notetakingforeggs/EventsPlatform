@@ -1,6 +1,12 @@
 import 'dart:convert';
 
+import 'package:events_platform_frontend/services/auth/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:http/http.dart' as http;
+
+import '../../models/AppUser.dart';
 
 class ApiService {
   final String baseUrl = "http://10.0.2.2:8080";
@@ -34,5 +40,18 @@ class ApiService {
           ? print("token submission gets a 200")
           : print("issue with token posting");
     }
+  }
+
+  Future<void> postUser() async {
+    User? user = AuthService().getCurrentUser();
+    AppUser appUser = AppUser(
+        uid: user!.uid,
+        email: user.email,
+        googleToken: await AuthService().getOAuthAccessToken());
+
+    final response = await http.post(
+        Uri.parse("$baseUrl/api/v1/register-login"),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(appUser.toJson()));
   }
 }

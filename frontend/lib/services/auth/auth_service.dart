@@ -1,11 +1,13 @@
+import 'package:events_platform_frontend/models/AppUser.dart';
 import 'package:events_platform_frontend/services/api/api_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 
 class AuthService {
   // instance of auth
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes:[
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
     'email',
     'https://www.googleapis.com/auth/calendar',
   ]);
@@ -35,10 +37,8 @@ class AuthService {
         idToken: gAuth.idToken,
       );
 
-
       // Method to send the token to the backend, also send the user here?
       // send credential.accessToken
-
 
       // sign in
       return await _firebaseAuth.signInWithCredential(credential);
@@ -49,9 +49,9 @@ class AuthService {
   }
 
   // Get OAuth Token - NOT WORKING
-  Future<dynamic> getOAuthAccessToken() async{
+  Future<dynamic> getOAuthAccessToken() async {
     User? user = getCurrentUser();
-    if(user != null){
+    if (user != null) {
       final idToken = await user.getIdToken();
       final info = await user.getIdTokenResult();
       // print("$idToken");
@@ -75,4 +75,6 @@ class AuthService {
       print("there has been some error signing out: $e");
     }
   }
+
+
 }
