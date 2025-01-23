@@ -38,7 +38,9 @@ class AuthService {
       );
 
       // Method to send the token to the backend, also send the user here?
+      ApiService().postUser();
       // send credential.accessToken
+      // i think just sending the token in the above user object is that optimal? idk
 
       // sign in
       return await _firebaseAuth.signInWithCredential(credential);

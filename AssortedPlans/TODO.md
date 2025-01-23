@@ -18,3 +18,6 @@ Misc "to do" list
 - ensuring compatability of backened users to google calendar users to allow event adding
 - sending OAUTH key thing from frontend to back end and immediately wrapping in credential objs to then feed into the calendar service
 - for the above, need a new controller method etc..
+
+- i just finished some sort of oauth flow i think? but it isnt checked and probably doesnt work. need to check if the user being sent to the back end properly.
+- ### send the token with the user object to start. simplest for now, get that working and refactor as needs.
