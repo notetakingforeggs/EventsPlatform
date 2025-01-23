@@ -16,10 +16,9 @@ import java.util.List;
 @Service
 public class GoogleCalendarServiceImpl implements CalendarService {
 
+    private final Calendar calendarService;
 
-    private final GoogleCalendarConfig calendarService;
-
-    public GoogleCalendarServiceImpl(GoogleCalendarConfig calendarService) {
+    public GoogleCalendarServiceImpl(Calendar calendarService) {
         this.calendarService = calendarService;
     }
 
@@ -29,7 +28,6 @@ public class GoogleCalendarServiceImpl implements CalendarService {
             if (calendarId == null) {
                 calendarId = "primary";
             }
-
             calendarService.events().insert(calendarId, event).execute();
             return event;
         } catch (Exception e) {

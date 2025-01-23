@@ -19,11 +19,11 @@ public class GoogleCalendarConfig {
 
 
     @Bean
-           public Calendar calendarService() {
+    public Calendar calendarService() {
         Calendar calendarService = new Calendar.Builder(httpTransport, JacksonFactory.getDefaultInstance(), credential)
                 .setApplicationName("why put a name here?")
                 .build();
-            return calendarService;
+        return calendarService;
     }
 
 }
