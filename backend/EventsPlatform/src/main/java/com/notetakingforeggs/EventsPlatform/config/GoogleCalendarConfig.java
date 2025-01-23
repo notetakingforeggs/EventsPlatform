@@ -10,20 +10,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GoogleCalendarConfig {
     private final HttpTransport httpTransport;
-    private final Credential credential;
 
-    public GoogleCalendarConfig(HttpTransport httpTransport, Credential credential) {
+    public GoogleCalendarConfig(HttpTransport httpTransport) {
         this.httpTransport = httpTransport;
-        this.credential = credential;
     }
 
 
-    @Bean
-    public Calendar calendarService() {
-        Calendar calendarService = new Calendar.Builder(httpTransport, JacksonFactory.getDefaultInstance(), credential)
-                .setApplicationName("why put a name here?")
-                .build();
-        return calendarService;
-    }
+
 
 }

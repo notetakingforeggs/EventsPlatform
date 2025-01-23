@@ -10,7 +10,7 @@ public class EventsPlatformApplication {
 		SpringApplication.run(EventsPlatformApplication.class, args);
 		System.out.println("running");
 
-		CalendarQuickStart calendarQuickStart = new CalendarQuickStart();
+		//CalendarQuickStart calendarQuickStart = new CalendarQuickStart();
 	}
 
 
