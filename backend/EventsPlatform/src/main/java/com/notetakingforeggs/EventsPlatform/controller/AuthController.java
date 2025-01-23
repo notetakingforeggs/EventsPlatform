@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("api/v1/auth")
 public class AuthController {
@@ -30,12 +28,12 @@ public class AuthController {
 
     @PostMapping("/register-login")
     public ResponseEntity<AppUser> addUser(@RequestParam AppUser appUser, HttpSession httpSession) {
-        if (!userService.existsByUid(appUser.getUid())) {
+        if (!userService.existsByUid(appUser.getFirebaseUid())) {
             AppUser newUser = userService.add(appUser);
-            httpSession.setAttribute("userUid", appUser.getUid());
+            httpSession.setAttribute("userUid", appUser.getFirebaseUid());
             System.out.println("new user registered in db and sesion initialised");
         } else {
-            httpSession.setAttribute("userUid", appUser.getUid());
+            httpSession.setAttribute("userUid", appUser.getFirebaseUid());
             System.out.println("user already logged in, session initialised");
         }
         return new ResponseEntity<>(appUser, HttpStatus.OK);
@@ -43,7 +41,7 @@ public class AuthController {
 
     @PostMapping("/store-google-token")
     public ResponseEntity<String> storeGoogleToken(@RequestParam String token, HttpSession httpSession){
-        Long userUid = (Long)httpSession.getAttribute("userUid");
+        String userUid = httpSession.getAttribute("userUid").toString();
         if(userUid == null){
             return new ResponseEntity<>("user is not logged in", HttpStatus.BAD_REQUEST);
         }

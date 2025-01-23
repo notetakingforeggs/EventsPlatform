@@ -12,7 +12,7 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long uid;
+    private String firebaseUid;
 
     // TODO do not store like this in prod
     private String googleOAuthToken;

@@ -51,9 +51,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean existsByUid(Long uid){ return userRepository.existsByUid(uid);}
+    public Boolean existsByUid(String uid){ return userRepository.existsByUid(uid);}
 
     @Override
-    public AppUser getByUid(Long uid){return userRepository.getByUid(uid);}
+    public AppUser getByUid(String uid){return userRepository.getByUid(uid);}
 }
 
