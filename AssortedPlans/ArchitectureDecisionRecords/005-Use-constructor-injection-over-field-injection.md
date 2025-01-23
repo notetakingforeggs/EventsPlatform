@@ -2,7 +2,7 @@
 
 On a more serious note though, you can always make your dependencies final and use lomboks @requiredargsconstructor annotation which gives you the best from both worlds. You dont have to adjust constructor manually every time you add a new dependency, but it is still there so there is no issue with testing
 
-# Use ADR for tracking design decisions
+# Use constructor injection over field injection
 
 ### Context
 Having learnt Spring using field injection, I have read that it is now depracated
