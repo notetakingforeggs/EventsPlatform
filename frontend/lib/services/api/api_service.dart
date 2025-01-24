@@ -33,7 +33,7 @@ class ApiService {
 
     User? user = AuthService().getCurrentUser();
     AppUser appUser = AppUser(
-        uid: user!.uid,
+        firebaseUid: user!.uid,
         email: user.email,
         googleToken: token);
     final response = await http.post(
