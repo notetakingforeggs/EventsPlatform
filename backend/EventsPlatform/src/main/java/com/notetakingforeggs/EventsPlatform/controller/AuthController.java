@@ -33,7 +33,7 @@ public class AuthController {
             AppUser newUser = userService.add(appUser);
             httpSession.setAttribute("userUid", appUser.getFirebaseUid());
             System.out.println("new user registered in db and sesion initialised");
-            return new ResponseEntity<>(newUser, HttpStatus.OK);
+            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
         } else {
             httpSession.setAttribute("userUid", appUser.getFirebaseUid());
             System.out.println("user already logged in, session initialised");
