@@ -2,7 +2,6 @@ package com.notetakingforeggs.EventsPlatform.service;
 
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,9 +50,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean existsByUid(String uid){ return userRepository.existsByUid(uid);}
+    public Boolean existsByUid(String uid){ return userRepository.existsByFirebaseUid(uid);}
 
     @Override
-    public AppUser getByUid(String uid){return userRepository.getByUid(uid);}
+    public AppUser getByUid(String uid){return userRepository.getByFirebaseUid(uid);}
 }
 

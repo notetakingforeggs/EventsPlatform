@@ -15,7 +15,7 @@ public class AppUser {
     private String firebaseUid;
 
     // TODO do not store like this in prod
-    private String googleOAuthToken;
+    private String googleToken;
 
     private String name;
 

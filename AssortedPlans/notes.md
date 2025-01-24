@@ -9,3 +9,6 @@
 - when a program reflects on itself at runtime, and makes changes, think more reflection like thinking rather than looking, but also kind of looking.
 - generally better to avoid using this as it can break down encapsulation and is less performant than other solutions
 - methods in java.lang.reflect and also some others
+
+## Sending OAuth tokens around.
+- see ADR 006, but also deciding to send the oauth token along with the user object rather than separately as it will be stored as part of the user object for now. janky and should be refactored but i think the quickest to get going for now.

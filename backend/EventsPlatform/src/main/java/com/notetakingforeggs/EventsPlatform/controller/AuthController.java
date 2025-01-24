@@ -27,16 +27,19 @@ public class AuthController {
 
 
     @PostMapping("/register-login")
-    public ResponseEntity<AppUser> addUser(@RequestParam AppUser appUser, HttpSession httpSession) {
+    public ResponseEntity<AppUser> addUser(@RequestBody AppUser appUser, HttpSession httpSession) {
+        System.out.println("REGISTER/LOGIN");
         if (!userService.existsByUid(appUser.getFirebaseUid())) {
             AppUser newUser = userService.add(appUser);
             httpSession.setAttribute("userUid", appUser.getFirebaseUid());
             System.out.println("new user registered in db and sesion initialised");
+            return new ResponseEntity<>(newUser, HttpStatus.OK);
         } else {
             httpSession.setAttribute("userUid", appUser.getFirebaseUid());
             System.out.println("user already logged in, session initialised");
+            return new ResponseEntity<>(appUser, HttpStatus.OK);
         }
-        return new ResponseEntity<>(appUser, HttpStatus.OK);
+
     }
 
     @PostMapping("/store-google-token")
@@ -48,7 +51,7 @@ public class AuthController {
 
         // TODO is this going to overwrite, or make another one?
         AppUser currentUser = userService.getByUid(userUid);
-        currentUser.setGoogleOAuthToken(token);
+        currentUser.setGoogleToken(token);
         userService.add(currentUser);
         return new ResponseEntity<>("token successfully added to user", HttpStatus.OK);
     }
