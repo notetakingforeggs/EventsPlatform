@@ -40,7 +40,7 @@ class ApiService {
         Uri.parse("$baseUrl/api/v1/auth/register-login"),
         headers: {"Content-Type": "application/json"},
         body: json.encode(appUser.toJson()));
-    if(response.statusCode == 200) {
+    if(response.statusCode == 200 || response.statusCode == 201) {
       print("response good: ${response.body}");
     }else {
       print("failed");
