@@ -3,6 +3,7 @@ import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
+import '../services/api/api_service.dart';
 import 'junk.dart';
 
 class LoginPage extends StatelessWidget {
@@ -42,7 +43,9 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  await AuthService().signInWithGoogle();
+                  final Map<String, dynamic> signInResult = await AuthService().signInWithGoogle();
+                 print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@token: ${signInResult["accessToken"]}");
+                  await  ApiService().postUser();
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Junk()));
                 } catch (e) {

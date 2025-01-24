@@ -55,6 +55,8 @@ class Playground extends StatelessWidget {
                                   print("outlinedButton");
                                   user = AuthService().getCurrentUser();
                                   print(user);
+                                  // AuthService().getOAuthAccessToken();
+                                  // AuthService().checkGoogleSignIn();
                                 }),
                           ],
                         ),

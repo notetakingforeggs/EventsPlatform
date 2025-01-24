@@ -43,15 +43,19 @@ class ApiService {
   }
 
   Future<void> postUser() async {
+    print("POSTINUSERRRRR");
     User? user = AuthService().getCurrentUser();
+    print(user);
     AppUser appUser = AppUser(
         uid: user!.uid,
         email: user.email,
         googleToken: await AuthService().getOAuthAccessToken());
-
+        print("app user after init: $user");
     final response = await http.post(
         Uri.parse("$baseUrl/api/v1/register-login"),
         headers: {"Content-Type": "application/json"},
         body: json.encode(appUser.toJson()));
+
+    print("response: $response");
   }
 }

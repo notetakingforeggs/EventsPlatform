@@ -37,13 +37,15 @@ class AuthService {
         idToken: gAuth.idToken,
       );
 
-      // Method to send the token to the backend, also send the user here?
-      ApiService().postUser();
-      // send credential.accessToken
-      // i think just sending the token in the above user object is that optimal? idk
+      // sign in to firebase using the constructed credential from the google creds
+      final UserCredential userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
 
-      // sign in
-      return await _firebaseAuth.signInWithCredential(credential);
+      return {
+        "userCredential": userCredential,
+        "accessToken": credential.idToken
+      };
+
     } catch (error) {
       print("user unable to sign in error: $error");
       rethrow;
@@ -56,12 +58,22 @@ class AuthService {
     if (user != null) {
       final idToken = await user.getIdToken();
       final info = await user.getIdTokenResult();
-      // print("$idToken");
+      print("$idToken");
       print("Claims:${info.claims}");
 
       final googleAccessToken = info.claims?['oauthAccessToken'];
       print("Google Access Token:  $googleAccessToken");
       return googleAccessToken;
+    }
+  }
+
+  checkGoogleSignIn() async {
+    final GoogleSignInAccount? googleUser =
+        await GoogleSignIn().signInSilently();
+    if (googleUser != null) {
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      print(googleAuth.accessToken); // This will refresh the token if expired
     }
   }
 
@@ -77,6 +89,4 @@ class AuthService {
       print("there has been some error signing out: $e");
     }
   }
-
-
 }
