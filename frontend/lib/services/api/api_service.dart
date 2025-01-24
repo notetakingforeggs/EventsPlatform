@@ -28,36 +28,18 @@ class ApiService {
     }
   }
 
-  // POST access token to backend
-  // unsure about the headers?
-  Future<void> sendAccessTokenToBackend(String? token) async {
-    if (token != null) {
-      final response = await http.post(
-          Uri.parse("$baseUrl/api/v1/auth/store-google-token"),
-          headers: {'Authorization': 'Bearer $token'},
-          body: jsonEncode({'token': token}));
-      (response.statusCode == 200)
-          ? print("token submission gets a 200")
-          : print("issue with token posting");
-    }
-  }
 
   Future<void> postUser(String token) async {
-    print("POSTINUSERRRRR");
+
     User? user = AuthService().getCurrentUser();
-    // print(user);
     AppUser appUser = AppUser(
         uid: user!.uid,
         email: user.email,
         googleToken: token);
-        print("app user after init: $appUser");
     final response = await http.post(
         Uri.parse("$baseUrl/api/v1/auth/register-login"),
         headers: {"Content-Type": "application/json"},
         body: json.encode(appUser.toJson()));
-
-
-    print("00000000000000000000");
     if(response.statusCode == 200) {
       print("response good: ${response.body}");
     }else {

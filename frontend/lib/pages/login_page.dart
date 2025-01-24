@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 import '../services/api/api_service.dart';
 import 'junk.dart';
 
@@ -25,16 +24,18 @@ class LoginPage extends StatelessWidget {
                 icon: Icon(Icons.remove_red_eye),
                 iconSize: 90,
                 onPressed: () {
-                  print("printing");
                   User? user = AuthService().getCurrentUser();
-                  print(user);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text(
-                      "something",
-                      style: TextStyle(fontSize: 32),
-                    )),
-                  );
+                  if (user == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                        "not logged in",
+                        style: TextStyle(fontSize: 32),
+                      )),
+                    );
+                  } else {
+                    print("current user details are: $user");
+                  }
                 }),
             SizedBox(
               height: 100,
@@ -43,25 +44,22 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  final Map<String, dynamic> signInResult = await AuthService().signInWithGoogle();
-                 // print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@token: ${signInResult["accessToken"]}");
-                  await  ApiService().postUser(signInResult["accessToken"]);
+                  // initiate sign in and store return values in memory to send to backend
+                  final Map<String, dynamic> signInResult =
+                      await AuthService().signInWithGoogle();
+                  await ApiService().postUser(signInResult["accessToken"]);
+
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Junk()));
                 } catch (e) {
-                  print(e);
-                  print("Pppppppppppppppppppppp");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(
+                      "LogInFailed... but why?",
+                      style: TextStyle(fontSize: 32),
+                    )),
+                  );
                 }
-
-                //   print("flim");
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //         content: Text(
-                //       "LogInFailed... but why?",
-                //       style: TextStyle(fontSize: 32),
-                //     )),
-                //   );
-                // }
               },
               child: Text(
                 "Google Sign In",
