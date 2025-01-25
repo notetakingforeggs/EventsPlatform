@@ -9,15 +9,13 @@ Misc "to do" list
 - think about how you are going to add people to events (update attendees) and also update booked events at the same time? user clicks "book event", put request to update their events list to include the event object that they are choosing, and also a put request to modify that event to include the user? is there going to be some sort of ouroboral badness? can't quite fathom, maybe fine... Perhaps scrutinise the many to many/join table thing going on...
 
 - Write tests for service methods and controllers
-- decide which service methods are actually gonna get used
 - set it up with a config file that has Strings and images that you can change and it customises your app?
 - have it so you have one google calendar account that is admin, and can input items but not take them. makes it transferrable easily between different orgs, and reduces the need for a cms/admin
 
 - https (lets encrypt) for backend.
-## fading out - currently working on: 
-- ensuring compatability of backened users to google calendar users to allow event adding
-- sending OAUTH key thing from frontend to back end and immediately wrapping in credential objs to then feed into the calendar service
-- for the above, need a new controller method etc..
 
-- i just finished some sort of oauth flow i think? but it isnt checked and probably doesnt work. need to check if the user being sent to the back end properly.
-- ### send the token with the user object to start. simplest for now, get that working and refactor as needs.
+- refresh tokens
+<br></br>
+- adding events
+
+- 
