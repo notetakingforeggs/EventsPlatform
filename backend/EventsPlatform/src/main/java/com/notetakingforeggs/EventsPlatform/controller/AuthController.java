@@ -1,6 +1,7 @@
 package com.notetakingforeggs.EventsPlatform.controller;
 
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
+import com.notetakingforeggs.EventsPlatform.service.TokenValidationGoogleImpl;
 import com.notetakingforeggs.EventsPlatform.service.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,13 @@ public class AuthController {
 
 
     private final UserServiceImpl userService;
+    private final TokenValidationGoogleImpl tokenValidationService;
 
-    public AuthController(UserServiceImpl userService) {
+    public AuthController(UserServiceImpl userService, TokenValidationGoogleImpl tokenValidationService) {
         this.userService = userService;
+        this.tokenValidationService = tokenValidationService;
     }
+
 
     // Realistically why would i use this? maybe for testing?
 //    @GetMapping
@@ -29,6 +33,9 @@ public class AuthController {
     @PostMapping("/register-login")
     public ResponseEntity<AppUser> addUser(@RequestBody AppUser appUser, HttpSession httpSession) {
         System.out.println("REGISTER/LOGIN");
+        if(!tokenValidationService.validateToken(appUser.getGoogleToken())){
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
         if (!userService.existsByUid(appUser.getFirebaseUid())) {
             AppUser newUser = userService.add(appUser);
             httpSession.setAttribute("userUid", appUser.getFirebaseUid());
@@ -43,15 +50,16 @@ public class AuthController {
     }
 
     @PostMapping("/store-google-token")
-    public ResponseEntity<String> storeGoogleToken(@RequestParam String token, HttpSession httpSession){
+    public ResponseEntity<String> storeGoogleToken(@RequestParam String token, HttpSession httpSession) {
         String userUid = httpSession.getAttribute("userUid").toString();
-        if(userUid == null){
+        if (userUid == null) {
             return new ResponseEntity<>("user is not logged in", HttpStatus.BAD_REQUEST);
         }
 
         // TODO is this going to overwrite, or make another one?
         AppUser currentUser = userService.getByUid(userUid);
         currentUser.setGoogleToken(token);
+
         userService.add(currentUser);
         return new ResponseEntity<>("token successfully added to user", HttpStatus.OK);
     }

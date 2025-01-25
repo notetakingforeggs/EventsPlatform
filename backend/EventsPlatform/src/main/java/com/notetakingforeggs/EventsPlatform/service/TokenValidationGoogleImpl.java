@@ -32,6 +32,8 @@ public class TokenValidationGoogleImpl implements TokenValidationService {
         this.transport = transport;
         this.CLIENT_ID = clientId;
     }
+
+    //TODO this should not just return true/false. Just like this for development and checks. change later
     @Override
     public Boolean validateToken(String token) {
 
@@ -45,7 +47,10 @@ public class TokenValidationGoogleImpl implements TokenValidationService {
 
 // (Receive idTokenString by HTTPS POST)
         try {
+            System.out.println("client id : " + CLIENT_ID);
+            System.out.println("token : " + token);
             GoogleIdToken idToken = verifier.verify(token);
+            System.out.println("tried verification...");
             if (idToken != null) {
                 Payload payload = idToken.getPayload();
 
@@ -67,12 +72,14 @@ public class TokenValidationGoogleImpl implements TokenValidationService {
 
             } else {
                 System.out.println("Invalid ID token.");
+                return false;
             }
         }catch(Exception e){
             System.out.println("IO Error in the token validation");
             System.out.println(e.getStackTrace());
+            return false;
         }
-        return false;
+        return true;
     }
 
 
