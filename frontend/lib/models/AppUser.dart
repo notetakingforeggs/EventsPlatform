@@ -3,14 +3,16 @@ class AppUser {
   final String? email;
   final String? displayName; // Optional
   final String? photoUrl; // Optional
-  String? googleToken; // Optional (Firebase ID token or Google OAuth token)
+  String? googleIdToken;
+  String? googleAccessToken;
 
   AppUser({
     required this.firebaseUid,
     required this.email,
     this.displayName,
     this.photoUrl,
-    this.googleToken,
+    this.googleIdToken,
+    this.googleAccessToken,
   });
 
   // Convert the object to a JSON map
@@ -20,9 +22,11 @@ class AppUser {
       'email': email,
       'displayName': displayName,
       'photoUrl': photoUrl,
-      'googleToken': googleToken,
+      'googleIdToken': googleIdToken,
+      'googleAccessToken': googleAccessToken,
     };
   }
+
 
   // Create an object from a JSON map
   factory AppUser.fromJson(Map<String, dynamic> json) {
@@ -31,12 +35,13 @@ class AppUser {
       email: json['email'],
       displayName: json['displayName'],
       photoUrl: json['photoUrl'],
-      googleToken: json['googleToken'],
+      googleIdToken: json['googleIdToken'],
+      googleAccessToken: json['googleAccessToken'],
     );
   }
 
   @override
   String toString() {
-    return 'AppUser{uid: $firebaseUid, email: $email, displayName: $displayName, photoUrl: $photoUrl, googleToken: $googleToken}';
+    return 'AppUser{uid: $firebaseUid, email: $email, displayName: $displayName, photoUrl: $photoUrl, googleToken: $googleIdToken, googleAccessToken: $googleAccessToken}';
   }
 }

@@ -53,7 +53,6 @@ public class TokenValidationGoogleImpl implements TokenValidationService {
             System.out.println("tried verification...");
             if (idToken != null) {
                 Payload payload = idToken.getPayload();
-
                 // Print user identifier
                 String userId = payload.getSubject();
                 System.out.println("User ID: " + userId);
@@ -74,14 +73,15 @@ public class TokenValidationGoogleImpl implements TokenValidationService {
                 System.out.println("Invalid ID token.");
                 return false;
             }
-        }catch(Exception e){
+        } catch (IOException e) {
             System.out.println("IO Error in the token validation");
-            System.out.println(e.getStackTrace());
             return false;
+        } catch (GeneralSecurityException f) {
+            System.out.println("General Secuiryt exception?");
+            f.getStackTrace();
         }
         return true;
     }
-
 
 
 }

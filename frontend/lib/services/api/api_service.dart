@@ -28,21 +28,31 @@ class ApiService {
     }
   }
 
-
-  Future<void> postUser(String token) async {
-
+  Future<void> postUser(String googleIdToken, String googleAccessToken ) async {
     User? user = AuthService().getCurrentUser();
     AppUser appUser = AppUser(
-        firebaseUid: user!.uid,
-        email: user.email,
-        googleToken: token);
+      firebaseUid: user!.uid,
+      email: user.email,
+      displayName: null,
+      photoUrl: null,
+      googleAccessToken: googleAccessToken,
+      googleIdToken: googleIdToken,
+    );
+
+    Map<String, dynamic> check = appUser.toJson();
+    String checkk = json.encode(check);
+    print("check full json: ${checkk}");
+
+
     final response = await http.post(
         Uri.parse("$baseUrl/api/v1/auth/register-login"),
         headers: {"Content-Type": "application/json"},
         body: json.encode(appUser.toJson()));
-    if(response.statusCode == 200 || response.statusCode == 201) {
+
+    print(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print("response good: ${response.body}");
-    }else {
+    } else {
       print("failed");
     }
   }

@@ -33,9 +33,13 @@ public class AuthController {
     @PostMapping("/register-login")
     public ResponseEntity<AppUser> addUser(@RequestBody AppUser appUser, HttpSession httpSession) {
         System.out.println("REGISTER/LOGIN");
-        if(!tokenValidationService.validateToken(appUser.getGoogleToken())){
+        System.out.println(appUser.toString());
+        if(!tokenValidationService.validateToken(appUser.getGoogleIdToken())){
+            System.out.println("InvalidToken");
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
+        // this is jank af - dont do this
+        appUser.setGoogleIdToken(null);
         if (!userService.existsByUid(appUser.getFirebaseUid())) {
             AppUser newUser = userService.add(appUser);
             httpSession.setAttribute("userUid", appUser.getFirebaseUid());
@@ -58,7 +62,7 @@ public class AuthController {
 
         // TODO is this going to overwrite, or make another one?
         AppUser currentUser = userService.getByUid(userUid);
-        currentUser.setGoogleToken(token);
+        currentUser.setGoogleAccessToken(token);
 
         userService.add(currentUser);
         return new ResponseEntity<>("token successfully added to user", HttpStatus.OK);

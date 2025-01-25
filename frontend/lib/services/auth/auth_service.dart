@@ -40,12 +40,14 @@ class AuthService {
       // sign in to firebase using the constructed credential from the google creds
       final UserCredential userCredential =
           await _firebaseAuth.signInWithCredential(credential);
-
+      print("accessToken: ${credential.accessToken}");
+      print("idToken: ${credential.idToken}");
+      print("oooooooooo");
       return {
         "userCredential": userCredential,
-        "accessToken": credential.idToken
+        "googleIdToken": credential.idToken,
+        "googleAccessToken": credential.accessToken,
       };
-
     } catch (error) {
       print("user unable to sign in error: $error");
       rethrow;
