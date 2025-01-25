@@ -33,6 +33,7 @@ class AuthService {
 
       // create new credentials for the user.
       final credential = GoogleAuthProvider.credential(
+
         accessToken: gAuth.accessToken,
         idToken: gAuth.idToken,
       );

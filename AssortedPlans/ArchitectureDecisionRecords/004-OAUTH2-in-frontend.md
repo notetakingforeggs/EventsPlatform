@@ -18,3 +18,12 @@ Front end sends a request to back end, which sends a redirect to the frontend to
 
 ### Status
 Initialised
+
+## More reading - reverse this probably :(
+Front-end libraries (like Firebase Authentication or Google Sign-In) are designed for short-lived sessions and client-side use.
+
+They do not provide a refresh token because:
+
+Refresh tokens are long-lived and must be stored securely (e.g., on a server).
+
+Exposing a refresh token to the front end is a security risk.
