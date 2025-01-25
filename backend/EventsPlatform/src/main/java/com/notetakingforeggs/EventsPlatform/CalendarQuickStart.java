@@ -49,7 +49,7 @@ public class CalendarQuickStart {
      */
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = "/credentials-with-backend-client-id.json";
 
     /**
      * Creates an authorized Credential object.
@@ -81,7 +81,10 @@ public class CalendarQuickStart {
 
         // is it here that i can insert the credential from the front end?
         System.out.println("credentials are: " +credential);
+
+        System.out.println(credential);
         return credential;
+
     }
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
