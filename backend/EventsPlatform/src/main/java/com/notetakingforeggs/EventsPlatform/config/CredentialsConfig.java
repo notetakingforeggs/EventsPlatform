@@ -13,12 +13,16 @@ public class CredentialsConfig {
 
     @Bean
     public String clientId(){
-        String credentialsFilePath = "src/main/resources/credentials.json";
+        // some issues when trying to use path starting with src... maybe needs ../..etc?
+        String credentialsFilePath = "/home/jonah/northcoders/grad-post-programme-projects/events-platform/backend/EventsPlatform/src/main/resources/credentials.json";
         ObjectMapper mapper = new ObjectMapper();
 
         try {
             JsonNode rootNode = mapper.readTree(new File(credentialsFilePath));
-            return rootNode.path("installed").path("client_id").asText();
+
+            String clientId =  rootNode.path("installed").path("client_id").asText();
+            System.out.println(clientId);
+            return clientId;
 
         } catch (IOException e) {
             throw new RuntimeException(e);

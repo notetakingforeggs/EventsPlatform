@@ -16,18 +16,24 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import org.springframework.stereotype.Service;
 
 // This is from here: https://developers.google.com/identity/sign-in/android/backend-auth
 // slightly edited
-
+@Service
 public class TokenValidationGoogleImpl implements TokenValidationService {
 
-    private final JsonFactory jsonFactory = new JacksonFactory();
-    private final HttpTransport transport = new NetHttpTransport();
-    private final CLIENT_ID =
+    private final JsonFactory jsonFactory;
+    private final HttpTransport transport;
+    private final String CLIENT_ID;
 
-    Boolean validateToken(String token) {
-
+    public TokenValidationGoogleImpl(JsonFactory jsonFactory, HttpTransport transport, String clientId) {
+        this.jsonFactory = jsonFactory;
+        this.transport = transport;
+        this.CLIENT_ID = clientId;
+    }
+    @Override
+    public Boolean validateToken(String token) {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
                 // Specify the CLIENT_ID of the app that accesses the backend:
@@ -68,4 +74,7 @@ public class TokenValidationGoogleImpl implements TokenValidationService {
         }
         return false;
     }
+
+
+
 }
