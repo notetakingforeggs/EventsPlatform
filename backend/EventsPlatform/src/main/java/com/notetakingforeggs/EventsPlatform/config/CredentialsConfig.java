@@ -11,15 +11,18 @@ import java.io.IOException;
 @Configuration
 public class CredentialsConfig {
 
+    private final ObjectMapper objectMapper;
+    private final String  credentialsFilePath  = "/src/main/resources/credentials-with-backend-client-id.json";
+
+    public CredentialsConfig(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Bean
     public String clientId(){
         // some issues when trying to use path starting with src... maybe needs ../..etc?
-        String credentialsFilePath = "/home/jonah/northcoders/grad-post-programme-projects/events-platform/backend/EventsPlatform/src/main/resources/credentials.json";
-        ObjectMapper mapper = new ObjectMapper();
-
         try {
-            JsonNode rootNode = mapper.readTree(new File(credentialsFilePath));
-
+            JsonNode rootNode = objectMapper.readTree(new File(credentialsFilePath));
             String clientId =  rootNode.path("installed").path("client_id").asText();
             System.out.println(clientId);
             return clientId;
@@ -31,7 +34,14 @@ public class CredentialsConfig {
 
     @Bean
     public String clientSecret(){
-        String credentialsFilePath  = "/src/main/resources/credentials-with-backend-client-id.json";
+
+        try{
+            JsonNode rootNode = objectMapper.readTree(new File(credentialsFilePath));
+            String clientSecret = rootNode.path("installed").path("client_secret").asText();
+            return clientSecret;
+        }catch(IOException e){
+            System.out.println("deal with this exception better - issue with client secret bean in credconfig");
+        }
 
     }
 

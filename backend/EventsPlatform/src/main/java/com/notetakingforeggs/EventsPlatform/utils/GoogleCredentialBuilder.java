@@ -14,11 +14,13 @@ public class GoogleCredentialBuilder {
     private final JsonFactory jsonFactory;
     private final HttpTransport httpTransport;
     private final String clientId;
+    private final String clientSecret;
 
-    public GoogleCredentialBuilder(JsonFactory jsonFactory, HttpTransport httpTransport, String clientId) {
+    public GoogleCredentialBuilder(JsonFactory jsonFactory, HttpTransport httpTransport, String clientId, String clientSecret) {
         this.jsonFactory = jsonFactory;
         this.httpTransport = httpTransport;
         this.clientId = clientId;
+        this.clientSecret = clientSecret;
     }
 
 
