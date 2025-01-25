@@ -43,7 +43,6 @@ public class CredentialsServiceImpl {
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
 
-
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
@@ -55,6 +54,7 @@ public class CredentialsServiceImpl {
         //returns an authorized Credential object.
 
         // is it here that i can insert the credential from the front end?
-        System.out.println("credentials are: " +credential);
+        System.out.println("credentials are: " + credential);
         return credential;
+    }
 }

@@ -27,6 +27,11 @@ public class CredentialsConfig {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Bean
+    public String clientSecret(){
+        String credentialsFilePath  = "/src/main/resources/credentials-with-backend-client-id.json";
 
     }
 
