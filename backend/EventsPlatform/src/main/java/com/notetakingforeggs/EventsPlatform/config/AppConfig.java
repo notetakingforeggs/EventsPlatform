@@ -22,4 +22,8 @@ public class AppConfig {
     public ObjectMapper objectMapper(){
         return new ObjectMapper();
     }
+    @Bean
+    public String baseUrl(){
+        return "http://localhost:8080";
+    }
 }

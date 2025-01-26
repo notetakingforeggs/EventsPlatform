@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 public class AuthConfig {
 
 
-    // wtf is this again? i think this is for sprins security to do token storage... come back to it.
+    // wtf is this again? i think this is for spring security to do token storage... come back to it.
     @Bean
     RegisteredClientRepository registeredClientRepository(DataSource dataSource){
         return new JdbcRegisteredClientRepository(new JdbcTemplate(dataSource));

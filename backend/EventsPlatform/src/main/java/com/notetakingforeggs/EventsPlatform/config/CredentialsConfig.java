@@ -37,12 +37,11 @@ public class CredentialsConfig {
 
         try{
             JsonNode rootNode = objectMapper.readTree(new File(credentialsFilePath));
-            String clientSecret = rootNode.path("installed").path("client_secret").asText();
-            return clientSecret;
+            return rootNode.path("installed").path("client_secret").asText();
         }catch(IOException e){
             System.out.println("deal with this exception better - issue with client secret bean in credconfig");
         }
-
+        return null;
     }
 
 }
