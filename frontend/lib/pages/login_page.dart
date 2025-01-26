@@ -45,12 +45,15 @@ class LoginPage extends StatelessWidget {
               onPressed: () async {
                 try {
                   // initiate sign in and store return values in memory to send to backend
-                  final Map<String, dynamic> signInResult =
-                      await AuthService().signInWithGoogle();
+                  // final Map<String, dynamic> signInResult =
+                  //     await AuthService().signInWithGoogle();
+                  //
+                  //     // print("(99999999999999 ${signInResult["googleIdToken"]} ------------ ${signInResult["googleAccessToken"]}");
+                  // await ApiService().postUser(signInResult["googleIdToken"], signInResult["googleAccessToken"]);
 
-                      // print("(99999999999999 ${signInResult["googleIdToken"]} ------------ ${signInResult["googleAccessToken"]}");
-                  await ApiService().postUser(signInResult["googleIdToken"], signInResult["googleAccessToken"]);
-
+                  // initiate backend oauth flow
+                  ApiService().initBackendOAuthFlow();
+                  
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Junk()));
                 } catch (e) {

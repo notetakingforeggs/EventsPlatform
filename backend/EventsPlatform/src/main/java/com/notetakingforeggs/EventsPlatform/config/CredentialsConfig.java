@@ -12,7 +12,9 @@ import java.io.IOException;
 public class CredentialsConfig {
 
     private final ObjectMapper objectMapper;
-    private final String  credentialsFilePath  = "/src/main/resources/credentials-with-backend-client-id.json";
+//    private final String  credentialsFilePath  = "/src/main/resources/credentials-with-backend-client-id.json";
+    private final String  credentialsFilePath  = "/home/jonah/northcoders/grad-post-programme-projects/events-platform/backend/EventsPlatform/src/main/resources/credentials-with-backend-client-id.json";
+
 
     public CredentialsConfig(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;

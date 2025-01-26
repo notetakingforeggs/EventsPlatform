@@ -28,7 +28,7 @@ class ApiService {
     }
   }
 
-  Future<void> postUser(String googleIdToken, String googleAccessToken ) async {
+  Future<void> postUser(String googleIdToken, String googleAccessToken) async {
     User? user = AuthService().getCurrentUser();
     AppUser appUser = AppUser(
       firebaseUid: user!.uid,
@@ -43,7 +43,6 @@ class ApiService {
     String checkk = json.encode(check);
     print("check full json: ${checkk}");
 
-
     final response = await http.post(
         Uri.parse("$baseUrl/api/v1/auth/register-login"),
         headers: {"Content-Type": "application/json"},
@@ -55,5 +54,12 @@ class ApiService {
     } else {
       print("failed");
     }
+  }
+
+  Future<void> initBackendOAuthFlow() async {
+    final url = Uri.parse("$baseUrl/api/v1/auth/redirect-to-google");
+    http.get(url);
+    print("getting google rdr on backend");
+
   }
 }
