@@ -26,4 +26,5 @@ public class AppConfig {
     public String baseUrl(){
         return "http://localhost:8080";
     }
+
 }

@@ -20,6 +20,7 @@ public class OAuth2ClientConfig {
         this.baseUrl = baseUrl;
     }
 
+    // so this is some spring security thing that abstracts a bunch of stuff related to tokens and security?
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
         return new InMemoryClientRegistrationRepository(googleClientRegistration());
@@ -32,7 +33,7 @@ public class OAuth2ClientConfig {
                 .scope("openid", "profile", "email", "https://www.googleapis.com/auth/calendar")
                 .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
                 .tokenUri("https://oauth2.googleapis.com/token")
-                .redirectUri(baseUrl + "/api/v1/oauth2/callack")
+                .redirectUri(baseUrl + "/api/v1/oauth2/callback")
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
                 .userNameAttributeName("sub")
                 .clientName("Google")
