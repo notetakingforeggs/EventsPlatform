@@ -27,3 +27,5 @@ They do not provide a refresh token because:
 Refresh tokens are long-lived and must be stored securely (e.g., on a server).
 
 Exposing a refresh token to the front end is a security risk.
+
+I can do a second oauth flow initiated from the backend to get the refresh token?

@@ -11,4 +11,8 @@
 - methods in java.lang.reflect and also some others
 
 ## Sending OAuth tokens around.
-- see ADR 006, but also deciding to send the oauth token along with the user object rather than separately as it will be stored as part of the user object for now. janky and should be refactored but i think the quickest to get going for now.
+- ~~see ADR 006, but also deciding to send the oauth token along with the user object rather than separately as it will be stored as part of the user object for now. janky and should be refactored but i think the quickest to get going for now.~~
+
+__The above is wrong and i regret my decision, refactoring time__
+- I need to initiate GoogleOAUTH Flow from the backend with callbeack endpoint to allow google to send the rerfesh token directly to the backend
+ google doesn't send refresh  tokens to the front end and persisting access tokens that only last 1 hour is pointless

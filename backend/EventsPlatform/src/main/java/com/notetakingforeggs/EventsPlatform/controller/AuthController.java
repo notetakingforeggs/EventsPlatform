@@ -30,6 +30,14 @@ public class AuthController {
 //    }
 
 
+
+
+
+
+
+    // TODO both of these below methods are redundant. need to initiate GoogleOAUTH Flow from the backend with callbeack endpoint to allow google to send the reresh token directly to the backend
+    // google doesn't send refresh  tokens to the front end and persisting access tokens that only last 1 hour is pointless
+
     @PostMapping("/register-login")
     public ResponseEntity<AppUser> addUser(@RequestBody AppUser appUser, HttpSession httpSession) {
         System.out.println("REGISTER/LOGIN");
@@ -52,6 +60,8 @@ public class AuthController {
         }
 
     }
+
+
 
     @PostMapping("/store-google-token")
     public ResponseEntity<String> storeGoogleToken(@RequestParam String token, HttpSession httpSession) {
