@@ -1,3 +1,4 @@
+import 'package:events_platform_frontend/services/custom_tabs/CustomTabs1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,9 @@ class Playground extends StatelessWidget {
               ElevatedButton(
                   onPressed: () {
                     print("elevated button");
+                    print("custom tabs launch");
+                    launchURLL(context);
+
                   },
                   child: Icon(
                     Icons.access_alarm_outlined,
