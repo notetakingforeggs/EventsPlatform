@@ -22,7 +22,6 @@ class Playground extends StatelessWidget {
                   onPressed: () {
                     print("elevated button");
                     print("custom tabs launch");
-                    launchURLL(context);
 
                   },
                   child: Icon(

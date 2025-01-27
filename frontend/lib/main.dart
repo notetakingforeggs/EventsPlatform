@@ -1,3 +1,4 @@
+import 'package:events_platform_frontend/pages/junk.dart';
 import 'package:events_platform_frontend/pages/login_page.dart';
 import 'package:events_platform_frontend/theme/light_mode.dart';
 import 'package:flutter/material.dart';
@@ -37,12 +38,19 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initDeepLinks();
   }
-  void initDeepLinks(){
+  void initDeepLinks() async{
+    _appLinks = AppLinks();
+
+    // listening for deep links coming in
     _appLinks.uriLinkStream.listen((Uri? uri){
       if(uri != null){
         setState(() {
           _deepLink = uri.toString();
         });
+
+        if(uri.path == '/junk'){
+          Navigator.pushReplacementNamed(context, '/junk');
+        }
       }
     });
   }
@@ -50,6 +58,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes:({
+        '/junk': (context) => Junk(),
+      }),
       scaffoldMessengerKey:
       GlobalKey<ScaffoldMessengerState>(),
       debugShowCheckedModeBanner: false,
