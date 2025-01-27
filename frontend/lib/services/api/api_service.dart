@@ -58,8 +58,10 @@ class ApiService {
 
   Future<void> initBackendOAuthFlow() async {
     final url = Uri.parse("$baseUrl/api/v1/auth/redirect-to-google");
-    http.get(url);
+    final responsee = await http.get(url);
     print("getting google rdr on backend");
-
+    (responsee.statusCode == 200) ? print(responsee.body) : print("fuckery");
   }
+
+
 }

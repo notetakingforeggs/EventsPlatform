@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
 import 'playground.dart';
 import "http_playground.dart";
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Junk extends StatefulWidget {
   Junk({super.key});
@@ -16,13 +17,12 @@ class Junk extends StatefulWidget {
 }
 
 class _JunkState extends State<Junk> {
-
-  
   User? user = FirebaseAuth.instance.currentUser;
 
   final List<Widget> _junkPages = [
     Playground(),
     HttpPlayground(),
+
   ];
 
   int _currentIndex = 0;
@@ -55,16 +55,16 @@ class _JunkState extends State<Junk> {
           items: [
             BottomNavigationBarItem(
               icon: IconButton(
-              icon: Icon(
-                Icons.exit_to_app,
-                color: Colors.black,
-              ),
-              onPressed: () {
-              AuthService().signOut();
-              print("logging out");
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
-              },
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  AuthService().signOut();
+                  print("logging out");
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                },
               ),
               label: "search",
             ),

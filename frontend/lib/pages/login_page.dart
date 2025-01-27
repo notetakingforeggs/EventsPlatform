@@ -52,8 +52,8 @@ class LoginPage extends StatelessWidget {
                   // await ApiService().postUser(signInResult["googleIdToken"], signInResult["googleAccessToken"]);
 
                   // initiate backend oauth flow
-                  ApiService().initBackendOAuthFlow();
-                  
+                  await ApiService().initBackendOAuthFlow();
+
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Junk()));
                 } catch (e) {
