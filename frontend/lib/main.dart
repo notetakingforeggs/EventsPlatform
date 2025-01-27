@@ -27,48 +27,67 @@ class MyApp extends StatefulWidget {
 }
 
 
-
-
 class _MyAppState extends State<MyApp> {
   late AppLinks _appLinks;
   String? _deepLink;
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
     super.initState();
     initDeepLinks();
   }
-  void initDeepLinks() async{
+
+  Future<void> initDeepLinks() async {
     _appLinks = AppLinks();
 
-    // listening for deep links coming in
-    _appLinks.uriLinkStream.listen((Uri? uri){
-      if(uri != null){
-        setState(() {
-          _deepLink = uri.toString();
-        });
+    // handle initial deep link (from closed state)
+    final initialUri = await _appLinks.getInitialLink();
+    if (initialUri != null) {
+      print("Initial deep link received: $initialUri");
+      _handleDeepLink(initialUri);
+    }
 
-        if(uri.path == '/junk'){
-          Navigator.pushReplacementNamed(context, '/junk');
-        }
-      }
+    // listening for deep links coming in
+    _appLinks.uriLinkStream.listen((Uri uri) {
+      _handleDeepLink(uri);
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      routes:({
-        '/junk': (context) => Junk(),
-      }),
-      scaffoldMessengerKey:
-      GlobalKey<ScaffoldMessengerState>(),
-      debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
-      theme: lightMode,
-      // darkTheme: make a darkmode theme later and put it here
-    );
+  void _handleDeepLink(Uri uri) {
+    setState(() {
+      _deepLink = uri.toString();
+    });
+    print("uri: $uri");
+    print("uri host: ${uri.host}");
+
+    if (uri.host == 'junk') {
+      print("deep link received: $uri");
+      _navigatorKey.currentState?.pushReplacementNamed('/junk');
+    } else {
+      print("uri path is not correct");
+    }
   }
+
+
+
+
+@override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    navigatorKey: _navigatorKey,
+    routes: ({
+      '/junk': (context) => Junk(),
+    }),
+    scaffoldMessengerKey:
+    GlobalKey<ScaffoldMessengerState>(),
+    debugShowCheckedModeBanner: false,
+    home: const LoginPage(),
+    theme: lightMode,
+    // darkTheme: make a darkmode theme later and put it here
+  );
+}
+
 }
 
 

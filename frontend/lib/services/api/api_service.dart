@@ -28,6 +28,21 @@ class ApiService {
     }
   }
 
+  Future<void> getDeepLink(String endpoint) async {
+    final url = Uri.parse("$baseUrl/$endpoint");
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        print("got deep link");
+      } else {
+        print("issue getting deep link");
+      }
+    } catch (e) {
+      print(e);
+      throw(e);
+    }
+  }
+
   Future<void> postUser(String googleIdToken, String googleAccessToken) async {
     User? user = AuthService().getCurrentUser();
     AppUser appUser = AppUser(
@@ -62,6 +77,4 @@ class ApiService {
     print("getting google rdr on backend");
     (responsee.statusCode == 200) ? print(responsee.body) : print("fuckery");
   }
-
-
 }

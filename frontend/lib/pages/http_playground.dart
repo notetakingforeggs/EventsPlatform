@@ -22,15 +22,16 @@ class HttpPlayground extends StatelessWidget {
                     print("outlined button");
                     ApiService().getData("api/v1/events");
                   },
-                  child: Text("get data")),
+                  child: Text("get events")),
             ),
             Padding(
               padding: const EdgeInsets.all(40.0),
               child: ElevatedButton(
                   onPressed: () {
                     print("elevatedButton");
+                    ApiService().getDeepLink("api/v1/auth/get-deep-link");
                   },
-                  child: Text("send Data", style: TextStyle(color: Colors.black),)),
+                  child: Text("get Deep Link", style: TextStyle(color: Colors.black),)),
             ),
           ],
         ));
