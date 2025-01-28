@@ -1,3 +1,4 @@
+import 'package:events_platform_frontend/services/custom_tabs/custom_tabs_1.dart';
 import "package:flutter/material.dart";
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,10 +54,10 @@ class LoginPage extends StatelessWidget {
 
                   // initiate backend oauth flow
                   print("1");
-                  await ApiService().initBackendOAuthFlow();
+                  await ApiService().initBackendOAuthFlow(context);
                   print("api stuff done");
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Junk()));
+                  // Navigator.push(
+                  //     context, MaterialPageRoute(builder: (context) => Junk()));
                 } catch (e) {
                   print(e.toString());
                   ScaffoldMessenger.of(context).showSnackBar(

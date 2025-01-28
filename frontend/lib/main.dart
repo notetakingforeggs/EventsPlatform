@@ -6,6 +6,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:app_links/app_links.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -60,12 +63,23 @@ class _MyAppState extends State<MyApp> {
     });
     print("uri: $uri");
     print("uri host: ${uri.host}");
+    launchUrl(uri);
 
     if (uri.host == 'junk') {
       print("deep link received: $uri");
       _navigatorKey.currentState?.pushReplacementNamed('/junk');
     } else {
       print("uri path is not correct");
+    }
+  }
+
+
+  Future<void> launchCustomScheme(Uri uri) async {
+    // final Uri uri = Uri.parse('myapp://junk');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      print('Could not launch $uri');
     }
   }
 

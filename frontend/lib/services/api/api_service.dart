@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:events_platform_frontend/pages/login_page.dart';
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
 
 import '../../models/AppUser.dart';
+import '../custom_tabs/custom_tabs_1.dart';
 
 class ApiService {
   final String baseUrl = "http://10.0.2.2:8080";
@@ -33,7 +36,7 @@ class ApiService {
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        print("got deep link");
+        print("got deep link: ${response.body}");
       } else {
         print("issue getting deep link");
       }
@@ -71,10 +74,20 @@ class ApiService {
     }
   }
 
-  Future<void> initBackendOAuthFlow() async {
+  Future<void> initBackendOAuthFlow(BuildContext context) async {
     final url = Uri.parse("$baseUrl/api/v1/auth/redirect-to-google");
-    final responsee = await http.get(url);
+    final response = await http.get(url);
     print("getting google rdr on backend");
-    (responsee.statusCode == 200) ? print(responsee.body) : print("fuckery");
+
+
+
+
+    if(response.statusCode == 200) {
+
+      print(response.body);
+      CustomTabLauncher().launchGoogleAuthCustomTab(context, response.body);
+    } else{
+      print("fuckery");
+    }
   }
 }

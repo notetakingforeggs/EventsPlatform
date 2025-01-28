@@ -1,4 +1,4 @@
-import 'package:events_platform_frontend/services/custom_tabs/CustomTabs1.dart';
+import 'package:events_platform_frontend/services/custom_tabs/custom_tabs_1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
