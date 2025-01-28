@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.Map;
 
@@ -44,14 +46,29 @@ public class AuthController {
     @GetMapping("/redirect-to-google")
     // http servlet is automatically injected by tomcat (servlet container), which is like an abstraction of a bunch of network stuff. In this instance im not just returning data, but redirecting the user to a different part of the network (google log in page)
     // as such i need to leverage to tools that tomcat has, using the "send redirect" method of the httpservlet response named response...
-    public void redirectToGoogleOAuth(HttpServletResponse response) throws IOException {
+
+
+    public ResponseEntity<String> redirectToGoogleOAuth(HttpServletResponse response) throws IOException {
+        System.out.println("in the rdr");
+//        // retrieve the google reg deets
         ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
+
+        // construct the oauth url
         String redirectUri = googleRegistration.getProviderDetails().getAuthorizationUri() +
-                "?client_id= " + googleRegistration.getClientId() +
-                "&redirect_uri=" + googleRegistration.getRedirectUri() +
                 "?client_id=" + googleRegistration.getClientId() +
-                "&response_type=code&scopes=" + String.join(" ", googleRegistration.getScopes());
-        response.sendRedirect(redirectUri);
+                "&redirect_uri=" + URLEncoder.encode(googleRegistration.getRedirectUri(), StandardCharsets.UTF_8) +
+                "&response_type=code" +
+                "&scope=" + URLEncoder.encode(String.join(" ", googleRegistration.getScopes()), StandardCharsets.UTF_8) +
+                "&access_type=offline";
+
+        // send the redirect to the frontend
+        System.out.println("000000000000000000000000000000000");
+        System.out.println(redirectUri);
+//            response.sendRedirect(redirectUri);
+
+
+
+        return new ResponseEntity<>(redirectUri, HttpStatus.OK);
     }
 
     // Google api sends the auth code as a query param (i think) to this endpoint which it gets from the above method as "redirect_uri"
@@ -83,6 +100,17 @@ public class AuthController {
         String responseBody = response.parseAsString();
         return "OAuth2 Flow Completed: " + responseBody;
     }
+
+    @GetMapping("/get-deep-link")
+        ResponseEntity<String> getDeepLink(HttpServletResponse response) throws IOException {
+            //testing deep linking
+            String deepLink = "myapp://junk";
+        System.out.println("backend is sending deep link to fronend now-->" + deepLink);
+//            response.sendRedirect(deepLink);
+        System.out.println("backend returning response entity: ");
+            return new ResponseEntity<>(deepLink, HttpStatus.OK);
+
+        }
 
 
     // TODO both of these below methods are redundant. need to initiate GoogleOAUTH Flow from the backend with callbeack endpoint to allow google to send the reresh token directly to the backend

@@ -1,0 +1,34 @@
+@startuml
+title Google OAuth2 Authentication Flow
+
+actor User
+participant "Flutter App (Frontend)" as FlutterApp
+participant "Backend" as Backend
+participant "Google API" as GoogleAPI
+participant "Firebase" as Firebase
+participant "Hosted GitHub Pages" as GitHubPages
+
+== Initialization ==
+User -> FlutterApp: Opens app and presses "Sign-In/Login"
+FlutterApp -> Backend: Sends sign-in request
+Backend -> GoogleAPI: Initiates Google OAuth2 process
+GoogleAPI --> Backend: Returns OAuth2 URL
+Backend --> FlutterApp: Sends OAuth2 URL
+FlutterApp -> FlutterApp: Opens URL in custom tabs browser
+
+== OAuth2 Process ==
+User -> GoogleAPI: Completes OAuth2 login
+GoogleAPI --> Backend: Redirects with tokens (refresh, ID, access)
+Backend -> Backend: Stores refresh token in user object
+Backend -> Firebase: Sends ID token to get Firebase token
+Firebase --> Backend: Returns Firebase token
+Backend -> FlutterApp: Sends Firebase token and response.redirect (deep link)
+
+== Deep Link Handling ==
+FlutterApp -> GitHubPages: Follows deep link to hosted GitHub Pages
+GitHubPages -> GitHubPages: Validates request (JSON validation)
+GitHubPages --> FlutterApp: Redirects back to Flutter app
+FlutterApp -> FlutterApp: Handles deep link with Flutter App Links package
+FlutterApp -> User: Navigates to home screen (successful login)
+
+@enduml

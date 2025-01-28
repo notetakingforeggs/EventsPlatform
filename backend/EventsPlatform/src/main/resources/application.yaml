@@ -1,0 +1,11 @@
+oauth2:
+  google:
+    client-id: your-client-id
+    client-secret: your-client-secret
+    base-url: https://your-base-url.com
+    scopes:
+      - openid
+      - profile
+      - email
+      - https://www.googleapis.com/auth/calendar
+      - offline
