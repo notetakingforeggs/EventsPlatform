@@ -34,12 +34,12 @@ class ApiService {
   Future<void> getDeepLink(String endpoint) async {
     final url = Uri.parse("$baseUrl/$endpoint");
     try {
-      final response = await http.get(url);
-      if (response.statusCode == 200) {
-        print("got deep link: ${response.body}");
-      } else {
-        print("issue getting deep link");
-      }
+      await http.get(url);
+      // if (response.statusCode == 200) {
+      //   print("got deep link: ${response.body}");
+      // } else {
+      //   print("issue getting deep link");
+      // }
     } catch (e) {
       print(e);
       throw(e);
