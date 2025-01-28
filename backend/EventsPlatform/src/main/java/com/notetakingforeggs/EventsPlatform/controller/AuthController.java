@@ -102,13 +102,13 @@ public class AuthController {
     }
 
     @GetMapping("/get-deep-link")
-        ResponseEntity<String> getDeepLink(HttpServletResponse response) throws IOException {
+        void getDeepLink(HttpServletResponse response) throws IOException {
             //testing deep linking
-            String deepLink = "myapp://junk";
+            String deepLink = "https://notetakingforeggs.github.io/events-platform-app-links/junk";
         System.out.println("backend is sending deep link to fronend now-->" + deepLink);
-//            response.sendRedirect(deepLink);
+            response.sendRedirect(deepLink);
         System.out.println("backend returning response entity: ");
-            return new ResponseEntity<>(deepLink, HttpStatus.OK);
+//            return new ResponseEntity<>("hello", HttpStatus.OK);
 
         }
 
