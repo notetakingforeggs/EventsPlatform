@@ -37,3 +37,6 @@ build/
 .properties
 
 src/main/resources/credentials.json
+
+### applinks ###
+appLinks
