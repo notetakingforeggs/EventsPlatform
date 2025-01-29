@@ -1,8 +1,11 @@
 import 'package:events_platform_frontend/models/AppUser.dart';
 import 'package:events_platform_frontend/services/api/api_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+
+import '../custom_tabs/custom_tabs_1.dart';
 
 class AuthService {
   // instance of auth
@@ -11,49 +14,72 @@ class AuthService {
     'email',
     'https://www.googleapis.com/auth/calendar',
   ]);
+  final String baseUrl = "http://10.0.2.2:8080";
+
 
   // get current user
   User? getCurrentUser() {
     return _firebaseAuth.currentUser;
   }
 
-  // google sign in
-  signInWithGoogle() async {
-    print("signing in with google");
-    // begin sign in process
-    try {
-      final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
-      print("printing");
+  // // google sign in
+  // signInWithGoogle() async {
+  //   print("signing in with google");
+  //   // begin sign in process
+  //   try {
+  //     final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
+  //     print("printing");
+  //
+  //     // check for cancel
+  //     if (gUser == null) return;
+  //
+  //     // obtain details from the request
+  //     final GoogleSignInAuthentication gAuth = await gUser.authentication;
+  //
+  //     // create new credentials for the user.
+  //     final credential = GoogleAuthProvider.credential(
+  //
+  //       accessToken: gAuth.accessToken,
+  //       idToken: gAuth.idToken,
+  //     );
+  //
+  //     // sign in to firebase using the constructed credential from the google creds
+  //     final UserCredential userCredential =
+  //         await _firebaseAuth.signInWithCredential(credential);
+  //     print("accessToken: ${credential.accessToken}");
+  //     print("idToken: ${credential.idToken}");
+  //     print("oooooooooo");
+  //     return {
+  //       "userCredential": userCredential,
+  //       "googleIdToken": credential.idToken,
+  //       "googleAccessToken": credential.accessToken,
+  //     };
+  //   } catch (error) {
+  //     print("user unable to sign in error: $error");
+  //     rethrow;
+  //   }
+  // }
 
-      // check for cancel
-      if (gUser == null) return;
+  Future<void> initBackendOAuthFlow(BuildContext context) async {
+    final url = Uri.parse("$baseUrl/api/v1/auth/redirect-to-google");
+    final response = await http.get(url);
+    print("getting google rdr on backend");
+    if(response.statusCode == 200) {
+      // launch the google login in a customtabs
+      CustomTabLauncher().launchGoogleAuthCustomTab(context, response.body);
 
-      // obtain details from the request
-      final GoogleSignInAuthentication gAuth = await gUser.authentication;
+      //polling init
+      // while(loginIsIncomplete{
+      //
+      // })
 
-      // create new credentials for the user.
-      final credential = GoogleAuthProvider.credential(
-
-        accessToken: gAuth.accessToken,
-        idToken: gAuth.idToken,
-      );
-
-      // sign in to firebase using the constructed credential from the google creds
-      final UserCredential userCredential =
-          await _firebaseAuth.signInWithCredential(credential);
-      print("accessToken: ${credential.accessToken}");
-      print("idToken: ${credential.idToken}");
-      print("oooooooooo");
-      return {
-        "userCredential": userCredential,
-        "googleIdToken": credential.idToken,
-        "googleAccessToken": credential.accessToken,
-      };
-    } catch (error) {
-      print("user unable to sign in error: $error");
-      rethrow;
+    } else{
+      print("fuckery");
     }
   }
+
+
+
 
   // Get OAuth Token - NOT WORKING
   Future<dynamic> getOAuthAccessToken() async {

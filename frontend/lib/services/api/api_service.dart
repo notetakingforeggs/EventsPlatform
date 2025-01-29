@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:events_platform_frontend/pages/login_page.dart';
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
@@ -74,20 +73,5 @@ class ApiService {
     }
   }
 
-  Future<void> initBackendOAuthFlow(BuildContext context) async {
-    final url = Uri.parse("$baseUrl/api/v1/auth/redirect-to-google");
-    final response = await http.get(url);
-    print("getting google rdr on backend");
 
-
-
-
-    if(response.statusCode == 200) {
-
-      print(response.body);
-      CustomTabLauncher().launchGoogleAuthCustomTab(context, response.body);
-    } else{
-      print("fuckery");
-    }
-  }
 }

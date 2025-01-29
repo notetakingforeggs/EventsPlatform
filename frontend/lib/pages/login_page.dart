@@ -49,13 +49,14 @@ class LoginPage extends StatelessWidget {
                   // final Map<String, dynamic> signInResult =
                   //     await AuthService().signInWithGoogle();
                   //
-                  //     // print("(99999999999999 ${signInResult["googleIdToken"]} ------------ ${signInResult["googleAccessToken"]}");
+                  // print("(99999999999999 ${signInResult["googleIdToken"]} ------------ ${signInResult["googleAccessToken"]}");
                   // await ApiService().postUser(signInResult["googleIdToken"], signInResult["googleAccessToken"]);
 
-                  // initiate backend oauth flow
-                  print("1");
+                  // TODO uncomment below to get oauth login on frontendinitiate backend oauth flow
                   // await ApiService().initBackendOAuthFlow(context);
-                  print("api stuff done");
+
+                  // initiate polling method
+
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Junk()));
                 } catch (e) {
