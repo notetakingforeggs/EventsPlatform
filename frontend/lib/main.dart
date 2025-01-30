@@ -29,8 +29,13 @@ final router = GoRouter(
       builder: (context, state) {
 
         print("uri: ${state.uri}");
-        print("code: ${state.pathParameters["code"]}");
-        final code = state.pathParameters["code"];
+        Uri uri = state.uri;
+        print(uri);
+        String? code = uri.queryParameters["code"];
+        String? email = uri.queryParameters["email"];
+        print("code: $code");
+        print("email: $email");
+
         if(code!=null){
             AuthService().sendAuthCodeToBackend(code);
         }else{

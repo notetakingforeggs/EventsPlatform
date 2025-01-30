@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:events_platform_frontend/models/AppUser.dart';
 import 'package:events_platform_frontend/services/api/api_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,10 +37,19 @@ class AuthService {
 
   //
   sendAuthCodeToBackend(String authCode)async{
-    final url = Uri.parse("$authBaseUrl/token-exchange");
-    final response = await http.get(url);
 
-    // TODO something with the response, i get back idtoken and access token i think i can then pass to the sign in to firebase method
+    final response = await http.post(
+        Uri.parse("$authBaseUrl/token-exchange"),
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: {"code" : authCode}
+    );
+    print(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("response good: ${response.body}");
+    } else {
+      print("failed");
+    }
+    // TODO something with the response, firebase here?
   }
 
   // get current user
