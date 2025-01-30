@@ -67,7 +67,6 @@ public class AuthController {
 //            response.sendRedirect(redirectUri);
 
 
-
         return new ResponseEntity<>(redirectUri, HttpStatus.OK);
     }
 
@@ -75,18 +74,21 @@ public class AuthController {
     // this method then needs to send the auth code off to a different endpoint (along with a the SAME redirect uri).
     @GetMapping("/callback")
     public String handleCallback(@RequestParam String code) throws IOException, GeneralSecurityException {
-
+        System.out.println("getting into acllbacks on backend");
         String tokenUrl = "https://oauth2.googleapis.com/token";
 
         //Exchange the auth code from google for a tokennzzzz - posting this
+//                "redirect_uri", "https://notetakingforeggs.github.io/events-platform-app-links/",
+//                "redirect_uri", baseUrl + "/api/v1/auth/callback",
+//        "redirect_uri", "com.notetakingforeggs.events_platform_frontend:/oauth2redirect",
 
         HttpContent content = new UrlEncodedContent(Map.of(
                 "code", code,
                 "client_id", clientId,
                 "client_secret", clientSecret,
-                "redirect_uri", baseUrl + "/api/v1/auth/callback",
-                "grand_type", "authorization_code"
-                ));
+                "redirect_uri", (baseUrl + "/api/v1/oauth2/callback"),
+                "grant_type", "authorization_code"
+        ));
 
         // using googleAPI httptransport to create post request for google api backend
         HttpTransport googleHttpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -102,15 +104,15 @@ public class AuthController {
     }
 
     @GetMapping("/get-deep-link")
-        ResponseEntity<String> getDeepLink(HttpServletResponse response) throws IOException {
-            //testing deep linking
-            String deepLink = "myapp://junk";
+    ResponseEntity<String> getDeepLink(HttpServletResponse response) throws IOException {
+        //testing deep linking
+        String deepLink = "myapp://junk";
         System.out.println("backend is sending deep link to fronend now-->" + deepLink);
 //            response.sendRedirect(deepLink);
         System.out.println("backend returning response entity: ");
-            return new ResponseEntity<>(deepLink, HttpStatus.OK);
+        return new ResponseEntity<>(deepLink, HttpStatus.OK);
 
-        }
+    }
 
 
     // TODO both of these below methods are redundant. need to initiate GoogleOAUTH Flow from the backend with callbeack endpoint to allow google to send the reresh token directly to the backend

@@ -12,8 +12,9 @@ import java.io.IOException;
 public class CredentialsConfig {
 
     private final ObjectMapper objectMapper;
-//    private final String  credentialsFilePath  = "/src/main/resources/credentials-with-backend-client-id.json";
-    private final String  credentialsFilePath  = "/home/jonah/northcoders/grad-post-programme-projects/events-platform/backend/EventsPlatform/src/main/resources/credentials-with-backend-client-id.json";
+    //    private final String  credentialsFilePath  = "/src/main/resources/credentials-with-backend-client-id.json";
+//    private final String  credentialsFilePath  = "/home/jonah/northcoders/grad-post-programme-projects/events-platform/backend/EventsPlatform/src/main/resources/credentials-with-backend-client-id.json";
+    private final String credentialsFilePath = "/home/jonah/northcoders/grad-post-programme-projects/events-platform/backend/EventsPlatform/src/main/resources/credentials/credentials-web-newsecret.json";
 
 
     public CredentialsConfig(ObjectMapper objectMapper) {
@@ -21,11 +22,11 @@ public class CredentialsConfig {
     }
 
     @Bean
-    public String clientId(){
+    public String clientId() {
         // some issues when trying to use path starting with src... maybe needs ../..etc?
         try {
             JsonNode rootNode = objectMapper.readTree(new File(credentialsFilePath));
-            String clientId =  rootNode.path("installed").path("client_id").asText();
+            String clientId = rootNode.path("installed").path("client_id").asText();
             System.out.println(clientId);
             return clientId;
 
@@ -35,12 +36,12 @@ public class CredentialsConfig {
     }
 
     @Bean
-    public String clientSecret(){
+    public String clientSecret() {
 
-        try{
+        try {
             JsonNode rootNode = objectMapper.readTree(new File(credentialsFilePath));
             return rootNode.path("installed").path("client_secret").asText();
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("deal with this exception better - issue with client secret bean in credconfig");
         }
         return null;
