@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:events_platform_frontend/pages/http_playground.dart';
 import 'package:events_platform_frontend/pages/junk.dart';
 import 'package:events_platform_frontend/pages/login_page.dart';
+import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:events_platform_frontend/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,15 +27,21 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) {
-        print(state);
+
         print("uri: ${state.uri}");
-        print("path: ${state.path}");
-        print("fullpath: ${state.fullPath}");
-        return const LoginPage();
+        print("code: ${state.pathParameters["code"]}");
+        final code = state.pathParameters["code"];
+        if(code!=null){
+            AuthService().sendAuthCodeToBackend(code);
+        }else{
+          print("no code after login?");
+        }
+
+        return  Junk();
       },
       routes: [
         GoRoute(
-          path: 'junk',
+          path: '/junk',
           builder: (context, state) => Junk(),
         ),
       ],

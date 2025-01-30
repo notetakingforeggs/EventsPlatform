@@ -1,16 +1,45 @@
 import 'package:events_platform_frontend/models/AppUser.dart';
 import 'package:events_platform_frontend/services/api/api_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+
+import '../custom_tabs/custom_tabs_1.dart';
 
 class AuthService {
   // instance of auth
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
-    'email',
-    'https://www.googleapis.com/auth/calendar',
-  ]);
+  final String authBaseUrl = "http://10.0.2.2:8080/api/v1/auth";
+
+
+  // delete this because signin happening elsewhere?
+  // final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
+  //   'email',
+  //   'https://www.googleapis.com/auth/calendar',
+  // ]);
+
+  Future<void> initBackendOAuthFlow(BuildContext context) async {
+    final url = Uri.parse("$authBaseUrl/redirect-to-google");
+    final response = await http.get(url);
+    print("getting google rdr on backend");
+
+    if(response.statusCode == 200) {
+
+      print(response.body);
+      CustomTabLauncher().launchGoogleAuthCustomTab(context, response.body);
+    } else{
+      print("fuckery");
+    }
+  }
+
+  //
+  sendAuthCodeToBackend(String authCode)async{
+    final url = Uri.parse("$authBaseUrl/token-exchange");
+    final response = await http.get(url);
+
+    // TODO something with the response, i get back idtoken and access token i think i can then pass to the sign in to firebase method
+  }
 
   // get current user
   User? getCurrentUser() {
@@ -18,24 +47,15 @@ class AuthService {
   }
 
   // google sign in
-  signInWithGoogle() async {
-    print("signing in with google");
-    // begin sign in process
-    try {
-      final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
-      print("printing");
+  signInToFirebaseWithGoogleTokens() async {
 
-      // check for cancel
-      if (gUser == null) return;
-
-      // obtain details from the request
-      final GoogleSignInAuthentication gAuth = await gUser.authentication;
-
-      // create new credentials for the user.
+    // get tokens from backend after token exchange
+    try{
+      // create new credentials for the user out of the tokens.
       final credential = GoogleAuthProvider.credential(
-
-        accessToken: gAuth.accessToken,
-        idToken: gAuth.idToken,
+        // change this
+        // accessToken: gAuth.accessToken,
+        // idToken: gAuth.idToken,
       );
 
       // sign in to firebase using the constructed credential from the google creds
@@ -55,20 +75,6 @@ class AuthService {
     }
   }
 
-  // Get OAuth Token - NOT WORKING
-  Future<dynamic> getOAuthAccessToken() async {
-    User? user = getCurrentUser();
-    if (user != null) {
-      final idToken = await user.getIdToken();
-      final info = await user.getIdTokenResult();
-      print("$idToken");
-      print("Claims:${info.claims}");
-
-      final googleAccessToken = info.claims?['oauthAccessToken'];
-      print("Google Access Token:  $googleAccessToken");
-      return googleAccessToken;
-    }
-  }
 
   checkGoogleSignIn() async {
     final GoogleSignInAccount? googleUser =
@@ -80,16 +86,18 @@ class AuthService {
     }
   }
 
+
+  // refactor to be a backend call.
   signOut() async {
-    try {
-      if (await _googleSignIn.isSignedIn()) {
-        await _googleSignIn.signOut();
-        print("user signed out from google");
-      }
-      await _firebaseAuth.signOut();
-      print("user signed out from firebasea");
-    } catch (e) {
-      print("there has been some error signing out: $e");
-    }
+  //   try {
+  //     if (await _googleSignIn.isSignedIn()) {
+  //       await _googleSignIn.signOut();
+  //       print("user signed out from google");
+  //     }
+  //     await _firebaseAuth.signOut();
+  //     print("user signed out from firebasea");
+  //   } catch (e) {
+  //     print("there has been some error signing out: $e");
+  //   }
   }
 }
