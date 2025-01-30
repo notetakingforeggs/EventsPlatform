@@ -25,7 +25,13 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const LoginPage(),
+      builder: (context, state) {
+        print(state);
+        print("uri: ${state.uri}");
+        print("path: ${state.path}");
+        print("fullpath: ${state.fullPath}");
+        return const LoginPage();
+      },
       routes: [
         GoRoute(
           path: 'junk',

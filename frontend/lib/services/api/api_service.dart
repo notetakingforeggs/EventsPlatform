@@ -79,9 +79,6 @@ class ApiService {
     final response = await http.get(url);
     print("getting google rdr on backend");
 
-
-
-
     if(response.statusCode == 200) {
 
       print(response.body);
