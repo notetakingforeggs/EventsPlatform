@@ -72,22 +72,19 @@ public class AuthController {
 
     // Google api sends the auth code as a query param (i think) to this endpoint which it gets from the above method as "redirect_uri"
     // this method then needs to send the auth code off to a different endpoint (along with a the SAME redirect uri).
-    @GetMapping("/callback")
-    public String handleCallback(@RequestParam String code) throws IOException, GeneralSecurityException {
-        System.out.println("getting into acllbacks on backend");
+    @PostMapping ("/token-exchange")
+    public String tokenExchange(@RequestParam String code) throws IOException, GeneralSecurityException {
+        System.out.println("Auth Code Received");
         String tokenUrl = "https://oauth2.googleapis.com/token";
 
-        //Exchange the auth code from google for a tokennzzzz - posting this
-//                "redirect_uri", "https://notetakingforeggs.github.io/events-platform-app-links/",
-//                "redirect_uri", baseUrl + "/api/v1/auth/callback",
-//        "redirect_uri", "com.notetakingforeggs.events_platform_frontend:/oauth2redirect",
+        //Exchange the auth code from google for a tokennzzzz - po
 
         HttpContent content = new UrlEncodedContent(Map.of(
                 "code", code,
                 "client_id", clientId,
                 "client_secret", clientSecret,
-                "redirect_uri", ("https://ludicacid.com"),
-                "grant_type", "authorization_code"
+                "grant_type", "authorization_code",
+                "redirect_uri", ("https://ludicacid.com")
         ));
 
         // using googleAPI httptransport to create post request for google api backend
@@ -100,62 +97,15 @@ public class AuthController {
         // execute post req - use jackson here to parse response body into tokens etc..
         HttpResponse response = googleRequest.execute();
         String responseBody = response.parseAsString();
+        System.out.println(responseBody);
+
+
+        //
         return "OAuth2 Flow Completed: " + responseBody;
     }
 
-    @GetMapping("/get-deep-link")
-    ResponseEntity<String> getDeepLink(HttpServletResponse response) throws IOException {
-        //testing deep linking
-        String deepLink = "myapp://junk";
-        System.out.println("backend is sending deep link to fronend now-->" + deepLink);
-//            response.sendRedirect(deepLink);
-        System.out.println("backend returning response entity: ");
-        return new ResponseEntity<>(deepLink, HttpStatus.OK);
-
-    }
-
-
-    // TODO both of these below methods are redundant. need to initiate GoogleOAUTH Flow from the backend with callbeack endpoint to allow google to send the reresh token directly to the backend
-    // google doesn't send refresh  tokens to the front end and persisting access tokens that only last 1 hour is pointless
-
-//    @PostMapping("/register-login")
-//    public ResponseEntity<AppUser> addUser(@RequestBody AppUser appUser, HttpSession httpSession) {
-//        System.out.println("REGISTER/LOGIN");
-//        System.out.println(appUser.toString());
-//        if(!tokenValidationService.validateToken(appUser.getGoogleIdToken())){
-//            System.out.println("InvalidToken");
-//            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-//        }
-//        // this is jank af - dont do this
-//        appUser.setGoogleIdToken(null);
-//        if (!userService.existsByUid(appUser.getFirebaseUid())) {
-//            AppUser newUser = userService.add(appUser);
-//            httpSession.setAttribute("userUid", appUser.getFirebaseUid());
-//            System.out.println("new user registered in db and sesion initialised");
-//            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-//        } else {
-//            httpSession.setAttribute("userUid", appUser.getFirebaseUid());
-//            System.out.println("user already logged in, session initialised");
-//            return new ResponseEntity<>(appUser, HttpStatus.OK);
-//        }
-//
+//    public FirebaseToken verifyIdToken(String idToken) throws FirebaseAuthException {
+//        return FirebaseAuth.getInstance().verifyIdToken(idToken);
 //    }
-//
-//
-//
-//    @PostMapping("/store-google-token")
-//    public ResponseEntity<String> storeGoogleToken(@RequestParam String token, HttpSession httpSession) {
-//        String userUid = httpSession.getAttribute("userUid").toString();
-//        if (userUid == null) {
-//            return new ResponseEntity<>("user is not logged in", HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // TODO is this going to overwrite, or make another one?
-//        AppUser currentUser = userService.getByUid(userUid);
-//        currentUser.setGoogleAccessToken(token);
-//
-//        userService.add(currentUser);
-//        return new ResponseEntity<>("token successfully added to user", HttpStatus.OK);
-//    }
-
 }
+
