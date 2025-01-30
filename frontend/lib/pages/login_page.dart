@@ -54,7 +54,7 @@ class LoginPage extends StatelessWidget {
 
                   // initiate backend oauth flow
                   print("1");
-                  // await ApiService().initBackendOAuthFlow(context);
+                  await ApiService().initBackendOAuthFlow(context);
                   print("api stuff done");
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Junk()));

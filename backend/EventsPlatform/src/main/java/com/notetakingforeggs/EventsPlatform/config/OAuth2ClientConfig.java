@@ -27,7 +27,7 @@ public class OAuth2ClientConfig {
         return new InMemoryClientRegistrationRepository(googleClientRegistration());
     }
 
-    final String rdr = "https://notetakingforeggs.github.io/events-platform-app-links";
+    final String rdr = "https://ludicacid.com";
 
     public ClientRegistration googleClientRegistration() {
         return ClientRegistration.withRegistrationId("google")
@@ -36,8 +36,6 @@ public class OAuth2ClientConfig {
                 .scope("openid", "profile", "email", "https://www.googleapis.com/auth/calendar")
                 .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
                 .tokenUri("https://oauth2.googleapis.com/token")
-//                .redirectUri(baseUrl + "/api/v1/oauth2/callback")
-//                .redirectUri("https://events-platform-e68af.firebaseapp.com/__/auth/handler")
                 .redirectUri(rdr)
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
                 .userNameAttributeName("sub")

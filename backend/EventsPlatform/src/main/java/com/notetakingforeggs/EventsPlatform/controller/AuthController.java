@@ -86,7 +86,7 @@ public class AuthController {
                 "code", code,
                 "client_id", clientId,
                 "client_secret", clientSecret,
-                "redirect_uri", (baseUrl + "/api/v1/oauth2/callback"),
+                "redirect_uri", ("https://ludicacid.com"),
                 "grant_type", "authorization_code"
         ));
 
