@@ -9,11 +9,15 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.service.TokenValidationGoogleImpl;
 import com.notetakingforeggs.EventsPlatform.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import net.minidev.json.JSONUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -44,9 +48,11 @@ public class AuthController {
     private final String clientSecret;
     private final String baseUrl;
     private final ObjectMapper objectMapper;
+    private final UserServiceImpl userService;
+    private final TokenValidationGoogleImpl tokenValidationGoogle;
 
 
-    public AuthController(ClientRegistrationRepository clientRegistrationRepository, HttpTransport httpTransport, JacksonFactory jsonFactory, String clientId, String clientSecret, String baseUrl, ObjectMapper objectMapper) {
+    public AuthController(ClientRegistrationRepository clientRegistrationRepository, HttpTransport httpTransport, JacksonFactory jsonFactory, String clientId, String clientSecret, String baseUrl, ObjectMapper objectMapper, UserServiceImpl userService, TokenValidationGoogleImpl tokenValidationGoogle) {
         this.clientRegistrationRepository = clientRegistrationRepository;
         this.httpTransport = httpTransport;
         this.jsonFactory = jsonFactory;
@@ -54,6 +60,8 @@ public class AuthController {
         this.clientSecret = clientSecret;
         this.baseUrl = baseUrl;
         this.objectMapper = objectMapper;
+        this.userService = userService;
+        this.tokenValidationGoogle = tokenValidationGoogle;
     }
 
     // front end makes a request to this endpoint to initiate OAuth signin/signup flow
@@ -87,7 +95,7 @@ public class AuthController {
     // Google api sends the auth code as a query param (i think) to this endpoint which it gets from the above method as "redirect_uri"
     // this method then needs to send the auth code off to a different endpoint (along with a the SAME redirect uri).
     @PostMapping ("/token-exchange")
-    public String tokenExchange(@RequestParam String code) throws IOException, GeneralSecurityException {
+    public String tokenExchange(@RequestParam String code) throws IOException, GeneralSecurityException, FirebaseAuthException {
         System.out.println("Auth Code Received: " + code);
         String tokenUrl = "https://oauth2.googleapis.com/token";
 
@@ -118,6 +126,15 @@ public class AuthController {
         String idTokenString = rootNode.path("id_token").asText();
         System.out.println("idtoken:" + idTokenString);
 
+        //  Verify Id Token TODO handle exception if token is no good FirebaseAuthException
+        if(tokenValidationGoogle.validateToken(idTokenString)){
+            System.out.println("token validated!!!!");
+        }
+
+        // TODO encrypt this?
+        String refreshtoken = rootNode.path("refresh_token").asText();
+
+
         // send id token for verification (https://developers.google.com/identity/gsi/web/guides/verify-google-id-token)
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
                 // Specify the CLIENT_ID of the app that accesses the backend:
@@ -144,11 +161,30 @@ public class AuthController {
             String locale = (String) payload.get("locale");
             String familyName = (String) payload.get("family_name");
             String givenName = (String) payload.get("given_name");
+            String googleUid = payload.getSubject();
 
-            // Use or store profile information
+            // create firebase token for the frontend
+
+
+
+            // create new user (TODO put this function in a util/service class)
             System.out.println(email);
-            System.out.println(name);
-            // ...
+            System.out.println(googleUid);
+
+            AppUser newUser = new AppUser();
+            newUser.setName(name);
+            newUser.setEmail(email);
+            if(refreshtoken!=null) {
+                newUser.setRefreshToken(refreshtoken);
+            }
+
+            // TODO here make a DTO of the things i might need, then send this off to a "find or create new user" which takes the DTO as a param and does a lookup, creating
+            // TODO a new user if one of the Google UID doesnt exist. Change the method below and ignore the autogenned UID (maybe remove?)
+
+            // add user to db and get UID
+            AppUser newUserWithUid = userService.add(newUser);
+            Long newUserUid = newUserWithUid.getId();
+            //
 
         } else {
             System.out.println("Invalid ID token.");
@@ -157,8 +193,9 @@ public class AuthController {
         return "OAuth2 Flow Completed: " + responseBody;
     }
 
-//    public FirebaseToken verifyIdToken(String idToken) throws FirebaseAuthException {
-//        return FirebaseAuth.getInstance().verifyIdToken(idToken);
-//    }
+    public FirebaseToken verifyIdToken(String idToken) throws FirebaseAuthException {
+        System.out.println("attempting to verify id token with firebase");
+        return FirebaseAuth.getInstance().verifyIdToken(idToken);
+    }
 }
 
