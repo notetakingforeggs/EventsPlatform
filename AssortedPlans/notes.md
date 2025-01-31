@@ -32,4 +32,5 @@ __ the answer is out there, and will be found__
 
 - always double check various config values to ensure they are the same where they need to be the same
 - read more manuals? or just struggling is learning?
-- 
+
+## adb logcat | grep deep

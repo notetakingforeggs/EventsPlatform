@@ -1,7 +1,14 @@
 package com.notetakingforeggs.EventsPlatform.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.*;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.service.TokenValidationGoogleImpl;
 import com.notetakingforeggs.EventsPlatform.service.UserServiceImpl;
@@ -13,10 +20,13 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
@@ -29,17 +39,21 @@ public class AuthController {
 
     private final ClientRegistrationRepository clientRegistrationRepository;
     private final HttpTransport httpTransport;
+    private final JacksonFactory jsonFactory;
     private final String clientId;
     private final String clientSecret;
     private final String baseUrl;
+    private final ObjectMapper objectMapper;
 
 
-    public AuthController(ClientRegistrationRepository clientRegistrationRepository, HttpTransport httpTransport, String clientId, String clientSecret, String baseUrl) {
+    public AuthController(ClientRegistrationRepository clientRegistrationRepository, HttpTransport httpTransport, JacksonFactory jsonFactory, String clientId, String clientSecret, String baseUrl, ObjectMapper objectMapper) {
         this.clientRegistrationRepository = clientRegistrationRepository;
         this.httpTransport = httpTransport;
+        this.jsonFactory = jsonFactory;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.baseUrl = baseUrl;
+        this.objectMapper = objectMapper;
     }
 
     // front end makes a request to this endpoint to initiate OAuth signin/signup flow
@@ -74,11 +88,11 @@ public class AuthController {
     // this method then needs to send the auth code off to a different endpoint (along with a the SAME redirect uri).
     @PostMapping ("/token-exchange")
     public String tokenExchange(@RequestParam String code) throws IOException, GeneralSecurityException {
-        System.out.println("Auth Code Received");
+        System.out.println("Auth Code Received: " + code);
         String tokenUrl = "https://oauth2.googleapis.com/token";
 
         //Exchange the auth code from google for a tokennzzzz - po
-
+        System.out.println("exchanging code for tokens");
         HttpContent content = new UrlEncodedContent(Map.of(
                 "code", code,
                 "client_id", clientId,
@@ -99,8 +113,47 @@ public class AuthController {
         String responseBody = response.parseAsString();
         System.out.println(responseBody);
 
+        // extract id token
+        JsonNode rootNode = objectMapper.readTree(responseBody);
+        String idTokenString = rootNode.path("id_token").asText();
+        System.out.println("idtoken:" + idTokenString);
 
-        //
+        // send id token for verification (https://developers.google.com/identity/gsi/web/guides/verify-google-id-token)
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
+                // Specify the CLIENT_ID of the app that accesses the backend:
+                .setAudience(Collections.singletonList(clientId))
+                // Or, if multiple clients access the backend:
+                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+                .build();
+
+        // (Receive idTokenString by HTTPS POST)
+
+        GoogleIdToken googleIdToken = verifier.verify(idTokenString);
+        if (googleIdToken != null) {
+            Payload payload = googleIdToken.getPayload();
+
+            // Print user identifier
+            String userId = payload.getSubject();
+            System.out.println("User ID: " + userId);
+
+            // Get profile information from payloadidToken
+            String email = payload.getEmail();
+            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+            String name = (String) payload.get("name");
+            String pictureUrl = (String) payload.get("picture");
+            String locale = (String) payload.get("locale");
+            String familyName = (String) payload.get("family_name");
+            String givenName = (String) payload.get("given_name");
+
+            // Use or store profile information
+            System.out.println(email);
+            System.out.println(name);
+            // ...
+
+        } else {
+            System.out.println("Invalid ID token.");
+        }
+
         return "OAuth2 Flow Completed: " + responseBody;
     }
 
