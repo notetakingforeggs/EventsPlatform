@@ -68,7 +68,6 @@ class Playground extends StatelessWidget {
                       icon: Icon(Icons.accessible_rounded),
                       onPressed: () {
                         print("get OAuth Access token");
-                        AuthService().getOAuthAccessToken();
 
                       },
                     ),

@@ -27,6 +27,8 @@ public class OAuth2ClientConfig {
         return new InMemoryClientRegistrationRepository(googleClientRegistration());
     }
 
+    final String rdr = "https://ludicacid.com";
+
     public ClientRegistration googleClientRegistration() {
         return ClientRegistration.withRegistrationId("google")
                 .clientId(clientId)
@@ -34,7 +36,7 @@ public class OAuth2ClientConfig {
                 .scope("openid", "profile", "email", "https://www.googleapis.com/auth/calendar")
                 .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
                 .tokenUri("https://oauth2.googleapis.com/token")
-                .redirectUri(baseUrl + "/api/v1/oauth2/callback")
+                .redirectUri(rdr)
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
                 .userNameAttributeName("sub")
                 .clientName("Google")

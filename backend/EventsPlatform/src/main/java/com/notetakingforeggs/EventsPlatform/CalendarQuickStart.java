@@ -49,7 +49,7 @@ public class CalendarQuickStart {
      */
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials-with-backend-client-id.json";
+    private static final String CREDENTIALS_FILE_PATH = "/credentials/credentials-with-backend-client-id.json";
 
     /**
      * Creates an authorized Credential object.

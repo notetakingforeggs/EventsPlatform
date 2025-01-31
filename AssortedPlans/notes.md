@@ -16,3 +16,21 @@
 __The above is wrong and i regret my decision, refactoring time__
 - I need to initiate GoogleOAUTH Flow from the backend with callbeack endpoint to allow google to send the rerfesh token directly to the backend
  google doesn't send refresh  tokens to the front end and persisting access tokens that only last 1 hour is pointless
+
+- this command working for testing basic deep linking 
+```adb shell am start -a android.intent.action.VIEW -d "https://notetakingforeggs.github.io" com.notetakingforeggs.events_platform_frontend
+```
+
+# omg what n absolute nightmare. what did i learn?
+- the secret from google console didnt match what i had in my credentials.json which was giving the non matching redirect url
+- google doesnt seem to allow custom schemes for deep linking redirects?
+- github doesnt allow appending direcly to the end of the host, so you cant use it for your assetlinks
+- ai models can be confusing as fuck and often actively unhelpful (remove the colons? fr?)
+- knowing what is depracated/what is recomended is hard, 
+- Internet Engineering Task Force (IETF) is dope af - read more of that
+__ the answer is out there, and will be found__
+
+- always double check various config values to ensure they are the same where they need to be the same
+- read more manuals? or just struggling is learning?
+
+## adb logcat | grep deep

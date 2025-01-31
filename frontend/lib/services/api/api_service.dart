@@ -74,20 +74,5 @@ class ApiService {
     }
   }
 
-  Future<void> initBackendOAuthFlow(BuildContext context) async {
-    final url = Uri.parse("$baseUrl/api/v1/auth/redirect-to-google");
-    final response = await http.get(url);
-    print("getting google rdr on backend");
 
-
-
-
-    if(response.statusCode == 200) {
-
-      print(response.body);
-      CustomTabLauncher().launchGoogleAuthCustomTab(context, response.body);
-    } else{
-      print("fuckery");
-    }
-  }
 }
