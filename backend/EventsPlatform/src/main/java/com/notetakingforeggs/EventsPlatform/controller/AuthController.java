@@ -147,7 +147,7 @@ public class AuthController {
         } else {
             System.out.println("Invalid ID token.");
             // TODO is it bad request? maybe other httpcode
-            return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
         }
 
     }
