@@ -27,39 +27,54 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) {
+        Future<bool> isLoggedIn = AuthService().isLoggedIn();
 
-        print("uri: ${state.uri}");
         Uri uri = state.uri;
+        print("uri: ${state.uri}");
         print(uri);
         String? code = uri.queryParameters["code"];
         String? email = uri.queryParameters["email"];
         print("code: $code");
         print("email: $email");
 
-        if(code!=null){
-            AuthService().sendAuthCodeToBackend(code);
-        }else{
-          print("no code after login on attempted navigation to homescreen?");
-          return Junk();
-        }
+        // future builder to get the result of an async function to be able to use it in a non async function?
+        return FutureBuilder(
+          future: AuthService().isLoggedIn(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            }
+            if (snapshot.hasError) {
+              return Text("Error: ${snapshot.error}");
+            }
+            bool isLoggedIn = snapshot.data ?? false;
 
-        return  LoginPage();
+            if (code != null) {
+              print(
+                  "there was a code in the path so initiating sending code to backend");
+              AuthService().sendAuthCodeToBackend(code);
+              // send to logged in page?
+              return Junk();
+            } else if (isLoggedIn) {
+              print(
+                  "no code after login on attempted navigation to homescreen?");
+              return Junk();
+            }
+            print(
+                "user not logged in, and not a sign in attempt so returning to login page");
+            return LoginPage();
+          },
+        );
       },
-      routes: [
-        GoRoute(
-          path: '/junk',
-          builder: (context, state) => Junk(),
-        ),
-      ],
     ),
     GoRoute(
       path: '/junk',
       builder: (context, state) => Junk(),
-    ),GoRoute(
+    ),
+    GoRoute(
       path: '/http',
       builder: (context, state) => HttpPlayground(),
     ),
-
   ],
 );
 
