@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name="app_event")
 public class AppEvent {
 
     @Id
