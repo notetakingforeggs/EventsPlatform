@@ -21,7 +21,7 @@ class _JunkState extends State<Junk> {
   final List<Widget> _junkPages = [
     Playground(),
     HttpPlayground(),
-
+    TableEventsExample(),
   ];
 
   int _currentIndex = 0;

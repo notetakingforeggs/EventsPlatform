@@ -27,19 +27,17 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) {
-        Future<bool> isLoggedIn = AuthService().isLoggedIn();
-
+        //Future<bool> isLoggedIn = AuthService().isLoggedIn();
         Uri uri = state.uri;
-        print("uri: ${state.uri}");
-        print(uri);
+        print("uri: $uri}");
         String? code = uri.queryParameters["code"];
-        String? email = uri.queryParameters["email"];
-        print("code: $code");
-        print("email: $email");
 
         // future builder to get the result of an async function to be able to use it in a non async function?
+        // first check if the user is logged in by checking the exp of any jwt
         return FutureBuilder(
-          future: AuthService().isLoggedIn(),
+          future: code!=null
+              ?AuthService().sendAuthCodeToBackend(code) // handle login
+              :AuthService().isLoggedIn(), // check if already logged in
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
@@ -47,21 +45,13 @@ final router = GoRouter(
             if (snapshot.hasError) {
               return Text("Error: ${snapshot.error}");
             }
-            bool isLoggedIn = snapshot.data ?? false;
-
-            if (code != null) {
-              print(
-                  "there was a code in the path so initiating sending code to backend");
-              AuthService().sendAuthCodeToBackend(code);
-              // send to logged in page?
-              return Junk();
-            } else if (isLoggedIn) {
-              print(
-                  "no code after login on attempted navigation to homescreen?");
-              return Junk();
+            bool isAuthenticated = snapshot.data ?? false; // this line works for either scenario of the ternary above, as snapshot.data will refer to the output of whichever function is the target of the future builder depending whether or not there is an auth chode
+            // if is logged in (based on active token in secure storage)
+            if(isAuthenticated) {
+              print("✅ is authenticated, redirecting to home screen");
+              return (Junk());
             }
-            print(
-                "user not logged in, and not a sign in attempt so returning to login page");
+            print("❌ issue with authentication, try logging in");
             return LoginPage();
           },
         );

@@ -31,6 +31,7 @@ class ApiService {
     }
   }
 
+  // TODO remove this, dont think im using it.
   Future<void> getDeepLink(String endpoint) async {
     final url = Uri.parse("$baseUrl/$endpoint");
     try {

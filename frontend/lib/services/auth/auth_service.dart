@@ -29,7 +29,7 @@ class AuthService {
   }
 
   //
-  sendAuthCodeToBackend(String authCode)async{
+ Future<bool> sendAuthCodeToBackend(String authCode)async{
     final response = await http.post(
         Uri.parse("$authBaseUrl/token-exchange"),
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -38,21 +38,28 @@ class AuthService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("response good: ${response.body}");
-      await _storage.write(key: 'jwt_token', value: response.body);
 
+      print("storing JWT in secure storage");
+      await _storage.write(key: 'jwt_token', value: response.body);
+      return true;
     } else {
       print("failed");
+      return false;
     }
   }
 
   // JWT stuff
   Future<String?> getJwt() async{
+    print("beforehand here?");
     return await _storage.read(key: 'jwt_token');
   }
   Future<bool> isLoggedIn()async{
+    print("here?");
+    try{
     String? jwt = await _storage.read(key: 'jwt_token');
     if(jwt==null){return false;}
-    try{
+
+
       final decodedJwt = JWT.tryDecode(jwt);
       print("decoding jwt");
       print(decodedJwt?.payload);
