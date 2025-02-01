@@ -1,12 +1,10 @@
-import 'dart:convert';
-
-import 'package:events_platform_frontend/models/AppUser.dart';
-import 'package:events_platform_frontend/services/api/api_service.dart';
+import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 import '../custom_tabs/custom_tabs_1.dart';
 
@@ -17,19 +15,12 @@ class AuthService {
   final _storage = FlutterSecureStorage();
 
 
-  // delete this because signin happening elsewhere?
-  // final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
-  //   'email',
-  //   'https://www.googleapis.com/auth/calendar',
-  // ]);
-
   Future<void> initBackendOAuthFlow(BuildContext context) async {
     final url = Uri.parse("$authBaseUrl/redirect-to-google");
     final response = await http.get(url);
     print("getting google rdr on backend");
 
     if(response.statusCode == 200) {
-
       print(response.body);
       CustomTabLauncher().launchGoogleAuthCustomTab(context, response.body);
     } else{
@@ -39,28 +30,53 @@ class AuthService {
 
   //
   sendAuthCodeToBackend(String authCode)async{
-
     final response = await http.post(
         Uri.parse("$authBaseUrl/token-exchange"),
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
         body: {"code" : authCode}
     );
 
-    // TODO in here is too retreive the JWT and store it or something and add to all future requsts.
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("response good: ${response.body}");
-      await _storage.write(key: 'jwt:token', value: response.body);
+      await _storage.write(key: 'jwt_token', value: response.body);
+
     } else {
       print("failed");
     }
-    // TODO something with the response, firebase here?
   }
 
+  // JWT stuff
   Future<String?> getJwt() async{
     return await _storage.read(key: 'jwt_token');
   }
+  Future<bool> isLoggedIn()async{
+    String? jwt = await _storage.read(key: 'jwt_token');
+    if(jwt==null){return false;}
+    try{
+      final decodedJwt = JWT.tryDecode(jwt);
+      print("decoding jwt");
+      print(decodedJwt?.payload);
+      if(decodedJwt == null){
+        return false;
+      }
+      print(decodedJwt.payload["exp"]);
+      int expiryDate = decodedJwt.payload["exp"];
+      final expirationDateTime = DateTime.fromMicrosecondsSinceEpoch(expiryDate *1000);
+      if(expirationDateTime.isBefore(DateTime.now())){
+        print("token expired");
+        return false;
+      }
+      // jwt valid
+      return true;
+    }catch(e){
+      print("some error decoding or something idk: $e");
+          return false;
+    }
 
-  // get current user
+  }
+
+
+  // get current user (from firebase?) TODO am i cutting firebase out?
   User? getCurrentUser() {
     return _firebaseAuth.currentUser;
   }

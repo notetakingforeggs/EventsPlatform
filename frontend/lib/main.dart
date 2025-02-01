@@ -39,10 +39,11 @@ final router = GoRouter(
         if(code!=null){
             AuthService().sendAuthCodeToBackend(code);
         }else{
-          print("no code after login?");
+          print("no code after login on attempted navigation to homescreen?");
+          return Junk();
         }
 
-        return  Junk();
+        return  LoginPage();
       },
       routes: [
         GoRoute(
