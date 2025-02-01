@@ -137,7 +137,7 @@ public class AuthController {
 
             // creating new user if none, or getting user info if existing (not currently actually updating anything) TODO implement update
             AppUser currentUser = userService.findOrCreateUser(userPayload, refreshtoken);
-
+            System.out.println("find or create done just before this");
             String jwt = JwtUtil.generateToken(currentUser.getGoogleUid());
             System.out.println(currentUser.getGoogleUid());
             System.out.println(jwt);
