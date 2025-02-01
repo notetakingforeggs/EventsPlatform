@@ -16,6 +16,7 @@ import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 import com.notetakingforeggs.EventsPlatform.service.TokenValidationGoogleImpl;
 import com.notetakingforeggs.EventsPlatform.service.UserServiceImpl;
+import com.notetakingforeggs.EventsPlatform.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.minidev.json.JSONUtil;
@@ -90,7 +91,7 @@ public class AuthController {
     // Google api sends the auth code as a query param (i think) to this endpoint which it gets from the above method as "redirect_uri"
     // this method then needs to send the auth code off to a different endpoint (along with a the SAME redirect uri).
     @PostMapping ("/token-exchange")
-    public String tokenExchange(@RequestParam String code) throws IOException, GeneralSecurityException, FirebaseAuthException {
+    public ResponseEntity<String> tokenExchange(@RequestParam String code) throws IOException, GeneralSecurityException, FirebaseAuthException {
         System.out.println("Auth Code Received: " + code);
         String tokenUrl = "https://oauth2.googleapis.com/token";
 
@@ -135,14 +136,19 @@ public class AuthController {
             // TODO decide whether to create firebase token for the frontend (why do i need firebase even?)
 
             // creating new user if none, or getting user info if existing (not currently actually updating anything) TODO implement update
-            AppUser updateOrCreateUser = userService.findOrCreateUser(userPayload, refreshtoken);
+            AppUser currentUser = userService.findOrCreateUser(userPayload, refreshtoken);
 
+            String jwt = JwtUtil.generateToken(currentUser.getGoogleUid());
+
+            System.out.println("OUATH flow complete, returning JWT to frontend");
+            return new ResponseEntity<>(jwt, HttpStatus.OK);
 
         } else {
             System.out.println("Invalid ID token.");
+            // TODO is it bad request? maybe other httpcode
+            return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
         }
 
-        return "OAuth2 Flow Completed: " + responseBody;
     }
 
     public FirebaseToken verifyIdToken(String idToken) throws FirebaseAuthException {

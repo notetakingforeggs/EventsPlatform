@@ -17,7 +17,6 @@ public class JwtUtil {
     private static final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 
     // Generate JWT
-
     public static String generateToken(String userID){
         return JWT.create()
                 .withSubject(userID)
@@ -26,6 +25,7 @@ public class JwtUtil {
                 .sign(algorithm);
     }
 
+    // check if token is valid.
     public static DecodedJWT validateToken(String token){
         try{
             JWTVerifier verifier = JWT.require(algorithm).build();
