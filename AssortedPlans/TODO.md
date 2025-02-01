@@ -9,11 +9,9 @@ Misc "to do" list
 
 - Write tests for service methods and controllers
 - set it up with a config file that has Strings and images that you can change and it customises your app?
-- have it so you have one google calendar account that is admin, and can input items but not take them. makes it transferrable easily between different orgs, and reduces the need for a cms/admin
 
-- https (lets encrypt) for backend.
+- https (lets encrypt) for backend, do i need this? 
 
-- refresh tokens
 <br></br>
 - adding events
 
@@ -27,4 +25,4 @@ Misc "to do" list
 __backend autheentication can wait as it is secondary__
 __JWT on the frontend is enough to access the backend data and make calls to the calendar__
 ## now
-1) 
+1) planning session - what is happening with the appuser shape, attendees and 

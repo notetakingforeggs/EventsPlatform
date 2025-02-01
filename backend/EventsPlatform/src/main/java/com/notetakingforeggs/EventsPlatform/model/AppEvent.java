@@ -15,17 +15,9 @@ public class AppEvent {
     private Long id;
 
     private String eventName;
-
     private ZonedDateTime startDate;
-
     private ZonedDateTime endDate;
 
-    @ManyToMany
-    @JoinTable(
-        name = "event_attendees",
-        joinColumns = @JoinColumn(name = "event_id"),
-        inverseJoinColumns =@JoinColumn(name = "user_id")
-    )
-    private List<AppUser> attendees;
-
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attendee> attendees;
 }
