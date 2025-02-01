@@ -139,7 +139,8 @@ public class AuthController {
             AppUser currentUser = userService.findOrCreateUser(userPayload, refreshtoken);
 
             String jwt = JwtUtil.generateToken(currentUser.getGoogleUid());
-
+            System.out.println(currentUser.getGoogleUid());
+            System.out.println(jwt);
             System.out.println("OUATH flow complete, returning JWT to frontend");
             return new ResponseEntity<>(jwt, HttpStatus.OK);
 

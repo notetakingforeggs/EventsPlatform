@@ -1,6 +1,5 @@
 Misc "to do" list
 ---
-- Create AppUser DTO rather than passing full users around
 - Create error handlers to gracefully handle exceptions etc
 - create an sql seed/init for testing purposes
 - need to robustify methods in service impls, especially update. feels jank rn.
@@ -18,4 +17,14 @@ Misc "to do" list
 <br></br>
 - adding events
 
-- 
+- Frontend issue with not reading the deeplink if recently logged in? 
+
+- also frontend issue where i can pop all the widgets off the stack with a back button
+
+- update puml to make sure it is in accordance with current auth flow
+- decide whether or not i can do away with firebase?
+    
+__backend autheentication can wait as it is secondary__
+__JWT on the frontend is enough to access the backend data and make calls to the calendar__
+## now
+1) 
