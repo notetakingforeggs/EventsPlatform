@@ -16,6 +16,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 import org.springframework.stereotype.Service;
 
 // This is from here: https://developers.google.com/identity/sign-in/android/backend-auth
@@ -35,7 +36,7 @@ public class TokenValidationGoogleImpl implements TokenValidationService {
 
     //TODO this should not just return true/false. Just like this for development and checks. change later
     @Override
-    public Boolean validateToken(String token) {
+    public GoogleUserPayloadDTO validateToken(String token) {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
                 // Specify the CLIENT_ID of the app that accesses the backend:
@@ -58,30 +59,41 @@ public class TokenValidationGoogleImpl implements TokenValidationService {
                 System.out.println("User ID: " + userId);
 
                 // Get profile information from payload
-                String email = payload.getEmail();
-                boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-                String name = (String) payload.get("name");
-                String pictureUrl = (String) payload.get("picture");
-                String locale = (String) payload.get("locale");
-                String familyName = (String) payload.get("family_name");
-                String givenName = (String) payload.get("given_name");
+                // TODO put this straight into a DTO
+//                String email = payload.getEmail();
+//                boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+//                String name = (String) payload.get("name");
+//                String pictureUrl = (String) payload.get("picture");
+//                String locale = (String) payload.get("locale");
+//                String familyName = (String) payload.get("family_name");
+//                String givenName = (String) payload.get("given_name");
 
                 // Use or store profile information
+                GoogleUserPayloadDTO userPayload = new GoogleUserPayloadDTO(
+                        payload.getEmail(),
+                        Boolean.valueOf(payload.getEmailVerified()),
+                        (String) payload.get("name"),
+                        (String) payload.get("picture"),
+                        (String) payload.get("locale"),
+                        (String) payload.get("family_name"),
+                        (String) payload.get("given_name"),
+                        payload.getSubject()
+                );
+
+                return userPayload;
                 // ...
 
             } else {
                 System.out.println("Invalid ID token.");
-                return false;
+                return null;
             }
         } catch (IOException e) {
             System.out.println("IO Error in the token validation");
-            return false;
+            return null;
         } catch (GeneralSecurityException f) {
             System.out.println("General Secuiryt exception?");
             f.getStackTrace();
         }
-        return true;
+        return null;
     }
-
-
 }

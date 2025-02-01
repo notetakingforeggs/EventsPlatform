@@ -1,6 +1,7 @@
 package com.notetakingforeggs.EventsPlatform.service;
 
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
+import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 import com.notetakingforeggs.EventsPlatform.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -50,9 +51,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean existsByUid(String uid){ return userRepository.existsByFirebaseUid(uid);}
+    public Boolean existsByGoogleUid(String googleUid){ return userRepository.existsByFirebaseUid(googleUid);}
 
     @Override
-    public AppUser getByUid(String uid){return userRepository.getByFirebaseUid(uid);}
+    public AppUser getByGoogleUid(String googleUid){return userRepository.getByFirebaseUid(googleUid);}
+
+    @Override
+    public AppUser findOrCreateUser(GoogleUserPayloadDTO userPayload, String refreshToken) {
+        if(!existsByGoogleUid(userPayload.googleUid())){
+            AppUser newAppUser = new AppUser();
+            newAppUser.setName(userPayload.name());
+            newAppUser.setEmail(userPayload.email());
+            newAppUser.setGoogleUid(userPayload.googleUid());
+            newAppUser.setRefreshToken(refreshToken);
+            return newAppUser;
+        }else{
+            return getByGoogleUid(userPayload.googleUid());
+        }
+    }
 }
 

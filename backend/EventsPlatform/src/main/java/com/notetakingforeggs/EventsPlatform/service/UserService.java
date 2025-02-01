@@ -2,6 +2,7 @@ package com.notetakingforeggs.EventsPlatform.service;
 
 
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
+import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 import com.notetakingforeggs.EventsPlatform.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +16,8 @@ public interface UserService {
     Boolean deleteAll();
     AppUser update(AppUser updatedAppUser, Long id);
     AppUser add(AppUser appUser);
-    Boolean existsByUid(String uid);
-    AppUser getByUid(String id);
+    Boolean existsByGoogleUid(String googleUid);
+    AppUser getByGoogleUid(String googleUid);
+    AppUser findOrCreateUser(GoogleUserPayloadDTO userPayload, String refreshToken);
 
 }

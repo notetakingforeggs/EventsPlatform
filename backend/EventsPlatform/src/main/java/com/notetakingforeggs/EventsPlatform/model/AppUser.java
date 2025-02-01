@@ -16,10 +16,9 @@ public class AppUser {
 
     private String googleUid;
 
-    //  do not store the id token, store the authToken
+    //  do not store the access token? just the refres?
     private String googleAccessToken;
 
-    // jankplan just to see, send id token over in user, verify, then nullify for storage....?
     private String refreshToken;
 
     private String name;

@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
+import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 import com.notetakingforeggs.EventsPlatform.service.TokenValidationGoogleImpl;
 import com.notetakingforeggs.EventsPlatform.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
@@ -68,11 +69,9 @@ public class AuthController {
     @GetMapping("/redirect-to-google")
     // http servlet is automatically injected by tomcat (servlet container), which is like an abstraction of a bunch of network stuff. In this instance im not just returning data, but redirecting the user to a different part of the network (google log in page)
     // as such i need to leverage to tools that tomcat has, using the "send redirect" method of the httpservlet response named response...
-
-
     public ResponseEntity<String> redirectToGoogleOAuth(HttpServletResponse response) throws IOException {
         System.out.println("in the rdr");
-//        // retrieve the google reg deets
+        // retrieve the google reg deets
         ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
 
         // construct the oauth url
@@ -84,11 +83,7 @@ public class AuthController {
                 "&access_type=offline";
 
         // send the redirect to the frontend
-        System.out.println("000000000000000000000000000000000");
         System.out.println(redirectUri);
-//            response.sendRedirect(redirectUri);
-
-
         return new ResponseEntity<>(redirectUri, HttpStatus.OK);
     }
 
@@ -99,7 +94,7 @@ public class AuthController {
         System.out.println("Auth Code Received: " + code);
         String tokenUrl = "https://oauth2.googleapis.com/token";
 
-        //Exchange the auth code from google for a tokennzzzz - po
+        //Exchange the auth code from google for a tokennzzzz
         System.out.println("exchanging code for tokens");
         HttpContent content = new UrlEncodedContent(Map.of(
                 "code", code,
@@ -116,7 +111,7 @@ public class AuthController {
         GenericUrl url = new GenericUrl(tokenUrl);
         HttpRequest googleRequest = requestFactory.buildPostRequest(url, content);
 
-        // execute post req - use jackson here to parse response body into tokens etc..
+        // execute post req - use jackson(?) here to parse response body into tokens etc..
         HttpResponse response = googleRequest.execute();
         String responseBody = response.parseAsString();
         System.out.println(responseBody);
@@ -126,65 +121,22 @@ public class AuthController {
         String idTokenString = rootNode.path("id_token").asText();
         System.out.println("idtoken:" + idTokenString);
 
-        //  Verify Id Token TODO handle exception if token is no good FirebaseAuthException
-        if(tokenValidationGoogle.validateToken(idTokenString)){
-            System.out.println("token validated!!!!");
-        }
 
         // TODO encrypt this?
         String refreshtoken = rootNode.path("refresh_token").asText();
 
 
-        // send id token for verification (https://developers.google.com/identity/gsi/web/guides/verify-google-id-token)
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
-                // Specify the CLIENT_ID of the app that accesses the backend:
-                .setAudience(Collections.singletonList(clientId))
-                // Or, if multiple clients access the backend:
-                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
-                .build();
+        //  Verify Id Token TODO handle exception if token is no good FirebaseAuthException
 
-        // (Receive idTokenString by HTTPS POST)
+        GoogleUserPayloadDTO userPayload = tokenValidationGoogle.validateToken(idTokenString);
+        if(userPayload!=null){
+            System.out.println("token validated!!!!");
 
-        GoogleIdToken googleIdToken = verifier.verify(idTokenString);
-        if (googleIdToken != null) {
-            Payload payload = googleIdToken.getPayload();
+            // TODO decide whether to create firebase token for the frontend (why do i need firebase even?)
 
-            // Print user identifier
-            String userId = payload.getSubject();
-            System.out.println("User ID: " + userId);
+            // creating new user if none, or getting user info if existing (not currently actually updating anything) TODO implement update
+            AppUser updateOrCreateUser = userService.findOrCreateUser(userPayload, refreshtoken);
 
-            // Get profile information from payloadidToken
-            String email = payload.getEmail();
-            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-            String name = (String) payload.get("name");
-            String pictureUrl = (String) payload.get("picture");
-            String locale = (String) payload.get("locale");
-            String familyName = (String) payload.get("family_name");
-            String givenName = (String) payload.get("given_name");
-            String googleUid = payload.getSubject();
-
-            // create firebase token for the frontend
-
-
-
-            // create new user (TODO put this function in a util/service class)
-            System.out.println(email);
-            System.out.println(googleUid);
-
-            AppUser newUser = new AppUser();
-            newUser.setName(name);
-            newUser.setEmail(email);
-            if(refreshtoken!=null) {
-                newUser.setRefreshToken(refreshtoken);
-            }
-
-            // TODO here make a DTO of the things i might need, then send this off to a "find or create new user" which takes the DTO as a param and does a lookup, creating
-            // TODO a new user if one of the Google UID doesnt exist. Change the method below and ignore the autogenned UID (maybe remove?)
-
-            // add user to db and get UID
-            AppUser newUserWithUid = userService.add(newUser);
-            Long newUserUid = newUserWithUid.getId();
-            //
 
         } else {
             System.out.println("Invalid ID token.");

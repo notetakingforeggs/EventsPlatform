@@ -1,6 +1,8 @@
 package com.notetakingforeggs.EventsPlatform.service;
 
+import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
+
 public interface TokenValidationService {
 
-Boolean validateToken(String token);
+GoogleUserPayloadDTO validateToken(String token);
 }
