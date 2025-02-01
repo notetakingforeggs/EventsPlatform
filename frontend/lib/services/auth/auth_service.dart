@@ -4,6 +4,7 @@ import 'package:events_platform_frontend/models/AppUser.dart';
 import 'package:events_platform_frontend/services/api/api_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,6 +14,7 @@ class AuthService {
   // instance of auth
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final String authBaseUrl = "http://10.0.2.2:8080/api/v1/auth";
+  final _storage = FlutterSecureStorage();
 
 
   // delete this because signin happening elsewhere?
@@ -43,13 +45,19 @@ class AuthService {
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
         body: {"code" : authCode}
     );
-    print(response.body);
+
+    // TODO in here is too retreive the JWT and store it or something and add to all future requsts.
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("response good: ${response.body}");
+      await _storage.write(key: 'jwt:token', value: response.body);
     } else {
       print("failed");
     }
     // TODO something with the response, firebase here?
+  }
+
+  Future<String?> getJwt() async{
+    return await _storage.read(key: 'jwt_token');
   }
 
   // get current user
