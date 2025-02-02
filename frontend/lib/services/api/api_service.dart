@@ -52,6 +52,8 @@ class ApiService {
 
 Future<void> addEvent(Map<String,String> event) async{
     String jsonFormData = jsonEncode(event);
+
+    
     final response = await http.post(
       Uri.parse("$baseUrl/api/v1/events/add-event"),
       headers: {"Content-Type": "application/json"},

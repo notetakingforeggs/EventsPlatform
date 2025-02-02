@@ -1,3 +1,5 @@
+// TODO this all needs refactored if i am not using firebase
+
 class AppUser {
   final String firebaseUid; // Firebase UID
   final String? email;
