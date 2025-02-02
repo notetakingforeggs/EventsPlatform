@@ -26,11 +26,9 @@ class AddEventForm extends StatefulWidget {
 class _AddEventFormState extends State<AddEventForm> {
   // TODO move some stuff into the controller?
   final AddEventController _controller = AddEventController();
+  final _formKey = AddEventController().getFormKey();
 
-  // a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  final _formKey = GlobalKey<FormState>();
-
+// i put the form key in the controller, and will reference it through that
   @override
   void initState() {
     super.initState();
@@ -50,6 +48,7 @@ class _AddEventFormState extends State<AddEventForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // TODO could make a custom text form field label to remove having to put the hintstyle all the time
               TextFormField(
                 decoration: InputDecoration(
                   labelText: "Event Name",
@@ -58,6 +57,9 @@ class _AddEventFormState extends State<AddEventForm> {
                 ),
                 validator: (value) {
                   return AddEventController().nameValidator(value);
+                },
+                onSaved: (value) {
+                  _controller.saveData("event_name", value);
                 },
               ),
               TextFormField(
@@ -71,6 +73,9 @@ class _AddEventFormState extends State<AddEventForm> {
                 validator: (value) {
                   return AddEventController().nameValidator(value);
                 },
+                onSaved: (value) {
+                  _controller.saveData("description", value);
+                },
               ),
               // TODO gonna code this up as text input but better to refactor with date and time pickers
               TextFormField(
@@ -79,7 +84,10 @@ class _AddEventFormState extends State<AddEventForm> {
                     hintText: "format is DD/MM/YY",
                     hintStyle: TextStyle(color: Colors.blueGrey)),
                 validator: (value) {
-                  return AddEventController().nameValidator(value);
+                  return _controller.nameValidator(value);
+                },
+                onSaved: (value) {
+                  _controller.saveData("start_date", value);
                 },
               ),
               TextFormField(
@@ -88,7 +96,10 @@ class _AddEventFormState extends State<AddEventForm> {
                     hintText: "format is HH/MM 24h clock",
                     hintStyle: TextStyle(color: Colors.blueGrey)),
                 validator: (value) {
-                  return AddEventController().nameValidator(value);
+                  return _controller.nameValidator(value);
+                },
+                onSaved: (value) {
+                  _controller.saveData("start_time", value);
                 },
               ),
               TextFormField(
@@ -97,7 +108,10 @@ class _AddEventFormState extends State<AddEventForm> {
                     hintText: "format is DD/MM/YY",
                     hintStyle: TextStyle(color: Colors.blueGrey)),
                 validator: (value) {
-                  return AddEventController().nameValidator(value);
+                  return _controller.nameValidator(value);
+                },
+                onSaved: (value) {
+                  _controller.saveData("end_date", value);
                 },
               ),
               TextFormField(
@@ -106,21 +120,26 @@ class _AddEventFormState extends State<AddEventForm> {
                     hintText: "format is HH/MM 24h clock",
                     hintStyle: TextStyle(color: Colors.blueGrey)),
                 validator: (value) {
-                  return AddEventController().nameValidator(value);
+                  return _controller.nameValidator(value);
+                },
+                onSaved: (value) {
+                  _controller.saveData("end_time", value);
                 },
               ),
               ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      _controller.submitForm();
                       // call apiservice method to send the deetails
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Submitting Form Data')),
                       );
-                      context.push('/');
+                      // context.push('/');
                     }
                   },
                   child: Text(
-                    "Home",
+                    "Submit",
                     style: TextStyle(color: Colors.black),
                   )),
             ],
