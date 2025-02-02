@@ -78,6 +78,7 @@ class _AddEventFormState extends State<AddEventForm> {
                 },
               ),
               // TODO gonna code this up as text input but better to refactor with date and time pickers
+              // TODO not gonna do validation for date/time because of the above
               TextFormField(
                 decoration: InputDecoration(
                     labelText: 'Start Date',

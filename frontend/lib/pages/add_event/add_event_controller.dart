@@ -1,4 +1,6 @@
+import 'package:events_platform_frontend/services/api/api_service.dart';
 import 'package:flutter/cupertino.dart';
+
 
 class AddEventController {
 
@@ -22,7 +24,9 @@ class AddEventController {
 
       print('0000000000000000000000000000000000000000000000000000000');
       print("submitting form data: $formData");
+
       //todo call api service
+      ApiService().addEvent(formData);
 
   }
 
