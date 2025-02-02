@@ -67,7 +67,7 @@ final router = GoRouter(
       path: '/http',
       builder: (context, state) => HttpPlayground(),
     ),
-   AddEventPage.route,
+   AddEventForm.route,
   ],
 );
 
