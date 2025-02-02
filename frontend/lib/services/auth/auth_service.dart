@@ -69,7 +69,7 @@ class AuthService {
       print(decodedJwt.payload["exp"]);
       int expiryDate = decodedJwt.payload["exp"];
       final expirationDateTime = DateTime.fromMicrosecondsSinceEpoch(expiryDate *1000);
-      if(expirationDateTime.isBefore(DateTime.now())){
+      if(expirationDateTime.isAfter(DateTime.now())){
         print("token expired");
         return false;
       }

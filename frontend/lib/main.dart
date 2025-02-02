@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:events_platform_frontend/pages/add_event/add_event_page.dart';
 import 'package:events_platform_frontend/pages/http_playground.dart';
 import 'package:events_platform_frontend/pages/junk.dart';
 import 'package:events_platform_frontend/pages/login_page.dart';
@@ -31,7 +32,6 @@ final router = GoRouter(
         Uri uri = state.uri;
         print("uri: $uri}");
         String? code = uri.queryParameters["code"];
-
         // future builder to get the result of an async function to be able to use it in a non async function?
         // first check if the user is logged in by checking the exp of any jwt
         return FutureBuilder(
@@ -46,6 +46,7 @@ final router = GoRouter(
               return Text("Error: ${snapshot.error}");
             }
             bool isAuthenticated = snapshot.data ?? false; // this line works for either scenario of the ternary above, as snapshot.data will refer to the output of whichever function is the target of the future builder depending whether or not there is an auth chode
+
             // if is logged in (based on active token in secure storage)
             if(isAuthenticated) {
               print("✅ is authenticated, redirecting to home screen");
@@ -65,6 +66,7 @@ final router = GoRouter(
       path: '/http',
       builder: (context, state) => HttpPlayground(),
     ),
+   AddEventPage.route,
   ],
 );
 

@@ -21,7 +21,7 @@ class _JunkState extends State<Junk> {
   final List<Widget> _junkPages = [
     Playground(),
     HttpPlayground(),
-    TableEventsExample(),
+    Playground(),
   ];
 
   int _currentIndex = 0;
@@ -34,6 +34,7 @@ class _JunkState extends State<Junk> {
           title: const Text("Events Platform"),
           leading: BackButton(
             onPressed: () {
+              // TODO in here need to prevent popping the last screen to avoid black
               Navigator.pop(context);
             },
           )),

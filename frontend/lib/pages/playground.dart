@@ -1,6 +1,7 @@
 import 'package:events_platform_frontend/services/custom_tabs/custom_tabs_1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../components/ColourChangingButton.dart';
 import '../services/auth/auth_service.dart';
@@ -21,7 +22,7 @@ class Playground extends StatelessWidget {
               ElevatedButton(
                   onPressed: () {
                     print("elevated button");
-
+                    context.push('/AddEventPage');
                   },
                   child: Icon(
                     Icons.access_alarm_outlined,
