@@ -17,8 +17,8 @@ public class AppEvent {
 
     private String eventName;
     private String eventDetails;
-    private ZonedDateTime startDate;
-    private ZonedDateTime endDate;
+    private long startDate;
+    private long endDate;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendee> attendees;

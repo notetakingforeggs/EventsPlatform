@@ -34,3 +34,5 @@ __ the answer is out there, and will be found__
 - read more manuals? or just struggling is learning?
 
 ## adb logcat | grep deep
+
+## Hibernate converts camelCase variable names into snake_case automatically based on capitalisation (presumably)

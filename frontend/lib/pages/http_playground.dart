@@ -29,7 +29,6 @@ class HttpPlayground extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () {
                     print("elevatedButton");
-                    ApiService().getDeepLink("api/v1/auth/get-deep-link");
                   },
                   child: Text("get Deep Link", style: TextStyle(color: Colors.black),)),
             ),

@@ -29,5 +29,6 @@ __JWT on the frontend is enough to access the backend data and make calls to the
 
 ## tomorrow
 - firebase for user roles
-- super basic page with add event button/form for admin
 - super basic listview view events for user, clickable to add to your google calendar
+
+## next -> convert times to unix timestamps on backend, build out frontend converter util to send timestamps to backend for event adding.
