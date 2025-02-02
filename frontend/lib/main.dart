@@ -46,7 +46,8 @@ final router = GoRouter(
               return Text("Error: ${snapshot.error}");
             }
             bool isAuthenticated = snapshot.data ?? false; // this line works for either scenario of the ternary above, as snapshot.data will refer to the output of whichever function is the target of the future builder depending whether or not there is an auth chode
-
+            // TODO issue with this logic, i think it is running sendAuthCodeToBackend when it should be only doing that if it is not logged in?
+            // TODO also this should be refactored into a controller to deal with state and prevent repeated calls to authservice on rebuild
             // if is logged in (based on active token in secure storage)
             if(isAuthenticated) {
               print("✅ is authenticated, redirecting to home screen");

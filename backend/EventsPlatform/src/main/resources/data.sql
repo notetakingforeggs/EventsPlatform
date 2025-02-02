@@ -8,8 +8,8 @@ VALUES
 -- Insert sample events
 INSERT INTO app_event (event_name, start_date, end_date)
 VALUES
-('Trampoline Conference', '2025-05-01T10:00:00Z', '2025-05-01T18:00:00Z'),
-('Handstand CLass', '2025-06-15T18:00:00Z', '2025-06-15T22:00:00Z');
+('Trampoline Conference', 'Conference to talk about trampoining all day long', '2025-05-01T10:00:00Z', '2025-05-01T18:00:00Z'),
+('Handstand CLass', 'My first handstand class', '2025-06-15T18:00:00Z', '2025-06-15T22:00:00Z');
 
 -- Insert attendees (linking users to events)
 INSERT INTO attendee (user_id, event_id, confirmed)

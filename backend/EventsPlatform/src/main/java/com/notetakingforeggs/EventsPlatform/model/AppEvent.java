@@ -16,6 +16,7 @@ public class AppEvent {
     private Long id;
 
     private String eventName;
+    private String eventDetails;
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
 

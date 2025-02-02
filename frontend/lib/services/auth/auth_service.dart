@@ -79,9 +79,7 @@ class AuthService {
       print("some error decoding or something idk: $e");
           return false;
     }
-
   }
-
 
   // get current user (from firebase?) TODO am i cutting firebase out?
   User? getCurrentUser() {

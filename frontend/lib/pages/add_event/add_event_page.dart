@@ -40,14 +40,18 @@ class _AddEventPageState extends State<AddEventPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            child: ElevatedButton(
-                onPressed: () {
-                  context.push('/');
-                },
-                child: Text("Home")),
+            child: Center(
+              child: ElevatedButton(
+                  onPressed: () {
+                    context.push('/');
+                  },
+                  child: Text("Home", style: TextStyle(color: Colors.black),)),
+            ),
           ),
         ],
       ),
     );
   }
 }
+// example event
+//('Trampoline Conference', '2025-05-01T10:00:00Z', '2025-05-01T18:00:00Z'),

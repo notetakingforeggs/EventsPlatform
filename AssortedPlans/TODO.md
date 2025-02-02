@@ -25,4 +25,9 @@ Misc "to do" list
 __backend autheentication can wait as it is secondary__
 __JWT on the frontend is enough to access the backend data and make calls to the calendar__
 ## now
-1) planning session - what is happening with the appuser shape, attendees and 
+1) planning session - what is happening with the appuser shape, attendees and
+
+## tomorrow
+- firebase for user roles
+- super basic page with add event button/form for admin
+- super basic listview view events for user, clickable to add to your google calendar
