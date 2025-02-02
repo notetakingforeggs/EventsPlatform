@@ -31,4 +31,5 @@ __JWT on the frontend is enough to access the backend data and make calls to the
 - firebase for user roles
 - super basic listview view events for user, clickable to add to your google calendar
 
-## next -> convert times to unix timestamps on backend, build out frontend converter util to send timestamps to backend for event adding.
+**make your model attributes have the same names between the front and backends, why are they even different you are the only person working on this project?!?**
+

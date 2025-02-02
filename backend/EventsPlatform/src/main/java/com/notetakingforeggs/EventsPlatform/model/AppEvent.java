@@ -3,7 +3,6 @@ package com.notetakingforeggs.EventsPlatform.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -16,7 +15,7 @@ public class AppEvent {
     private Long id;
 
     private String eventName;
-    private String eventDetails;
+    private String eventDescription;
     private long startDate;
     private long endDate;
 

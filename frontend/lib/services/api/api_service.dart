@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:events_platform_frontend/models/app_event.dart';
 import 'package:events_platform_frontend/pages/login_page.dart';
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../../models/AppUser.dart';
+import '../../models/app_user.dart';
 import '../custom_tabs/custom_tabs_1.dart';
 
 class ApiService {
@@ -50,10 +51,11 @@ class ApiService {
   //   }
   // }
 
-Future<void> addEvent(Map<String,String> event) async{
-    String jsonFormData = jsonEncode(event);
+Future<void> addEvent(AppEvent formData) async{
+    Map<String, dynamic> formDataMap = formData.toJson();
+    String jsonFormData = jsonEncode(formDataMap);
 
-    
+
     final response = await http.post(
       Uri.parse("$baseUrl/api/v1/events/add-event"),
       headers: {"Content-Type": "application/json"},

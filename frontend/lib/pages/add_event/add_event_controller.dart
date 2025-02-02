@@ -1,13 +1,18 @@
 import 'package:events_platform_frontend/services/api/api_service.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../models/app_event.dart';
+
 
 class AddEventController {
 
   // a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  final Map<String,String> formData = {};
+
+  // initialise with all fields null ( i think)
+  AppEvent formData = new AppEvent.noArgs();
+
 
   GlobalKey<FormState> getFormKey(){
     return _formKey;
@@ -15,7 +20,9 @@ class AddEventController {
 
   void saveData(String key, value){
     print('saving data');
-    formData[key] = value ?? '';
+    print(key);
+    print(value);
+    formData.updateField(key, value);
   }
 
   void submitForm(){

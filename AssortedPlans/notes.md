@@ -35,4 +35,5 @@ __ the answer is out there, and will be found__
 
 ## adb logcat | grep deep
 
-## Hibernate converts camelCase variable names into snake_case automatically based on capitalisation (presumably)
+#### Hibernate converts camelCase variable names into snake_case automatically based on capitalisation (presumably)
+ - NB this seems not to be the case when parsing json through the controller though. Make fields have the same names in general where possible

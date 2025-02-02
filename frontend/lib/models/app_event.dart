@@ -1,33 +1,62 @@
 import 'package:events_platform_frontend/utils/time_converter.dart';
 
 class AppEvent {
-  final String eventName;
-  final String description;
-  final String startDate;
-  final String startTime;
-  final String endDate;
-  final String endTime;
+   String? eventName;
+   String? description;
+   String? startDate;
+   String? startTime;
+   String? endDate;
+   String? endTime;
 
-  AppEvent(
-      this.eventName,
+  AppEvent(this.eventName,
       this.description,
       this.startDate,
       this.startTime,
       this.endDate,
-      this.endTime,
-      );
+      this.endTime,);
+
+
+   AppEvent.noArgs();
 
   @override
   String toString() {
     return 'AppEvent{eventName: $eventName, description: $description, startDate: $startDate, startTime: $startTime, endDate: $endDate, endTime: $endTime}';
   }
+
   Map<String, dynamic> toJson() {
     return {
-      "event_name": eventName,
-      "description": description,
-      "start_timestamp": TimeConverter().convertDateTimeStringToUnixTimecode(startDate, startTime),
-      "end_timestamp": TimeConverter().convertDateTimeStringToUnixTimecode(endDate, endTime),
+      "eventName": eventName,
+      "eventDescription": description,
+      "startDate": TimeConverter().convertDateTimeStringToUnixTimecode(
+          startDate!, startTime!),
+      "endDate": TimeConverter().convertDateTimeStringToUnixTimecode(
+          endDate!, endTime!),
     };
-}
+  }
 
-// {event_name: party, description: deets, start_date: 17/02/2025, start_time: 19:00, end_date: 17/02/2025, end_time: 20:00}
+  void updateField(String key, String value) {
+    switch (key) {
+      case 'event_name':
+        eventName = value;
+        break;
+      case 'description':
+        description = value;
+        break;
+      case 'start_date':
+        startDate = value;
+        break;
+      case 'end_date':
+        endDate = value;
+        break;
+      case 'start_time':
+        startTime = value;
+        break;
+      case 'end_time':
+        endTime = value;
+        break;
+      default:
+        print('Unknown field: $key');
+    }
+  }
+
+}

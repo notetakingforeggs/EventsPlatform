@@ -6,7 +6,7 @@ VALUES
 ('firebaseUid_3', 'googleUid_3', 'Charlie Brown', 'charlie@example.com', 'refresh_token_3', false);
 
 -- Insert sample events
-INSERT INTO app_event (event_name,event_details, start_date, end_date)
+INSERT INTO app_event (event_name,event_description, start_date, end_date)
 VALUES
 ('Trampoline Conference', 'Conference to talk about trampoining all day long', 1738598400, 1738602000),
 ('Handstand CLass', 'My first handstand class', 1738684800, 1738688400);
