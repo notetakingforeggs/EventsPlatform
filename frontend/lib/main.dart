@@ -40,7 +40,8 @@ final router = GoRouter(
               :AuthService().isLoggedIn(), // check if already logged in
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              // TODO why is my progress indicator stretching to fill the whole screen?
+              return Center(child: SizedBox(width: 40, height: 40, child: CircularProgressIndicator()));
             }
             if (snapshot.hasError) {
               return Text("Error: ${snapshot.error}");
@@ -48,8 +49,10 @@ final router = GoRouter(
             bool isAuthenticated = snapshot.data ?? false; // this line works for either scenario of the ternary above, as snapshot.data will refer to the output of whichever function is the target of the future builder depending whether or not there is an auth chode
             // TODO issue with this logic, i think it is running sendAuthCodeToBackend when it should be only doing that if it is not logged in?
             // TODO also this should be refactored into a controller to deal with state and prevent repeated calls to authservice on rebuild
+            // TODO definitely sending the auth code again when i navigate to home by pressing back button after form... idkk
             // if is logged in (based on active token in secure storage)
             if(isAuthenticated) {
+              code=null;
               print("✅ is authenticated, redirecting to home screen");
               return (Junk());
             }

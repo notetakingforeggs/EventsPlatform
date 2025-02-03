@@ -94,7 +94,7 @@ class _AddEventFormState extends State<AddEventForm> {
               TextFormField(
                 decoration: InputDecoration(
                     labelText: 'Start Time',
-                    hintText: "format is HH/MM 24h clock",
+                    hintText: "format is HH:MM 24h clock",
                     hintStyle: TextStyle(color: Colors.blueGrey)),
                 validator: (value) {
                   return _controller.nameValidator(value);
@@ -118,7 +118,7 @@ class _AddEventFormState extends State<AddEventForm> {
               TextFormField(
                 decoration: InputDecoration(
                     labelText: 'End Time',
-                    hintText: "format is HH/MM 24h clock",
+                    hintText: "format is HH:MM 24h clock",
                     hintStyle: TextStyle(color: Colors.blueGrey)),
                 validator: (value) {
                   return _controller.nameValidator(value);
@@ -128,21 +128,25 @@ class _AddEventFormState extends State<AddEventForm> {
                 },
               ),
               ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      _controller.submitForm();
-                      // call apiservice method to send the deetails
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Submitting Form Data')),
-                      );
-                      // context.push('/');
-                    }
-                  },
-                  child: Text(
-                    "Submit",
-                    style: TextStyle(color: Colors.black),
-                  )),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    _controller.submitForm();
+                    // call apiservice method to send the deetails
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Submitting Form Data')),
+                    );
+                    // context.push('/');
+                  }
+                },
+                child: Text(
+                  "Submit",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              FloatingActionButton(onPressed: () {
+                context.push('/');
+              })
             ],
           ),
         ),
