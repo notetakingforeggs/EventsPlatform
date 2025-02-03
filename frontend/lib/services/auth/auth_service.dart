@@ -66,15 +66,20 @@ class AuthService {
       if(decodedJwt == null){
         return false;
       }
-      print(decodedJwt.payload["exp"]);
-      int expiryDate = decodedJwt.payload["exp"];
-      final expirationDateTime = DateTime.fromMicrosecondsSinceEpoch(expiryDate *1000);
-      if(expirationDateTime.isAfter(DateTime.now())){
-        print("token expired");
+    print(decodedJwt.payload["exp"]);
+    int expiryDate = decodedJwt.payload["exp"];
+
+
+    final expirationDateTime = DateTime.fromMillisecondsSinceEpoch(expiryDate *1000);
+      print ("now: ${DateTime.now()}, token exp: $expirationDateTime ");
+      if(expirationDateTime.isBefore(DateTime.now())){
+        print("expiiration date ($expirationDateTime) is before now (${DateTime.now()}) so the token is expired");
         return false;
       }
       // jwt valid
-      return true;
+    print("expiiration date ($expirationDateTime) is after now (${DateTime.now()}) so the token is valid");
+
+    return true;
     }catch(e){
       print("some error decoding or something idk: $e");
           return false;
