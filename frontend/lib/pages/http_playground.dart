@@ -33,6 +33,6 @@ class HttpPlayground extends StatelessWidget {
                   child: Text("get Deep Link", style: TextStyle(color: Colors.black),)),
             ),
           ],
-        ));
+        ),);
   }
 }

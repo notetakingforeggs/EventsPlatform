@@ -1,12 +1,14 @@
 import "package:events_platform_frontend/components/ColourChangingButton.dart";
 import "package:events_platform_frontend/pages/login_page.dart";
 import "package:events_platform_frontend/services/auth/auth_service.dart";
+import "package:events_platform_frontend/table_calendar_example/complex_example.dart";
 import "package:events_platform_frontend/table_calendar_example/events_example.dart";
 import "package:flutter/material.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
 import 'playground.dart';
 import "http_playground.dart";
+import 'package:go_router/go_router.dart';
 
 class Junk extends StatefulWidget {
   Junk({super.key});
@@ -62,8 +64,10 @@ class _JunkState extends State<Junk> {
                 onPressed: () {
                   AuthService().signOut();
                   print("logging out");
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  // replacing navigator with gorouter context
+                  // Navigator.push(context,
+                      // MaterialPageRoute(builder: (context) => LoginPage()));
+                      context.push('/login');
                 },
               ),
               label: "search",

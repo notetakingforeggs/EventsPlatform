@@ -18,6 +18,10 @@ class AppEvent {
 
    AppEvent.noArgs();
 
+   AppEvent.fromJson(Map<String, dynamic> json){
+     // from json constructor - write this when it is clear the shape coming from the backend
+   }
+
   @override
   String toString() {
     return 'AppEvent{eventName: $eventName, description: $description, startDate: $startDate, startTime: $startTime, endDate: $endDate, endTime: $endTime}';
@@ -33,6 +37,8 @@ class AppEvent {
           endDate!, endTime!),
     };
   }
+
+
 
   void updateField(String key, String value) {
     switch (key) {

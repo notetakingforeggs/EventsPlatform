@@ -19,37 +19,25 @@ class ApiService {
   // future<void> is basically saying that the function will return voic ( we expect ) but it is async so it might not do it, or might not for a while?
   // can't (/shouldnt) use void return type for async functions
 
-  Future<void> getData(String endpoint) async {
+  Future<List<AppEvent>> getData(String endpoint) async {
     final url = Uri.parse("$baseUrl/$endpoint");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         print("GET Response: ${response.body}");
+        List<dynamic> eventsAsJsonObjs = jsonDecode(response.body);
+        List<AppEvent> eventList = eventsAsJsonObjs.map((event)=> AppEvent.fromJson(event)).toList();
+        return eventList;
       } else {
         print("GET Request error: ${response.statusCode}");
+        throw Exception("get request failed");
       }
     } catch (e) {
+      //TODO Do something better here. global exception handler?
       print(e);
+      rethrow;
     }
   }
-
-
-
-  // // TODO remove this, dont think im using it.
-  // Future<void> getDeepLink(String endpoint) async {
-  //   final url = Uri.parse("$baseUrl/$endpoint");
-  //   try {
-  //     await http.get(url);
-  //     // if (response.statusCode == 200) {
-  //     //   print("got deep link: ${response.body}");
-  //     // } else {
-  //     //   print("issue getting deep link");
-  //     // }
-  //   } catch (e) {
-  //     print(e);
-  //     throw(e);
-  //   }
-  // }
 
 Future<void> addEvent(AppEvent formData) async{
     Map<String, dynamic> formDataMap = formData.toJson();
