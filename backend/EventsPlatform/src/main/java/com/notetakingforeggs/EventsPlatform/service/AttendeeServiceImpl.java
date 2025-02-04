@@ -14,6 +14,8 @@ public class AttendeeServiceImpl implements AttendeeService {
     @Override
     public Attendee becomeAttendee(Long eventId, String userGoogleId) {
         Attendee newAttendee = new Attendee();
+
+        // TODO this fucked up becasue i havent decided if i am using objects or ids in the join table. do this after lunch
         newAttendee.setEventId(eventId);
         newAttendee.setUserGoogleId(userGoogleId);
         return repository.save(newAttendee);

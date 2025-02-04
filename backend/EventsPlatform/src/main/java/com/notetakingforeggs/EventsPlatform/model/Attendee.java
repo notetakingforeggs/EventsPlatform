@@ -15,11 +15,11 @@ public class Attendee {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private String userGoogleId;
+    private AppUser user;
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
-    private Long eventId;
+    private AppEvent event;
 
     private Boolean confirmed;  // Can track if the user has confirmed attendance
 }

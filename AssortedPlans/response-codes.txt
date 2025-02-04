@@ -1,0 +1,15 @@
++-------------------+-------------------+---------------------------------------------+------------------------------------------------------------------+
+| Status Code       | Category          | Description                                 | When to Use                                                     |
++-------------------+-------------------+---------------------------------------------+------------------------------------------------------------------+
+| 200 OK            | Success           | The request was successful.                 | Use for successful GET, PUT, PATCH, or DELETE requests.         |
+| 201 Created       | Success           | Resource was successfully created.          | Use after successfully creating a resource (e.g., POST request).|
+| 204 No Content    | Success           | Successful request, but no content.         | Use for DELETE or PUT requests when there is no content to return.|
+| 400 Bad Request   | Client Error      | The request is malformed or invalid.        | Use when the client sends invalid or malformed data (e.g., missing parameters, bad JSON).|
+| 401 Unauthorized  | Client Error      | Authentication is required or invalid.      | Use when the request requires authentication and the user has not provided it or the token is invalid.|
+| 403 Forbidden     | Client Error      | Request is understood but refused.          | Use when the server understands the request but refuses to authorize it (e.g., permission issues).|
+| 404 Not Found     | Client Error      | The requested resource is not found.        | Use when the requested resource is not found (e.g., incorrect endpoint or missing data).|
+| 409 Conflict      | Client Error      | Conflict with current state of the server.  | Use when there is a conflict (e.g., trying to create a resource that already exists).|
+| 500 Internal Server Error | Server Error  | Unexpected error on the server.            | Use for any server-side error (e.g., database failure, unhandled exceptions).|
+| 502 Bad Gateway   | Server Error      | Invalid response from upstream server.      | Use when an upstream server (like a proxy or API gateway) returns an invalid response.|
+| 503 Service Unavailable | Server Error  | The server is temporarily unavailable.      | Use when the server is temporarily down or overloaded.           |
++-------------------+-------------------+---------------------------------------------+------------------------------------------------------------------+
