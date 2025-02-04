@@ -1,4 +1,4 @@
-package com.notetakingforeggs.EventsPlatform.service;
+package com.notetakingforeggs.EventsPlatform.service.business;
 
 import com.notetakingforeggs.EventsPlatform.model.AppEvent;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;

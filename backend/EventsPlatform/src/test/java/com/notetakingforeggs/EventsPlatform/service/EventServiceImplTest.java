@@ -3,6 +3,7 @@ package com.notetakingforeggs.EventsPlatform.service;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.model.AppEvent;
 import com.notetakingforeggs.EventsPlatform.repository.EventRepository;
+import com.notetakingforeggs.EventsPlatform.service.business.EventServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

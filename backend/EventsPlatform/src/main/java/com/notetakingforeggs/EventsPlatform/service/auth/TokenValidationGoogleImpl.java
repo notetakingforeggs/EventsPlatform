@@ -1,21 +1,15 @@
-package com.notetakingforeggs.EventsPlatform.service;
+package com.notetakingforeggs.EventsPlatform.service.auth;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 
-import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 import org.springframework.stereotype.Service;
 

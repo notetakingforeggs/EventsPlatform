@@ -1,4 +1,4 @@
-package com.notetakingforeggs.EventsPlatform.service;
+package com.notetakingforeggs.EventsPlatform.service.integration;
 
 import com.google.api.services.calendar.model.Event;
 import com.notetakingforeggs.EventsPlatform.model.AppEvent;

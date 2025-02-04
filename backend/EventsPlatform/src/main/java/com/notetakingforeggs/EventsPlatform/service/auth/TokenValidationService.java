@@ -1,4 +1,4 @@
-package com.notetakingforeggs.EventsPlatform.service;
+package com.notetakingforeggs.EventsPlatform.service.auth;
 
 import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 

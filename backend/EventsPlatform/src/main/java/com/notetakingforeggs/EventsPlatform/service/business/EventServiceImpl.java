@@ -1,4 +1,4 @@
-package com.notetakingforeggs.EventsPlatform.service;
+package com.notetakingforeggs.EventsPlatform.service.business;
 
 import com.notetakingforeggs.EventsPlatform.model.AppEvent;
 import com.notetakingforeggs.EventsPlatform.repository.EventRepository;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EventServiceImpl implements EventService{
+public class EventServiceImpl implements EventService {
 
 
     private final EventRepository eventRepository;

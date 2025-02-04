@@ -4,22 +4,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.*;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
-import com.notetakingforeggs.EventsPlatform.service.TokenValidationGoogleImpl;
-import com.notetakingforeggs.EventsPlatform.service.UserServiceImpl;
+import com.notetakingforeggs.EventsPlatform.service.auth.TokenValidationGoogleImpl;
+import com.notetakingforeggs.EventsPlatform.service.business.UserServiceImpl;
 import com.notetakingforeggs.EventsPlatform.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import net.minidev.json.JSONUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -27,12 +21,10 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.web.bind.annotation.*;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
 import java.util.Map;
 
 @RestController

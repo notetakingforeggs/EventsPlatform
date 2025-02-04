@@ -5,7 +5,7 @@
 //import com.google.api.services.calendar.model.EventAttendee;
 //import com.google.api.services.calendar.model.EventDateTime;
 //import com.google.api.services.calendar.model.EventReminder;
-//import com.notetakingforeggs.EventsPlatform.service.EventServiceImpl;
+//import com.notetakingforeggs.EventsPlatform.service.business.EventServiceImpl;
 ////import com.notetakingforeggs.EventsPlatform.service.GoogleCalendarServiceImpl;
 //import org.springframework.beans.factory.annotation.Autowired;
 //

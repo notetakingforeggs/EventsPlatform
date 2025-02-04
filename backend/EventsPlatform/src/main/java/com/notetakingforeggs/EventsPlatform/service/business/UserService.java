@@ -1,10 +1,8 @@
-package com.notetakingforeggs.EventsPlatform.service;
+package com.notetakingforeggs.EventsPlatform.service.business;
 
 
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
-import com.notetakingforeggs.EventsPlatform.repository.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

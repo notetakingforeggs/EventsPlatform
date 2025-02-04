@@ -1,9 +1,8 @@
 package com.notetakingforeggs.EventsPlatform.controller;
 
 import com.notetakingforeggs.EventsPlatform.model.AppEvent;
-import com.notetakingforeggs.EventsPlatform.service.AttendeeService;
-import com.notetakingforeggs.EventsPlatform.service.EventServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.notetakingforeggs.EventsPlatform.service.business.AttendeeService;
+import com.notetakingforeggs.EventsPlatform.service.business.EventServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +43,8 @@ public class EventController {
         // could return this attendee to the frontend for checks but i think ok?
 
         if (attendeeService.becomeAttendee(eventId, userGoogleId) != null) {
+
+            //TODO add to google calendar here.
 
             return new ResponseEntity<>("successful attend logged", HttpStatus.CREATED);
         } else {
