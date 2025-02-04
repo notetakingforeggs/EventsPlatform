@@ -29,13 +29,18 @@ public class EventController {
     @PostMapping("/add-event")
     public ResponseEntity<AppEvent> addEvent(@RequestBody AppEvent newEvent){
         // TODO need to convert into correct shape for backend, probs should convert zones on frontend
-        System.out.println("post req received");
+        System.out.println("add event post req received");
         System.out.println(newEvent);
         eventService.add(newEvent);
-        return new ResponseEntity<>(newEvent, HttpStatus.OK);
+        return new ResponseEntity<>(newEvent, HttpStatus.CREATED);
     }
 
-
+    @PostMapping("/attend-event/{eventId}/attendees/{userGoogleId}")
+    public ResponseEntity<String> attendEvent(@PathVariable String eventId, @PathVariable String userGoogleId){
+        System.out.println("Attend Event request received");
+        eventService.
+        return new ResponseEntity<>("successful attend logged", HttpStatus.CREATED);
+    }
 
 
 }
