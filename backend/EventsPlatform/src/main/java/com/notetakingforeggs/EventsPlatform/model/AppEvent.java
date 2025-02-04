@@ -20,7 +20,4 @@ public class AppEvent {
     private long startDate;
     private long endDate;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Attendee> attendees;
 }
