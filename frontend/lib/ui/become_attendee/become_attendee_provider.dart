@@ -15,12 +15,29 @@ class BecomeAttendeeProvider extends ChangeNotifier {
   // make call to get data from api
   void getEvents() async {
     try {
+      // todo doesnt make sense to be passing in the path here...
       _eventList = await ApiService().getData('api/v1/events');
       print("got event list: $_eventList, gonna notify listeneres");
       notifyListeners();
     }catch(e){
       print("currently no events");
     }
+  }
+
+  bool attendEvent(int id){
+
+    try{
+      response = await ApiService().attendEvent(id);
+      if(response.status() == 200){
+        return true;
+      }
+      return false;
+    }
+    catch(e){
+      print('maybe catch null errors in here rather than passing them to the ui');
+      rethrow;
+    }
+
   }
 
 

@@ -59,9 +59,29 @@ class _BecomeAttendeePageState extends State<BecomeAttendeePage> {
               itemCount: _controller.events.length,
               itemBuilder: (context, index) {
                 final event = _controller.events[index];
-                return ListTile(
-                  title: Text(event.name!),
-                  subtitle: Text(event.description!),
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 4, // Adds a shadow effect
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ListTile(
+                    title: Text(event.name!),
+                    subtitle: Text(event.description!),
+                    trailing: OutlinedButton(
+                      onPressed: () async {
+                        bool success = await _controller.attendEvent(event.id!);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(success
+                                ? "Successfully attended the event!"
+                                : "Failed to attend the event"),
+                          ),
+                        );
+                      },
+                      child: Text("Attend"),
+                    ),
+                  ),
                 );
               },
             ),

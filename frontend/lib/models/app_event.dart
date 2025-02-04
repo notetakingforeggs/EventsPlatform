@@ -1,6 +1,7 @@
 import 'package:events_platform_frontend/utils/time_converter.dart';
 
 class AppEvent {
+  int? id;
   String? eventName;
   String? description;
   String? startDate;
@@ -21,6 +22,7 @@ class AppEvent {
 
   AppEvent.fromJson(Map<String, dynamic> json) {
     // from json constructor - write this when it is clear the shape coming from the backend
+    id=json['id'];
     eventName = json["eventName"];
     description = json["eventDescription"];
     startDate =
@@ -34,6 +36,7 @@ class AppEvent {
   }
 
   String? get name => eventName;
+  // int? get id => id;
 
   @override
   String toString() {
