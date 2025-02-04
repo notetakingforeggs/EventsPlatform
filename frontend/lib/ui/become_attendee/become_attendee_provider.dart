@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 class BecomeAttendeeProvider extends ChangeNotifier {
   late Future<List<AppEvent>> futureEvents;
 
-  List<AppEvent> _eventList= [];
+  List<AppEvent> _eventList = [];
 
   // getter method
   List<AppEvent> get events => _eventList;
@@ -19,26 +19,13 @@ class BecomeAttendeeProvider extends ChangeNotifier {
       _eventList = await ApiService().getData('api/v1/events');
       print("got event list: $_eventList, gonna notify listeneres");
       notifyListeners();
-    }catch(e){
+    } catch (e) {
       print("currently no events");
     }
   }
 
-  bool attendEvent(int id){
-
-    try{
-      response = await ApiService().attendEvent(id);
-      if(response.status() == 200){
-        return true;
-      }
-      return false;
-    }
-    catch(e){
-      print('maybe catch null errors in here rather than passing them to the ui');
-      rethrow;
-    }
+  Future<bool> attendEvent(int id)  async {
+    return await ApiService().attendEvent(id);
 
   }
-
-
 }

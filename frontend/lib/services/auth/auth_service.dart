@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,27 +16,24 @@ class AuthService {
   final String authBaseUrl = "http://10.0.2.2:8080/api/v1/auth";
   final _storage = FlutterSecureStorage();
 
-
   Future<void> initBackendOAuthFlow(BuildContext context) async {
     final url = Uri.parse("$authBaseUrl/redirect-to-google");
     final response = await http.get(url);
     print("getting google rdr on backend");
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       print(response.body);
       CustomTabLauncher().launchGoogleAuthCustomTab(context, response.body);
-    } else{
+    } else {
       print("fuckery");
     }
   }
 
   //
- Future<bool> sendAuthCodeToBackend(String authCode)async{
-    final response = await http.post(
-        Uri.parse("$authBaseUrl/token-exchange"),
+  Future<bool> sendAuthCodeToBackend(String authCode) async {
+    final response = await http.post(Uri.parse("$authBaseUrl/token-exchange"),
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: {"code" : authCode}
-    );
+        body: {"code": authCode});
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("response good: ${response.body}");
@@ -49,59 +48,85 @@ class AuthService {
   }
 
   // JWT stuff
-  Future<String?> getJwt() async{
+  Future<String?> getJwt() async {
     print("beforehand here?");
+    // null return here is legit as it signifies user is logged out?
     return await _storage.read(key: 'jwt_token');
   }
-  Future<bool> isLoggedIn()async{
-    print("here?");
-    try{
-    String? jwt = await _storage.read(key: 'jwt_token');
-    if(jwt==null){return false;}
 
-
-      final decodedJwt = JWT.tryDecode(jwt);
-      print("decoding jwt");
-      print(decodedJwt?.payload);
+  Future<JWT> decodeJwt() async {
+    try {
+      String? jwtString = await getJwt();
+      if (jwtString == null) {
+        throw Exception("Failed to get JWT String");
+      }
+      print("decoding jwt: $jwtString");
+      JWT? decodedJwt = JWT.tryDecode(jwtString);
+      // could this ever happen?
+      print('jwt decoded: $decodedJwt');
       if(decodedJwt == null){
-        return false;
+        throw Exception("decoding the jwt resulted in null?");
       }
-    print(decodedJwt.payload["exp"]);
-    int expiryDate = decodedJwt.payload["exp"];
-
-
-    final expirationDateTime = DateTime.fromMillisecondsSinceEpoch(expiryDate *1000);
-      print ("now: ${DateTime.now()}, token exp: $expirationDateTime ");
-      if(expirationDateTime.isBefore(DateTime.now())){
-        print("expiiration date ($expirationDateTime) is before now (${DateTime.now()}) so the token is expired");
-        return false;
-      }
-      // jwt valid
-    print("expiiration date ($expirationDateTime) is after now (${DateTime.now()}) so the token is valid");
-
-    return true;
-    }catch(e){
-      print("some error decoding or something idk: $e");
-          return false;
+      return decodedJwt;
+    } catch (e) {
+      print("exception in decoding jwt");
+      rethrow;
     }
   }
 
-  // get current user (from firebase?) TODO am i cutting firebase out?
-  User? getCurrentUser() {
-    return _firebaseAuth.currentUser;
+  Future<String> getGoogleId() async {
+    print('getting googleId from jwt');
+    JWT decodedJwt = await decodeJwt();
+    print("trying to get payload... payoad: ${decodedJwt.payload}");
+    return decodedJwt.payload['sub'];
   }
 
-  // google sign in
-  signInToFirebaseWithGoogleTokens() async {
+  Future<bool> isLoggedIn() async {
+    print("here?");
+    try {
+       JWT decodedJwt = await decodeJwt();
+      print(decodedJwt.payload["exp"]);
+      int expiryDate = decodedJwt.payload["exp"];
 
+      final expirationDateTime =
+          DateTime.fromMillisecondsSinceEpoch(expiryDate * 1000);
+      print("now: ${DateTime.now()}, token exp: $expirationDateTime ");
+      if (expirationDateTime.isBefore(DateTime.now())) {
+        print(
+            "expiiration date ($expirationDateTime) is before now (${DateTime.now()}) so the token is expired");
+        return false;
+      }
+      // jwt valid
+      print(
+          "expiiration date ($expirationDateTime) is after now (${DateTime.now()}) so the token is valid");
+
+      return true;
+    } catch (e) {
+      print("some error decoding or something idk: $e");
+      return false;
+    }
+  }
+
+
+
+
+
+
+  // get current user (from firebase?) TODO am i cutting firebase out?
+  User? getCurrentUser() {
+    // return _firebaseAuth.currentUser;
+  }
+
+  // google sign in with firebase - am i scrapping this?
+  signInToFirebaseWithGoogleTokens() async {
     // get tokens from backend after token exchange
-    try{
+    try {
       // create new credentials for the user out of the tokens.
       final credential = GoogleAuthProvider.credential(
-        // change this
-        // accessToken: gAuth.accessToken,
-        // idToken: gAuth.idToken,
-      );
+          // change this
+          // accessToken: gAuth.accessToken,
+          // idToken: gAuth.idToken,
+          );
 
       // sign in to firebase using the constructed credential from the google creds
       final UserCredential userCredential =
@@ -121,6 +146,7 @@ class AuthService {
   }
 
 
+
   checkGoogleSignIn() async {
     final GoogleSignInAccount? googleUser =
         await GoogleSignIn().signInSilently();
@@ -131,18 +157,17 @@ class AuthService {
     }
   }
 
-
   // refactor to be a backend call.
   signOut() async {
-  //   try {
-  //     if (await _googleSignIn.isSignedIn()) {
-  //       await _googleSignIn.signOut();
-  //       print("user signed out from google");
-  //     }
-  //     await _firebaseAuth.signOut();
-  //     print("user signed out from firebasea");
-  //   } catch (e) {
-  //     print("there has been some error signing out: $e");
-  //   }
+    //   try {
+    //     if (await _googleSignIn.isSignedIn()) {
+    //       await _googleSignIn.signOut();
+    //       print("user signed out from google");
+    //     }
+    //     await _firebaseAuth.signOut();
+    //     print("user signed out from firebasea");
+    //   } catch (e) {
+    //     print("there has been some error signing out: $e");
+    //   }
   }
 }

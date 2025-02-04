@@ -62,7 +62,7 @@ class _JunkState extends State<Junk> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  AuthService().signOut();
+                  // AuthService().signOut();
                   print("logging out");
                   // replacing navigator with gorouter context
                   // Navigator.push(context,

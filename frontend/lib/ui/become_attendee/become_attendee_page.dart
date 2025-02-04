@@ -58,6 +58,7 @@ class _BecomeAttendeePageState extends State<BecomeAttendeePage> {
             child: ListView.builder(
               itemCount: _controller.events.length,
               itemBuilder: (context, index) {
+                // get the specific event corresponding to this card
                 final event = _controller.events[index];
                 return Card(
                   shape: RoundedRectangleBorder(

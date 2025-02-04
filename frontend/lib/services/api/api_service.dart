@@ -59,6 +59,17 @@ Future<void> addEvent(AppEvent formData) async{
     }
 
 }
+// TODO here pass in pathparams from event click? get google id from token and event id from event click. put most of the logic in here and just call this from the provider?
+  Future<bool> attendEvent(int eventId)async{
+  String googleUserId = await AuthService().getGoogleId();
+
+    final response = await http.post(Uri.parse('$baseUrl/api/v1/events/attend-event/$eventId/attendees/$googleUserId'));
+    if(response.statusCode == 200 || response.statusCode == 201){
+      return true;
+    }
+  (response.statusCode == 500)? print('500 internal server error'): print("idk wtf is going on");
+    return false;
+}
 
   // // TODO  why would i need to post user? remove this? I guess maybe if i allow editin profile at some point?
   // Future<void> postUser(String googleIdToken, String googleAccessToken) async {

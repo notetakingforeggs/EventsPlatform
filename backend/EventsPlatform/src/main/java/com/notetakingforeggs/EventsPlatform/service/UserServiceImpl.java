@@ -51,10 +51,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean existsByGoogleUid(String googleUid){ return userRepository.existsByFirebaseUid(googleUid);}
+    public Boolean existsByGoogleUid(String googleUid){ return userRepository.existsByGoogleUid(googleUid);}
 
     @Override
-    public AppUser getByGoogleUid(String googleUid){return userRepository.getByFirebaseUid(googleUid);}
+    public AppUser getByGoogleUid(String googleUid){return userRepository.getByGoogleUid(googleUid);}
 
     @Override
     public AppUser findOrCreateUser(GoogleUserPayloadDTO userPayload, String refreshToken) {
@@ -64,10 +64,12 @@ public class UserServiceImpl implements UserService{
             newAppUser.setEmail(userPayload.email());
             newAppUser.setGoogleUid(userPayload.googleUid());
             newAppUser.setRefreshToken(refreshToken);
-            return newAppUser;
+
+            return userRepository.save(newAppUser);
         }else{
             return getByGoogleUid(userPayload.googleUid());
         }
     }
 }
-
+//112271809486897821005
+//112271809486897821005

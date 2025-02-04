@@ -25,18 +25,18 @@ class LoginPage extends StatelessWidget {
                 icon: Icon(Icons.remove_red_eye),
                 iconSize: 90,
                 onPressed: () {
-                  User? user = AuthService().getCurrentUser();
-                  if (user == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text(
-                        "not logged in",
-                        style: TextStyle(fontSize: 32),
-                      )),
-                    );
-                  } else {
-                    print("current user details are: $user");
-                  }
+                  // // User? user = AuthService().getCurrentUser();
+                  // if (user == null) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //         content: Text(
+                  //       "not logged in",
+                  //       style: TextStyle(fontSize: 32),
+                  //     )),
+                  //   );
+                  // } else {
+                  //   print("current user details are: $user");
+                  // }
                 }),
             SizedBox(
               height: 100,

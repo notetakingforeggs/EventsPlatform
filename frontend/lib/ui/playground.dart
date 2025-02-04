@@ -10,7 +10,7 @@ import '../services/auth/auth_service.dart';
 class Playground extends StatelessWidget {
   Playground({super.key});
 
-  User? user;
+  // User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +54,10 @@ class Playground extends StatelessWidget {
                               child: Icon(Icons.panorama_fish_eye),
                             ),
                             OutlinedButton(
-                                child: Text("User info"),
+                                child: Text("nothing"),
                                 onPressed: () {
                                   print("outlinedButton");
-                                  user = AuthService().getCurrentUser();
-                                  print(user);
-                                  // AuthService().getOAuthAccessToken();
-                                  // AuthService().checkGoogleSignIn();
+
                                 }),
                           ],
                         ),
@@ -79,7 +76,6 @@ class Playground extends StatelessWidget {
                   child: Icon(Icons.add_a_photo),
                   onPressed: () {
                     print("floating action button");
-                    print(user);
                   },
                 heroTag: "printUser",
               ),
