@@ -27,9 +27,16 @@ __JWT on the frontend is enough to access the backend data and make calls to the
 ## now
 1) planning session - what is happening with the appuser shape, attendees and
 
-## tomorrow
-- firebase for user roles
-- super basic listview view events for user, clickable to add to your google calendar
+- firebase for user roles - do this after the business logic
+
 
 **make your model attributes have the same names between the front and backends, why are they even different you are the only person working on this project?!?**
 
+## Tomorrow
+- implement most basic form of state management, just get the below running
+- super basic listview view events for user, clickable to add to your google calendar
+<br>
+- and then do a massive old refactor of the architecture to MVVM with provider etc...
+- base it off the flutter example doc
+-hange startdate enddate to start/end to include time
+-change managed reference to DTOs as you dont need to have who is going to what on the frontend i dont think? or maybe yeah, to know who is going/how many

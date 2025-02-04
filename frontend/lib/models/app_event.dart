@@ -1,36 +1,39 @@
 import 'package:events_platform_frontend/utils/time_converter.dart';
 
 class AppEvent {
-   String? eventName;
-   String? description;
-   String? startDate;
-   String? startTime;
-   String? endDate;
-   String? endTime;
+  String? eventName;
+  String? description;
+  String? startDate;
+  String? startTime;
+  String? endDate;
+  String? endTime;
 
-  AppEvent(this.eventName,
-      this.description,
-      this.startDate,
-      this.startTime,
-      this.endDate,
-      this.endTime,);
+  AppEvent(
+    this.eventName,
+    this.description,
+    this.startDate,
+    this.startTime,
+    this.endDate,
+    this.endTime,
+  );
 
+  AppEvent.noArgs();
 
-   AppEvent.noArgs();
+  AppEvent.fromJson(Map<String, dynamic> json) {
+    // from json constructor - write this when it is clear the shape coming from the backend
+    eventName = json["eventName"];
+    description = json["eventDescription"];
+    startDate =
+        TimeConverter().convertUnixTimeCodeToStrings(json["startDate"])["date"];
+    startTime =
+        TimeConverter().convertUnixTimeCodeToStrings(json["startDate"])["time"];
+    endDate =
+        TimeConverter().convertUnixTimeCodeToStrings(json["endDate"])["date"];
+    endTime =
+        TimeConverter().convertUnixTimeCodeToStrings(json["endDate"])["date"];
+  }
 
-   AppEvent.fromJson(Map<String, dynamic> json){
-     // from json constructor - write this when it is clear the shape coming from the backend
-     eventName = json["eventName"];
-     description = json["eventDescription"];
-     startDate = json["startDate"];
-     startTime;
-     endDate;
-     endTime;
-   }
-
-   String? get name => eventName;
-
-
+  String? get name => eventName;
 
   @override
   String toString() {
@@ -41,14 +44,12 @@ class AppEvent {
     return {
       "eventName": eventName,
       "eventDescription": description,
-      "startDate": TimeConverter().convertDateTimeStringToUnixTimecode(
-          startDate!, startTime!),
-      "endDate": TimeConverter().convertDateTimeStringToUnixTimecode(
-          endDate!, endTime!),
+      "startDate": TimeConverter()
+          .convertDateTimeStringToUnixTimecode(startDate!, startTime!),
+      "endDate": TimeConverter()
+          .convertDateTimeStringToUnixTimecode(endDate!, endTime!),
     };
   }
-
-
 
   void updateField(String key, String value) {
     switch (key) {
@@ -74,5 +75,4 @@ class AppEvent {
         print('Unknown field: $key');
     }
   }
-
 }

@@ -1,6 +1,8 @@
 package com.notetakingforeggs.EventsPlatform.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,6 +26,7 @@ public class AppUser {
     private Boolean isStaff;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Attendee> attendedEvents; // Track which events the user is attending - its a join table, so attendee is kind of like events for users and users for events...
 }
 

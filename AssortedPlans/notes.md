@@ -37,3 +37,6 @@ __ the answer is out there, and will be found__
 
 #### Hibernate converts camelCase variable names into snake_case automatically based on capitalisation (presumably)
  - NB this seems not to be the case when parsing json through the controller though. Make fields have the same names in general where possible
+
+I'm basically still doing MVVM in flutter, Widgets should contain no state or business logic... Service layer should just make calls to api/os/whatever, repository layer does some logic passes to viewmodel/controller which preps stuff for views, then data goes to widgest.
+

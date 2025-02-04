@@ -1,5 +1,6 @@
 package com.notetakingforeggs.EventsPlatform.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class Attendee {
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
+    @JsonBackReference
     private AppEvent event;
 
     private Boolean confirmed;  // Can track if the user has confirmed attendance
