@@ -20,7 +20,17 @@ class AppEvent {
 
    AppEvent.fromJson(Map<String, dynamic> json){
      // from json constructor - write this when it is clear the shape coming from the backend
+     eventName = json["eventName"];
+     description = json["eventDescription"];
+     startDate = json["startDate"];
+     startTime;
+     endDate;
+     endTime;
    }
+
+   String? get name => eventName;
+
+
 
   @override
   String toString() {

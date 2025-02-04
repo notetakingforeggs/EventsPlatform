@@ -1,9 +1,11 @@
 import 'dart:async';
 
-import 'package:events_platform_frontend/pages/add_event/add_event_page.dart';
-import 'package:events_platform_frontend/pages/http_playground.dart';
-import 'package:events_platform_frontend/pages/junk.dart';
-import 'package:events_platform_frontend/pages/login_page.dart';
+import 'package:events_platform_frontend/ui/add_event/add_event_page.dart';
+import 'package:events_platform_frontend/ui/become_attendee/become_attendee_page.dart';
+import 'package:events_platform_frontend/ui/become_attendee/become_attendee_provider.dart';
+import 'package:events_platform_frontend/ui/http_playground.dart';
+import 'package:events_platform_frontend/ui/junk.dart';
+import 'package:events_platform_frontend/ui/login_page.dart';
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:events_platform_frontend/theme/light_mode.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +23,9 @@ void main() async {
 
   // The line below came with the firebase snippet, but may not be needed for now?
   // show defaultTargetPlatform, kIsWeb, TargetPlatform;
-  runApp(const MyApp());
+
+  runApp(ChangeNotifierProvider(
+      create: (context) => BecomeAttendeeProvider(), child: const MyApp()));
 }
 
 final router = GoRouter(
@@ -43,9 +48,7 @@ final router = GoRouter(
               // TODO why is my progress indicator stretching to fill the whole screen?
               return Center(
                   child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: LinearProgressIndicator()));
+                      width: 40, height: 40, child: LinearProgressIndicator()));
             }
             if (snapshot.hasError) {
               return Text("Error: ${snapshot.error}");
@@ -78,7 +81,15 @@ final router = GoRouter(
     GoRoute(
       path: '/login',
       builder: (context, statue) => LoginPage(),
-    )
+    ),
+    GoRoute(
+      path: '/BecomeAttendeePage',
+      builder: (context, statue) => BecomeAttendeePage(),
+    ),
+    GoRoute(
+      path: '/AddEventPage',
+      builder: (context, statue) => AddEventForm(),
+    ),
   ],
 );
 

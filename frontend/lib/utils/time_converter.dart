@@ -1,11 +1,10 @@
-
 import 'dart:ffi';
 
 import 'package:intl/intl.dart';
 
-class TimeConverter{
+class TimeConverter {
   // for converting form input dates/times
-  int convertDateTimeStringToUnixTimecode(String date, String time){
+  int convertDateTimeStringToUnixTimecode(String date, String time) {
     String dateTimeString = "$date $time";
     DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm");
     DateTime dateTime = dateFormat.parse(dateTimeString);
@@ -14,7 +13,19 @@ class TimeConverter{
   }
 
   // method to convert to time/date strings
-  Map<String, String> convertUnixTimeCodeToStrings(int unixTimecCode){
-    return
+  Map<String, String> convertUnixTimeCodeToStrings(int unixTimeCode) {
+    // Convert Unix timestamp to DateTime
+    DateTime dateTime =
+        DateTime.fromMillisecondsSinceEpoch(unixTimeCode * 1000);
+
+    // Format date and time
+    String date = DateFormat('dd/MM/yyyy').format(dateTime);
+    String time = DateFormat('HH:mm').format(dateTime);
+
+    // Return map
+    return {
+      'date': date,
+      'time': time,
+    };
   }
 }

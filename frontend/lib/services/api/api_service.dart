@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:events_platform_frontend/models/app_event.dart';
-import 'package:events_platform_frontend/pages/login_page.dart';
+import 'package:events_platform_frontend/ui/login_page.dart';
 import 'package:events_platform_frontend/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +26,10 @@ class ApiService {
       if (response.statusCode == 200) {
         print("GET Response: ${response.body}");
         List<dynamic> eventsAsJsonObjs = jsonDecode(response.body);
+        print(eventsAsJsonObjs);
+        // This bit is fucking up
         List<AppEvent> eventList = eventsAsJsonObjs.map((event)=> AppEvent.fromJson(event)).toList();
+        print("returning eventlist: $eventList");
         return eventList;
       } else {
         print("GET Request error: ${response.statusCode}");

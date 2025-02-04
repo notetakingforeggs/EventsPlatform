@@ -1,5 +1,5 @@
 import "package:events_platform_frontend/components/ColourChangingButton.dart";
-import "package:events_platform_frontend/pages/login_page.dart";
+import "package:events_platform_frontend/ui/login_page.dart";
 import "package:events_platform_frontend/services/auth/auth_service.dart";
 import "package:events_platform_frontend/table_calendar_example/complex_example.dart";
 import "package:events_platform_frontend/table_calendar_example/events_example.dart";

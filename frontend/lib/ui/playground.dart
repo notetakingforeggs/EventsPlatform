@@ -1,4 +1,5 @@
 import 'package:events_platform_frontend/services/custom_tabs/custom_tabs_1.dart';
+import 'package:events_platform_frontend/ui/become_attendee/become_attendee_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -68,7 +69,8 @@ class Playground extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.accessible_rounded),
                       onPressed: () {
-                        print("get OAuth Access token");
+                        print("going to become attendee");
+                        context.push('/BecomeAttendeePage');
 
                       },
                     ),
