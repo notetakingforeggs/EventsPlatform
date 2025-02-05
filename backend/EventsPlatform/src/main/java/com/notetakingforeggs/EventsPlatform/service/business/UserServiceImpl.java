@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -51,23 +51,37 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean existsByGoogleUid(String googleUid){ return userRepository.existsByGoogleUid(googleUid);}
+    public Boolean existsByGoogleUid(String googleUid) {
+        return userRepository.existsByGoogleUid(googleUid);
+    }
 
     @Override
-    public AppUser getByGoogleUid(String googleUid){return userRepository.getByGoogleUid(googleUid);}
+    public AppUser getByGoogleUid(String googleUid) {
+        return userRepository.getByGoogleUid(googleUid);
+    }
 
     @Override
     public AppUser findOrCreateUser(GoogleUserPayloadDTO userPayload, String refreshToken) {
-        if(!existsByGoogleUid(userPayload.googleUid())){
+
+        String userGoogleId = userPayload.googleUid();
+        // New User - if there is no user of the google id create and add user
+        if (!existsByGoogleUid(userGoogleId)) {
             AppUser newAppUser = new AppUser();
             newAppUser.setName(userPayload.name());
             newAppUser.setEmail(userPayload.email());
             newAppUser.setGoogleUid(userPayload.googleUid());
             newAppUser.setRefreshToken(refreshToken);
-
             return userRepository.save(newAppUser);
-        }else{
-            return getByGoogleUid(userPayload.googleUid());
+        }
+        // if there is a user, but there is no refresh token, then it is a sign-in
+        else if (refreshToken == null) {
+           return userRepository.getByGoogleUid(userGoogleId);
+        }
+        // otherwise we have a matching googleId, but with a new refresh token, so the user must have cleared connections and we must update refresh token
+        else {
+            AppUser userToUpdateRefreshToken =  userRepository.getByGoogleUid(userGoogleId);
+            userToUpdateRefreshToken.setRefreshToken(refreshToken);
+            return userRepository.save(userToUpdateRefreshToken);
         }
     }
 }
