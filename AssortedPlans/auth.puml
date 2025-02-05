@@ -1,6 +1,9 @@
 @startuml
 title Google OAuth2 Authentication Flow
 
+'TODO add extra steps in token exchange/verification. remove firebase (or add in app), remove appLinks and gh pages, '
+'TODO add steps following successful login (jwt creation, passing and storing in FE). implement secuirty filter chains.
+
 actor User
 participant "Flutter App (Frontend)" as FlutterApp
 participant "Backend" as Backend

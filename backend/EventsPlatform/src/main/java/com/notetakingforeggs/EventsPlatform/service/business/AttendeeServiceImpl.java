@@ -24,7 +24,6 @@ public class AttendeeServiceImpl implements AttendeeService {
         System.out.println("in attendee service");
         Attendee newAttendee = new Attendee();
 
-        // TODO this fucked up becasue i havent decided if i am using objects or ids in the join table. do this after lunch
 
         System.out.println("getting user by googleId:" + userGoogleId);
         AppUser userToBecomeAttendee = userService.getByGoogleUid(userGoogleId);
