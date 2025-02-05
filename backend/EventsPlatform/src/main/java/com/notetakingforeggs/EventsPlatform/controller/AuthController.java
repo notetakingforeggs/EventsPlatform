@@ -80,30 +80,31 @@ public class AuthController {
 
     // Google api sends the auth code as a query param (i think) to this endpoint which it gets from the above method as "redirect_uri"
     // this method then needs to send the auth code off to a different endpoint (along with a the SAME redirect uri).
-    @PostMapping ("/token-exchange")
+    @PostMapping("/token-exchange")
     public ResponseEntity<String> tokenExchange(@RequestParam String code) throws IOException, GeneralSecurityException, FirebaseAuthException {
         System.out.println("Auth Code Received: " + code);
 
         // Exchaning authcode for tokens and storing in map
-        Map<String,String> tokenMap = authService.exctractTokensFromAuthCode(code);
+        Map<String, String> tokenMap = authService.exctractTokensFromAuthCode(code);
 
 
         //Validate user google id Token
         GoogleUserPayloadDTO userPayload = authService.validateToken(tokenMap.get("id_token"));
-        if(userPayload!=null){
+        if (userPayload != null) {
             System.out.println("token validated!!!!");
-
             // TODO decide whether to create firebase token for the frontend (why do i need firebase even?)
 
             // creating new user if none, or getting user info if existing (not currently actually updating anything) TODO implement update
             AppUser currentUser = userService.findOrCreateUser(userPayload, tokenMap.get("refresh_token"));
             String jwt = JwtUtil.generateToken(currentUser.getGoogleUid());
+
+            // Generate JWT for the frontend
             System.out.println("OUATH flow complete, returning JWT to frontend");
             return new ResponseEntity<>(jwt, HttpStatus.OK);
 
         } else {
             System.out.println("Invalid ID token.");
-                return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
         }
 
     }
