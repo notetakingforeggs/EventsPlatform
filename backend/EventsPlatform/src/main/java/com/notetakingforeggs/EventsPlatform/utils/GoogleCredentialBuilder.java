@@ -16,6 +16,7 @@ public class GoogleCredentialBuilder {
     private final String clientId;
     private final String clientSecret;
 
+    // Is this unused?
     public GoogleCredentialBuilder(JsonFactory jsonFactory, HttpTransport httpTransport, String clientId, String clientSecret) {
         this.jsonFactory = jsonFactory;
         this.httpTransport = httpTransport;
