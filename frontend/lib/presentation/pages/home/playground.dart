@@ -1,11 +1,8 @@
-import 'package:events_platform_frontend/services/custom_tabs/custom_tabs_1.dart';
-import 'package:events_platform_frontend/ui/become_attendee/become_attendee_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../components/ColourChangingButton.dart';
-import '../services/auth/auth_service.dart';
+import '../../../components/ColourChangingButton.dart';
 
 class Playground extends StatelessWidget {
   Playground({super.key});

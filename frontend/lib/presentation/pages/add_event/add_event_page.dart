@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import './add_event_controller.dart';
+import './add_event_viewmodel.dart';
 
-class AddEventForm extends StatefulWidget {
+class AddEventPage extends StatefulWidget {
   static const name = "AddEventPage";
 
   static final GoRoute route = GoRoute(
     path: "/$name",
     name: name,
     builder: (context, state) {
-      return const AddEventForm();
+      return const AddEventPage();
     },
   );
 
@@ -17,16 +17,16 @@ class AddEventForm extends StatefulWidget {
     return context.pushNamed(name);
   }
 
-  const AddEventForm({super.key});
+  const AddEventPage({super.key});
 
   @override
-  State<AddEventForm> createState() => _AddEventFormState();
+  State<AddEventPage> createState() => _AddEventPageState();
 }
 
-class _AddEventFormState extends State<AddEventForm> {
+class _AddEventPageState extends State<AddEventPage> {
   // TODO move some stuff into the controller?
-  final AddEventController _controller = AddEventController();
-  final _formKey = AddEventController().getFormKey();
+  final AddEventViewmodel _controller = AddEventViewmodel();
+  final _formKey = AddEventViewmodel().getFormKey();
 
 // i put the form key in the controller, and will reference it through that
   @override
@@ -56,7 +56,7 @@ class _AddEventFormState extends State<AddEventForm> {
                   hintStyle: TextStyle(color: Colors.blueGrey),
                 ),
                 validator: (value) {
-                  return AddEventController().nameValidator(value);
+                  return AddEventViewmodel().nameValidator(value);
                 },
                 onSaved: (value) {
                   _controller.saveData("event_name", value);
@@ -71,7 +71,7 @@ class _AddEventFormState extends State<AddEventForm> {
                 maxLines: 10,
                 minLines: 1,
                 validator: (value) {
-                  return AddEventController().nameValidator(value);
+                  return AddEventViewmodel().nameValidator(value);
                 },
                 onSaved: (value) {
                   _controller.saveData("description", value);

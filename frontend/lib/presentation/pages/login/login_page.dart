@@ -1,10 +1,10 @@
-import 'package:events_platform_frontend/services/custom_tabs/custom_tabs_1.dart';
+import 'package:events_platform_frontend/core/services/custom_tabs_service.dart';
 import "package:flutter/material.dart";
-import 'package:events_platform_frontend/services/auth/auth_service.dart';
+import 'package:events_platform_frontend/core/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../services/api/api_service.dart';
-import 'junk.dart';
+import '../../../core/services/api_service.dart';
+import '../home/home_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

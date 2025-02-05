@@ -1,10 +1,9 @@
-import 'package:events_platform_frontend/services/api/api_service.dart';
+import 'package:events_platform_frontend/core/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../models/app_event.dart';
+import '../../../data/models/app_event.dart';
 
-
-class AddEventController {
+class AddEventViewmodel {
 
   // a global key that uniquely identifies the Form widget
   // and allows validation of the form.

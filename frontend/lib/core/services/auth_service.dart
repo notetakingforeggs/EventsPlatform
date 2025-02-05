@@ -8,7 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
-import '../custom_tabs/custom_tabs_1.dart';
+import 'custom_tabs_service.dart';
 
 class AuthService {
   // instance of auth

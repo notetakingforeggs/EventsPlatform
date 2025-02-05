@@ -1,10 +1,10 @@
 import 'dart:core';
 
-import 'package:events_platform_frontend/models/app_event.dart';
-import 'package:events_platform_frontend/services/api/api_service.dart';
+import 'package:events_platform_frontend/data/models/app_event.dart';
+import 'package:events_platform_frontend/core/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 
-class BecomeAttendeeProvider extends ChangeNotifier {
+class EventListViewmodel extends ChangeNotifier {
   late Future<List<AppEvent>> futureEvents;
 
   List<AppEvent> _eventList = [];

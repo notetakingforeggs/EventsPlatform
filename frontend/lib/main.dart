@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:events_platform_frontend/ui/add_event/add_event_page.dart';
-import 'package:events_platform_frontend/ui/become_attendee/become_attendee_page.dart';
-import 'package:events_platform_frontend/ui/become_attendee/become_attendee_provider.dart';
-import 'package:events_platform_frontend/ui/http_playground.dart';
-import 'package:events_platform_frontend/ui/junk.dart';
-import 'package:events_platform_frontend/ui/login_page.dart';
-import 'package:events_platform_frontend/services/auth/auth_service.dart';
+
+import 'package:events_platform_frontend/presentation/pages/home/http_playground.dart';
+import 'package:events_platform_frontend/presentation/pages/home/home_page.dart';
+import 'package:events_platform_frontend/presentation/pages/login/login_page.dart';
+import 'package:events_platform_frontend/core/services/auth_service.dart';
+import 'package:events_platform_frontend/presentation/pages/add_event/add_event_page.dart';
+import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_page.dart';
+import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_viewmodel.dart';
 import 'package:events_platform_frontend/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,7 +26,7 @@ void main() async {
   // show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
   runApp(ChangeNotifierProvider(
-      create: (context) => BecomeAttendeeProvider(), child: const MyApp()));
+      create: (context) => EventListViewmodel(), child: const MyApp()));
 }
 
 final router = GoRouter(
@@ -62,7 +63,7 @@ final router = GoRouter(
             if (isAuthenticated) {
               code = null;
               print("✅ is authenticated, redirecting to home screen");
-              return (Junk());
+              return (HomePage());
             }
             print("❌ issue with authentication, try logging in");
             return LoginPage();
@@ -72,7 +73,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/junk',
-      builder: (context, state) => Junk(),
+      builder: (context, state) => HomePage(),
     ),
     GoRoute(
       path: '/http',
@@ -84,11 +85,11 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/BecomeAttendeePage',
-      builder: (context, statue) => BecomeAttendeePage(),
+      builder: (context, statue) => EventListPage(),
     ),
     GoRoute(
       path: '/AddEventPage',
-      builder: (context, statue) => AddEventForm(),
+      builder: (context, statue) => AddEventPage(),
     ),
   ],
 );

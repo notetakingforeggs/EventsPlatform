@@ -1,4 +1,4 @@
-import 'package:events_platform_frontend/services/api/api_service.dart';
+import 'package:events_platform_frontend/core/services/api_service.dart';
 import 'package:flutter/material.dart';
 
 class HttpPlayground extends StatelessWidget {
