@@ -138,12 +138,12 @@ public class AuthController {
 
         } else {
             System.out.println("Invalid ID token.");
-            // TODO is it bad request? maybe other httpcode
                 return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
         }
 
     }
 
+    // TODO keep if implementing Firebase for roles? otherwise discard
     public FirebaseToken verifyIdToken(String idToken) throws FirebaseAuthException {
         System.out.println("attempting to verify id token with firebase");
         return FirebaseAuth.getInstance().verifyIdToken(idToken);

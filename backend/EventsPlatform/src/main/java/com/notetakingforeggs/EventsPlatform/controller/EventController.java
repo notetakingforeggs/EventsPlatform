@@ -35,7 +35,6 @@ public class EventController {
 
     @PostMapping("/add-event")
     public ResponseEntity<AppEvent> addEvent(@RequestBody AppEvent newEvent) {
-        // TODO need to convert into correct shape for backend, probs should convert zones on frontend
         System.out.println("add event post req received");
         System.out.println(newEvent);
         eventService.add(newEvent);
@@ -46,12 +45,9 @@ public class EventController {
     public ResponseEntity<String> attendEvent(@PathVariable Long eventId, @PathVariable String userGoogleId) throws GeneralSecurityException, IOException {
         System.out.println("Attend Event request received");
         // could return this attendee to the frontend for checks but i think ok?
-
         if (attendeeService.becomeAttendee(eventId, userGoogleId) != null) {
-
-            //TODO add to google calendar here.
+            // add event to google calendar.
             googleCalendarService.addEvent(null, eventId, userGoogleId);
-
             return new ResponseEntity<>("successful attend logged", HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("adding attendee failed", HttpStatus.INTERNAL_SERVER_ERROR);
