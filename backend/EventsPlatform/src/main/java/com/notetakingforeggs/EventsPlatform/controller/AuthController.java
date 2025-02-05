@@ -1,8 +1,6 @@
 package com.notetakingforeggs.EventsPlatform.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.*;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.firebase.auth.FirebaseAuth;
@@ -10,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
-import com.notetakingforeggs.EventsPlatform.service.auth.TokenValidationGoogleImpl;
+import com.notetakingforeggs.EventsPlatform.service.auth.AuthServiceGoogleImpl;
 import com.notetakingforeggs.EventsPlatform.service.business.UserServiceImpl;
 import com.notetakingforeggs.EventsPlatform.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,10 +41,10 @@ public class AuthController {
     private final String baseUrl;
     private final ObjectMapper objectMapper;
     private final UserServiceImpl userService;
-    private final TokenValidationGoogleImpl tokenValidationGoogle;
+    private final AuthServiceGoogleImpl authService;
 
 
-    public AuthController(ClientRegistrationRepository clientRegistrationRepository, HttpTransport httpTransport, JacksonFactory jsonFactory, String clientId, String clientSecret, String baseUrl, ObjectMapper objectMapper, UserServiceImpl userService, TokenValidationGoogleImpl tokenValidationGoogle) {
+    public AuthController(ClientRegistrationRepository clientRegistrationRepository, HttpTransport httpTransport, JacksonFactory jsonFactory, String clientId, String clientSecret, String baseUrl, ObjectMapper objectMapper, UserServiceImpl userService, AuthServiceGoogleImpl authService) {
         this.clientRegistrationRepository = clientRegistrationRepository;
         this.httpTransport = httpTransport;
         this.jsonFactory = jsonFactory;
@@ -55,7 +53,7 @@ public class AuthController {
         this.baseUrl = baseUrl;
         this.objectMapper = objectMapper;
         this.userService = userService;
-        this.tokenValidationGoogle = tokenValidationGoogle;
+        this.authService = authService;
     }
 
     // front end makes a request to this endpoint to initiate OAuth signin/signup flow
@@ -85,54 +83,21 @@ public class AuthController {
     @PostMapping ("/token-exchange")
     public ResponseEntity<String> tokenExchange(@RequestParam String code) throws IOException, GeneralSecurityException, FirebaseAuthException {
         System.out.println("Auth Code Received: " + code);
-        String tokenUrl = "https://oauth2.googleapis.com/token";
 
-        //Exchange the auth code from google for a tokennzzzz
-        System.out.println("exchanging code for tokens");
-        HttpContent content = new UrlEncodedContent(Map.of(
-                "code", code,
-                "client_id", clientId,
-                "client_secret", clientSecret,
-                "grant_type", "authorization_code",
-                "redirect_uri", ("https://ludicacid.com")
-        ));
-
-        // using googleAPI httptransport to create post request for google api backend
-        HttpTransport googleHttpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        HttpRequestFactory requestFactory = googleHttpTransport.createRequestFactory();
-
-        GenericUrl url = new GenericUrl(tokenUrl);
-        HttpRequest googleRequest = requestFactory.buildPostRequest(url, content);
-
-        // execute post req - use jackson(?) here to parse response body into tokens etc..
-        HttpResponse response = googleRequest.execute();
-        String responseBody = response.parseAsString();
-        System.out.println(responseBody);
-
-        // extract id token
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        String idTokenString = rootNode.path("id_token").asText();
-        System.out.println("idtoken:" + idTokenString);
+        // Exchaning authcode for tokens and storing in map
+        Map<String,String> tokenMap = authService.exctractTokensFromAuthCode(code);
 
 
-        // TODO encrypt this?
-        String refreshtoken = rootNode.path("refresh_token").asText();
-
-
-        //  Verify Id Token TODO handle exception if token is no good FirebaseAuthException
-
-        GoogleUserPayloadDTO userPayload = tokenValidationGoogle.validateToken(idTokenString);
+        //Validate user google id Token
+        GoogleUserPayloadDTO userPayload = authService.validateToken(tokenMap.get("id_token"));
         if(userPayload!=null){
             System.out.println("token validated!!!!");
 
             // TODO decide whether to create firebase token for the frontend (why do i need firebase even?)
 
             // creating new user if none, or getting user info if existing (not currently actually updating anything) TODO implement update
-            AppUser currentUser = userService.findOrCreateUser(userPayload, refreshtoken);
-            System.out.println("find or create done just before this");
+            AppUser currentUser = userService.findOrCreateUser(userPayload, tokenMap.get("refresh_token"));
             String jwt = JwtUtil.generateToken(currentUser.getGoogleUid());
-            System.out.println(currentUser.getGoogleUid());
-            System.out.println(jwt);
             System.out.println("OUATH flow complete, returning JWT to frontend");
             return new ResponseEntity<>(jwt, HttpStatus.OK);
 
