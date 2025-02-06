@@ -1,5 +1,6 @@
 import 'package:events_platform_frontend/presentation/pages/add_event/add_event_page.dart';
 import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_page.dart';
+import 'package:events_platform_frontend/presentation/pages/loading_page.dart';
 import 'package:events_platform_frontend/presentation/pages/login/login_page.dart';
 import 'package:events_platform_frontend/presentation/pages/login/login_page_viewmodel.dart';
 import 'package:events_platform_frontend/routing/routes.dart';
@@ -36,21 +37,29 @@ class MyRouter {
             path: Routes.addEventPage,
             builder: (context, state) => AddEventPage(),
           ),
+          GoRoute(
+            path: Routes.loading,
+            builder: (context, state) => LoadingPage(),
+          ),
+
         ],
       );
 
 // From https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/redirection.dart
   Future<String?> _redirect(BuildContext context, GoRouterState state) async {
     final authRepository = context.read<AuthRepository>();
-    print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
+
+    if(authRepository.isLoading){
+      return Routes.login;
+    }
+
+
     // Are we logging in? check for code in the query param
     Uri uri = state.uri;
     print("uri: $uri");
-    (uri.toString() == '/')?print("yup"):print("nah");
-
     String? authCode = uri.queryParameters["code"];
     // if we have a non-null auth code, we must be logging in/registering...
-    if(authCode != null){
+    if(authCode != null && authCode.isNotEmpty){
       // but wait, maybe we are already logged in, and there is a token stored in the frontend? check that first?
 
 

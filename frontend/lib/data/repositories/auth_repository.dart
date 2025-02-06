@@ -6,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 class AuthRepository extends ChangeNotifier {
   final AuthService _authService = AuthService();
   bool _isAuthenticated = false;
+  bool _isLoading = false;
 
+  bool get isLoading => _isLoading;
   bool get isAuthenticated => _isAuthenticated;
 
   // for checking if person is logged in - checks JWT time
@@ -55,6 +57,8 @@ class AuthRepository extends ChangeNotifier {
   }
 
   Future<void> checkAuthentication(String? authCode) async {
+    _isLoading = true;
+    notifyListeners();
     if (authCode != null) {
       print("authcode received from OAuth server, attempting to login");
       _isAuthenticated = await logIn(authCode);
@@ -64,6 +68,7 @@ class AuthRepository extends ChangeNotifier {
       _isAuthenticated = await isLoggedIn();
     }
     // notify UI of changed value of _isAuthenticated
+    _isLoading = false;
     notifyListeners();
   }
 
