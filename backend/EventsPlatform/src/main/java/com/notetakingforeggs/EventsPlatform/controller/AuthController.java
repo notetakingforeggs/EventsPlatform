@@ -1,5 +1,7 @@
 package com.notetakingforeggs.EventsPlatform.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.*;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -95,11 +97,16 @@ public class AuthController {
             // TODO decide whether to create firebase token for the frontend (why do i need firebase even?)
 
             // creating new user if none, or getting user info if existing (not currently actually updating anything) TODO implement update
+            // needs to update the refresh token if it comes with a refresh token?
             AppUser currentUser = userService.findOrCreateUser(userPayload, tokenMap.get("refresh_token"));
+
+            // generating JWT for the frontend
             String jwt = JwtUtil.generateToken(currentUser.getGoogleUid());
 
             // Generate JWT for the frontend
             System.out.println("OUATH flow complete, returning JWT to frontend");
+            DecodedJWT exp = JWT.decode(jwt);
+            System.out.println(exp);
             return new ResponseEntity<>(jwt, HttpStatus.OK);
 
         } else {

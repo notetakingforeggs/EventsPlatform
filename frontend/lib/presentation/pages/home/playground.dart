@@ -1,11 +1,9 @@
-import 'package:events_platform_frontend/services/custom_tabs/custom_tabs_1.dart';
-import 'package:events_platform_frontend/ui/become_attendee/become_attendee_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:events_platform_frontend/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../components/ColourChangingButton.dart';
-import '../services/auth/auth_service.dart';
+import '../../../components/ColourChangingButton.dart';
 
 class Playground extends StatelessWidget {
   Playground({super.key});
@@ -67,7 +65,7 @@ class Playground extends StatelessWidget {
                       icon: Icon(Icons.accessible_rounded),
                       onPressed: () {
                         print("going to become attendee");
-                        context.push('/BecomeAttendeePage');
+                        context.push(Routes.eventListPage);
 
                       },
                     ),

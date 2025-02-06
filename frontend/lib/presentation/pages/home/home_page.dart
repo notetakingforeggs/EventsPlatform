@@ -1,28 +1,27 @@
 import "package:events_platform_frontend/components/ColourChangingButton.dart";
-import "package:events_platform_frontend/ui/login_page.dart";
-import "package:events_platform_frontend/services/auth/auth_service.dart";
-import "package:events_platform_frontend/table_calendar_example/complex_example.dart";
-import "package:events_platform_frontend/table_calendar_example/events_example.dart";
+import "package:events_platform_frontend/presentation/pages/event_list_page/event_list_page.dart";
+import "package:events_platform_frontend/presentation/pages/login/login_page.dart";
+import "package:events_platform_frontend/core/services/auth_service.dart";
 import "package:flutter/material.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
+import "../table_calendar_example/events_example.dart";
 import 'playground.dart';
-import "http_playground.dart";
 import 'package:go_router/go_router.dart';
 
-class Junk extends StatefulWidget {
-  Junk({super.key});
+class HomePage extends StatefulWidget {
+  HomePage({super.key});
 
   @override
-  State<Junk> createState() => _JunkState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _JunkState extends State<Junk> {
+class _HomePageState extends State<HomePage> {
   User? user = FirebaseAuth.instance.currentUser;
 
   final List<Widget> _junkPages = [
     Playground(),
-    HttpPlayground(),
+    EventListPage(),
     Playground(),
   ];
 

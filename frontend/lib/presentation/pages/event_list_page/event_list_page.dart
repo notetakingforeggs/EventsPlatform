@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../models/app_event.dart';
-import '../../services/api/api_service.dart';
-import './become_attendee_provider.dart';
 import 'package:provider/provider.dart';
 
-class BecomeAttendeePage extends StatefulWidget {
-  static const name = "BecomeAttendeePage";
+import 'event_list_viewmodel.dart';
+
+class EventListPage extends StatefulWidget {
+  static const name = "EventListPage";
 
   static final GoRoute route = GoRoute(
     path: '/$name',
     name: name,
     builder: (context, state) {
-      return const BecomeAttendeePage();
+      return const EventListPage();
     },
   );
 
@@ -20,29 +19,29 @@ class BecomeAttendeePage extends StatefulWidget {
     return context.pushNamed(name);
   }
 
-  const BecomeAttendeePage({super.key});
+  const EventListPage({super.key});
 
   @override
-  State<BecomeAttendeePage> createState() => _BecomeAttendeePageState();
+  State<EventListPage> createState() => _EventListPageState();
 }
 
-class _BecomeAttendeePageState extends State<BecomeAttendeePage> {
+class _EventListPageState extends State<EventListPage> {
 
-  final BecomeAttendeeProvider _controller = BecomeAttendeeProvider();
+  final EventListViewmodel _controller = EventListViewmodel();
 
   @override
   void initState() {
     super.initState();
     // TODo unsure about this format, should i initialise under the controller?
     final futureEvents = _controller.getEvents();
-    Provider.of<BecomeAttendeeProvider>(context, listen: false).getEvents();
+    Provider.of<EventListViewmodel>(context, listen: false).getEvents();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Events")),
-        body: Consumer<BecomeAttendeeProvider>(
+        body: Consumer<EventListViewmodel>(
         builder:(context, _controller, child)
     {
       if (_controller.events.isEmpty) {
