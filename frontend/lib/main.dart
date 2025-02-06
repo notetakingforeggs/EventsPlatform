@@ -1,12 +1,6 @@
 import 'dart:async';
 
 import 'package:events_platform_frontend/data/repositories/auth_repository.dart';
-import 'package:events_platform_frontend/presentation/pages/home/http_playground.dart';
-import 'package:events_platform_frontend/presentation/pages/home/home_page.dart';
-import 'package:events_platform_frontend/presentation/pages/login/login_page.dart';
-import 'package:events_platform_frontend/core/services/auth_service.dart';
-import 'package:events_platform_frontend/presentation/pages/add_event/add_event_page.dart';
-import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_page.dart';
 import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_viewmodel.dart';
 import 'package:events_platform_frontend/presentation/viewmodels/auth_viewmodel.dart';
 import 'package:events_platform_frontend/routing/router.dart';
@@ -14,8 +8,6 @@ import 'package:events_platform_frontend/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import '';
 

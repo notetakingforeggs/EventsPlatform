@@ -1,6 +1,5 @@
 import 'package:events_platform_frontend/presentation/pages/add_event/add_event_page.dart';
 import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_page.dart';
-import 'package:events_platform_frontend/presentation/pages/home/http_playground.dart';
 import 'package:events_platform_frontend/presentation/pages/login/login_page.dart';
 import 'package:events_platform_frontend/presentation/pages/login/login_page_viewmodel.dart';
 import 'package:events_platform_frontend/routing/routes.dart';
@@ -24,10 +23,7 @@ class MyRouter {
             path: Routes.home,
             builder: (context, state) => HomePage(),
           ),
-          GoRoute(
-            path: Routes.httplayground,
-            builder: (context, state) => HttpPlayground(),
-          ),
+
           GoRoute(
             path: Routes.login,
             builder: (context, state) => LoginPage(),

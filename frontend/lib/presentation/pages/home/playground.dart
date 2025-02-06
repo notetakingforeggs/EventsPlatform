@@ -1,4 +1,5 @@
 
+import 'package:events_platform_frontend/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -64,7 +65,7 @@ class Playground extends StatelessWidget {
                       icon: Icon(Icons.accessible_rounded),
                       onPressed: () {
                         print("going to become attendee");
-                        context.push('/BecomeAttendeePage');
+                        context.push(Routes.eventListPage);
 
                       },
                     ),
