@@ -1,5 +1,7 @@
 package com.notetakingforeggs.EventsPlatform.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.*;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -102,6 +104,8 @@ public class AuthController {
             // generating JWT for the frontend
             String jwt = JwtUtil.generateToken(currentUser.getGoogleUid());
             System.out.println("OUATH flow complete, returning JWT to frontend");
+            DecodedJWT exp = JWT.decode(jwt);
+            System.out.println(exp);
             return new ResponseEntity<>(jwt, HttpStatus.OK);
 
         } else {

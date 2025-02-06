@@ -40,3 +40,6 @@ __JWT on the frontend is enough to access the backend data and make calls to the
 - base it off the flutter example doc
 -hange startdate enddate to start/end to include time
 -change managed reference to DTOs as you dont need to have who is going to what on the frontend i dont think? or maybe yeah, to know who is going/how many
+
+- Reroutes to home page and form emptying from add event form
+- reroute to homepage? after attending event?
