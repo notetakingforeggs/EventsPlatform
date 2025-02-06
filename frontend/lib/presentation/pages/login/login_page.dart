@@ -1,7 +1,9 @@
 import 'package:events_platform_frontend/core/services/custom_tabs_service.dart';
+import 'package:events_platform_frontend/presentation/viewmodels/auth_viewmodel.dart';
 import "package:flutter/material.dart";
 import 'package:events_platform_frontend/core/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/services/api_service.dart';
 import '../home/home_page.dart';
@@ -25,18 +27,6 @@ class LoginPage extends StatelessWidget {
                 icon: Icon(Icons.remove_red_eye),
                 iconSize: 90,
                 onPressed: () {
-                  // // User? user = AuthService().getCurrentUser();
-                  // if (user == null) {
-                  //   ScaffoldMessenger.of(context).showSnackBar(
-                  //     SnackBar(
-                  //         content: Text(
-                  //       "not logged in",
-                  //       style: TextStyle(fontSize: 32),
-                  //     )),
-                  //   );
-                  // } else {
-                  //   print("current user details are: $user");
-                  // }
                 }),
             SizedBox(
               height: 100,
@@ -45,22 +35,14 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  // initiate sign in and store return values in memory to send to backend
-                  // final Map<String, dynamic> signInResult =
-                  //     await AuthService().signInWithGoogle();
-                  //
-                  //     // print("(99999999999999 ${signInResult["googleIdToken"]} ------------ ${signInResult["googleAccessToken"]}");
-                  // await ApiService().postUser(signInResult["googleIdToken"], signInResult["googleAccessToken"]);
-
                   // initiate backend oauth flow
-                  await AuthService().initBackendOAuthFlow(context);
-
+                  Provider.of<AuthViewmodel>(context, listen:false).startOAuthFlow(context);
                 } catch (e) {
                   print(e.toString());
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                         content: Text(
-                      "LogInFailed... but why?",
+                      "Log-In Failed!?",
                       style: TextStyle(fontSize: 32),
                     )),
                   );

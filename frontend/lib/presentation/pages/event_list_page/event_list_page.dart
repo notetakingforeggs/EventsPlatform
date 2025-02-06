@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'event_list_viewmodel.dart';
 
 class EventListPage extends StatefulWidget {
-  static const name = "BecomeAttendeePage";
+  static const name = "EventListPage";
 
   static final GoRoute route = GoRoute(
     path: '/$name',

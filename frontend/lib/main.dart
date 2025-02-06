@@ -8,6 +8,7 @@ import 'package:events_platform_frontend/core/services/auth_service.dart';
 import 'package:events_platform_frontend/presentation/pages/add_event/add_event_page.dart';
 import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_page.dart';
 import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_viewmodel.dart';
+import 'package:events_platform_frontend/presentation/viewmodels/auth_viewmodel.dart';
 import 'package:events_platform_frontend/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,13 +26,16 @@ void main() async {
   // The line below came with the firebase snippet, but may not be needed for now?
   // show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-  runApp(ChangeNotifierProvider(
-      create: (context) => EventListViewmodel(), child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => EventListViewmodel()),
+    ChangeNotifierProvider(create: (context) => AuthViewmodel() )
+  ],
+      child: const MyApp()));
 }
 
 final router = GoRouter(
   routes: [
-    GoRoute(
+    GoRoute(create
       path: '/',
       builder: (context, state) {
         //Future<bool> isLoggedIn = AuthService().isLoggedIn();

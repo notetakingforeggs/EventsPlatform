@@ -10,22 +10,27 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 import 'custom_tabs_service.dart';
 
+//service layers handles only calls to external data sources like backend/other apis?
+//doesnt contain any logic relating to the UI
+//no state management! (like knowing whether or not the user is logged in)
+
 class AuthService {
   // instance of auth
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final String authBaseUrl = "http://10.0.2.2:8080/api/v1/auth";
   final _storage = FlutterSecureStorage();
 
-  Future<void> initBackendOAuthFlow(BuildContext context) async {
+  Future<String?> initBackendOAuthFlow() async {
     final url = Uri.parse("$authBaseUrl/redirect-to-google");
     final response = await http.get(url);
     print("getting google rdr on backend");
 
     if (response.statusCode == 200) {
-      print(response.body);
-      CustomTabLauncher().launchGoogleAuthCustomTab(context, response.body);
+      return(response.body);
+      // this line to go to viewmodel
     } else {
-      print("fuckery");
+      print("null response on requesting OAuth Login Url (in service method)");
+      return null;
     }
   }
 
@@ -52,6 +57,14 @@ class AuthService {
     print("beforehand here?");
     // null return here is legit as it signifies user is logged out?
     return await _storage.read(key: 'jwt_token');
+  }
+
+  Future<void> saveJwt(String jwt) async {
+    await _storage.write(key: 'jwt_token', value: jwt);
+  }
+
+  Future<void> removeJwt() async {
+    await _storage.delete(key: 'jwt_token');
   }
 
   Future<JWT> decodeJwt() async {
@@ -81,30 +94,31 @@ class AuthService {
     return decodedJwt.payload['sub'];
   }
 
-  Future<bool> isLoggedIn() async {
-    print("here?");
-    try {
-       JWT decodedJwt = await decodeJwt();
-      print(decodedJwt.payload["exp"]);
-      int expiryDate = decodedJwt.payload["exp"];
-
-      final expirationDateTime =
-          DateTime.fromMillisecondsSinceEpoch(expiryDate * 1000);
-      print("now: ${DateTime.now()}, token exp: $expirationDateTime ");
-      if (expirationDateTime.isBefore(DateTime.now())) {
-        print(
-            "expiiration date ($expirationDateTime) is before now (${DateTime.now()}) so the token is expired");
-        return false;
-      }
-      // jwt valid
-      print(
-          "expiiration date ($expirationDateTime) is after now (${DateTime.now()}) so the token is valid");
-
-      return true;
-    } catch (e) {
-      print("some error decoding or something idk: $e");
-      return false;
-    }
+  // Moved to auth repository
+  // Future<bool> isLoggedIn() async {
+  //   print("here?");
+  //   try {
+  //      JWT decodedJwt = await decodeJwt();
+  //     print(decodedJwt.payload["exp"]);
+  //     int expiryDate = decodedJwt.payload["exp"];
+  //
+  //     final expirationDateTime =
+  //         DateTime.fromMillisecondsSinceEpoch(expiryDate * 1000);
+  //     print("now: ${DateTime.now()}, token exp: $expirationDateTime ");
+  //     if (expirationDateTime.isBefore(DateTime.now())) {
+  //       print(
+  //           "expiiration date ($expirationDateTime) is before now (${DateTime.now()}) so the token is expired");
+  //       return false;
+  //     }
+  //     // jwt valid
+  //     print(
+  //         "expiiration date ($expirationDateTime) is after now (${DateTime.now()}) so the token is valid");
+  //
+  //     return true;
+  //   } catch (e) {
+  //     print("some error decoding or something idk: $e");
+  //     return false;
+  //   }
   }
 
 
@@ -129,13 +143,13 @@ class AuthService {
           );
 
       // sign in to firebase using the constructed credential from the google creds
-      final UserCredential userCredential =
-          await _firebaseAuth.signInWithCredential(credential);
+      // final UserCredential userCredential =
+          // await _firebaseAuth.signInWithCredential(credential);
       print("accessToken: ${credential.accessToken}");
       print("idToken: ${credential.idToken}");
       print("oooooooooo");
       return {
-        "userCredential": userCredential,
+        // "userCredential": userCredential,
         "googleIdToken": credential.idToken,
         "googleAccessToken": credential.accessToken,
       };
