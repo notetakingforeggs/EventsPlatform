@@ -42,17 +42,20 @@ class MyRouter {
 // From https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/redirection.dart
   Future<String?> _redirect(BuildContext context, GoRouterState state) async {
     final authRepository = context.read<AuthRepository>();
-
+    print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
     // Are we logging in? check for code in the query param
     Uri uri = state.uri;
-    print("uri: $uri}");
+    print("uri: $uri");
+    (uri.toString() == '/')?print("yup"):print("nah");
+
     String? authCode = uri.queryParameters["code"];
-    // if we have a non-null auth code, we must be logging in/registering
+    // if we have a non-null auth code, we must be logging in/registering...
     if(authCode != null){
+      // but wait, maybe we are already logged in, and there is a token stored in the frontend? check that first?
+
+
       // log in/register, and then check authentication status before continuing to page
-
     bool successfullyLoggedIn = await authRepository.logIn(authCode!);
-
     if(successfullyLoggedIn){
       print("✅ is authenticated, redirecting to home screen");
       return Routes.home;

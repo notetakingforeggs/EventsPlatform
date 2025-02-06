@@ -1,5 +1,6 @@
 package com.notetakingforeggs.EventsPlatform.service.business;
 
+import com.notetakingforeggs.EventsPlatform.Exception.MissingRefreshTokenException;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 import com.notetakingforeggs.EventsPlatform.repository.UserRepository;
@@ -63,9 +64,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public AppUser findOrCreateUser(GoogleUserPayloadDTO userPayload, String refreshToken) {
 
+        // TODO maybe there is an issue in here? some problem where refresh token became null. maybe just from clearing the db
+
         String userGoogleId = userPayload.googleUid();
         // New User - if there is no user of the google id create and add user
         if (!existsByGoogleUid(userGoogleId)) {
+            if(refreshToken == null || refreshToken.isEmpty()){
+                System.out.println("refresh token is coming in null in a new user");
+                throw new MissingRefreshTokenException("blank refresh token on a new user?");
+            }
             AppUser newAppUser = new AppUser();
             newAppUser.setName(userPayload.name());
             newAppUser.setEmail(userPayload.email());

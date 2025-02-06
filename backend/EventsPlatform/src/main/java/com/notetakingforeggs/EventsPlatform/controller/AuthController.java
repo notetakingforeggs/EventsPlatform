@@ -8,6 +8,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import com.notetakingforeggs.EventsPlatform.Exception.MissingRefreshTokenException;
 import com.notetakingforeggs.EventsPlatform.model.AppUser;
 import com.notetakingforeggs.EventsPlatform.model.dto.GoogleUserPayloadDTO;
 import com.notetakingforeggs.EventsPlatform.service.auth.AuthServiceGoogleImpl;
@@ -73,7 +74,8 @@ public class AuthController {
                 "&redirect_uri=" + URLEncoder.encode(googleRegistration.getRedirectUri(), StandardCharsets.UTF_8) +
                 "&response_type=code" +
                 "&scope=" + URLEncoder.encode(String.join(" ", googleRegistration.getScopes()), StandardCharsets.UTF_8) +
-                "&access_type=offline";
+                "&access_type=offline" +
+                "&prompt=login";
 
         // send the redirect to the frontend
         System.out.println(redirectUri);
@@ -98,7 +100,8 @@ public class AuthController {
 
             // creating new user if none, or getting user info if existing (not currently actually updating anything) TODO implement update
             // needs to update the refresh token if it comes with a refresh token?
-            AppUser currentUser = userService.findOrCreateUser(userPayload, tokenMap.get("refresh_token"));
+            try {
+                AppUser currentUser = userService.findOrCreateUser(userPayload, tokenMap.get("refresh_token"));
 
             // generating JWT for the frontend
             String jwt = JwtUtil.generateToken(currentUser.getGoogleUid());
@@ -108,6 +111,9 @@ public class AuthController {
             DecodedJWT exp = JWT.decode(jwt);
             System.out.println(exp);
             return new ResponseEntity<>(jwt, HttpStatus.OK);
+            }catch (MissingRefreshTokenException e){
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
 
         } else {
             System.out.println("Invalid ID token.");

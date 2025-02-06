@@ -48,6 +48,7 @@ private final EventService eventService;
     public GoogleCredentials getCreds(String userGoogleId) throws IOException {
         // get refresh token
         String refreshToken = userService.getByGoogleUid(userGoogleId).getRefreshToken();
+        System.out.println("REFRESH TOKEN "+ refreshToken);
 
         // buiild creds
         return new GoogleCredentialsBuilder(clientId, clientSecret).buildGoogleCredentials(refreshToken);
@@ -59,7 +60,7 @@ private final EventService eventService;
     public Event addEvent(String calendarId, long eventId, String userGoogleId) throws IOException, GeneralSecurityException {
 
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
+        System.out.println("GETTING CREDS");
         GoogleCredentials credentials = getCreds(userGoogleId);
 
         Event event = new EventConverter().convertToGoogleEvent(eventService.getById(eventId));
