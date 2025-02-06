@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AppUser findOrCreateUser(GoogleUserPayloadDTO userPayload, String refreshToken) {
-
+        System.out.println("Refresh token: " + refreshToken);
         // TODO maybe there is an issue in here? some problem where refresh token became null. maybe just from clearing the db
 
         String userGoogleId = userPayload.googleUid();
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
             return userRepository.save(newAppUser);
         }
         // if there is a user, but there is no refresh token, then it is a sign-in
-        else if (refreshToken == null) {
+        else if (refreshToken == null || refreshToken.isBlank()) {
            return userRepository.getByGoogleUid(userGoogleId);
         }
         // otherwise we have a matching googleId, but with a new refresh token, so the user must have cleared connections and we must update refresh token

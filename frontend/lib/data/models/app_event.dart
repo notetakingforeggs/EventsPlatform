@@ -32,7 +32,7 @@ class AppEvent {
     endDate =
         TimeConverter().convertUnixTimeCodeToStrings(json["endDate"])["date"];
     endTime =
-        TimeConverter().convertUnixTimeCodeToStrings(json["endDate"])["date"];
+        TimeConverter().convertUnixTimeCodeToStrings(json["endDate"])["time"];
   }
 
   String? get name => eventName;

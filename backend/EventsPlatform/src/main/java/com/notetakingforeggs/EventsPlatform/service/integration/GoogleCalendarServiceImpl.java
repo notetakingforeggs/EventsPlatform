@@ -73,7 +73,7 @@ private final EventService eventService;
                 Calendar calendarService = new Calendar.Builder(HTTP_TRANSPORT, jacksonFactory, new HttpCredentialsAdapter(credentials))
                         .setApplicationName("events-platform-e68af")
                         .build();
-
+            // TODO getting an error on this call due to missing refresh token?
             calendarService.events().insert(calendarId, event).execute();
             return event;
         } catch (Exception e) {

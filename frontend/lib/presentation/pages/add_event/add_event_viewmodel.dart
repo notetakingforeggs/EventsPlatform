@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../data/models/app_event.dart';
 
-class AddEventViewmodel {
+class AddEventViewmodel extends ChangeNotifier {
 
   // a global key that uniquely identifies the Form widget
   // and allows validation of the form.

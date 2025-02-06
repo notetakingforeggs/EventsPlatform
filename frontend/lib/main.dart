@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:events_platform_frontend/data/repositories/auth_repository.dart';
+import 'package:events_platform_frontend/presentation/pages/add_event/add_event_viewmodel.dart';
 import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_viewmodel.dart';
 import 'package:events_platform_frontend/presentation/viewmodels/auth_viewmodel.dart';
 import 'package:events_platform_frontend/routing/router.dart';
@@ -25,6 +26,7 @@ void main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => EventListViewmodel()),
+    ChangeNotifierProvider(create: (context) => AddEventViewmodel()),
     ChangeNotifierProvider(create: (context) => AuthViewmodel(authRepository)),
     ChangeNotifierProvider(create: (context) => authRepository),
   ], child: const MyApp()));
