@@ -8,19 +8,6 @@ import '../../core/services/custom_tabs_service.dart';
 
 class AuthViewmodel extends ChangeNotifier{
   final AuthRepository _repository = AuthRepository();
-  bool _isAuthenticated = false;
-
-  bool get isAuthenticated => _isAuthenticated;
-
-  Future<void> checkAuthentication(String? authCode)async{
-    if(authCode != null){
-      _isAuthenticated = await _repository.logIn(authCode);
-    }else{
-      _isAuthenticated = await _repository.isLoggedIn();
-    }
-    // notify UI of changed value of _isAuthenticated
-    notifyListeners();
-  }
 
   Future<void> startOAuthFlow(BuildContext context) async {
     try{
@@ -32,11 +19,4 @@ class AuthViewmodel extends ChangeNotifier{
       print("error in viewmodel starting OAuth Flow");
     }
   }
-
-  Future<void> logOut() async{
-    await _repository.logOut();
-    _isAuthenticated = false;
-    notifyListeners();
-  }
-
 }

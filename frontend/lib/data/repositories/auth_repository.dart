@@ -3,8 +3,11 @@ import 'package:events_platform_frontend/core/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 
 // repository is for business logic , deciding when to refresh tokens, decode jwts and store/retrieve creds
-class AuthRepository {
+class AuthRepository extends ChangeNotifier {
   final AuthService _authService = AuthService();
+  bool _isAuthenticated = false;
+
+  bool get isAuthenticated => _isAuthenticated;
 
   // for checking if person is logged in
   Future<bool> isLoggedIn() async {
@@ -16,16 +19,18 @@ class AuthRepository {
       int expiryDate = decodedJwt.payload["exp"];
 
       final expirationDateTime =
-          DateTime.fromMillisecondsSinceEpoch(expiryDate * 1000);
+      DateTime.fromMillisecondsSinceEpoch(expiryDate * 1000);
       print("now: ${DateTime.now()}, token exp: $expirationDateTime ");
       if (expirationDateTime.isBefore(DateTime.now())) {
         print(
-            "expiiration date ($expirationDateTime) is before now (${DateTime.now()}) so the token is expired");
+            "expiiration date ($expirationDateTime) is before now (${DateTime
+                .now()}) so the token is expired");
         return false;
       }
       // jwt valid
       print(
-          "expiiration date ($expirationDateTime) is after now (${DateTime.now()}) so the token is valid");
+          "expiiration date ($expirationDateTime) is after now (${DateTime
+              .now()}) so the token is valid");
 
       return true;
     } catch (e) {
@@ -34,15 +39,29 @@ class AuthRepository {
     }
   }
 
-  Future<String?> getOAuthLoginUrl()async{
+  Future<String?> getOAuthLoginUrl() async {
     return _authService.initBackendOAuthFlow();
   }
 
-  Future<bool> logIn(String authCode) async{
+  Future<bool> logIn(String authCode) async {
     return await _authService.sendAuthCodeToBackend(authCode);
   }
 
   Future<void> logOut() async {
-      return await _authService.removeJwt();
+    _isAuthenticated = false;
+    notifyListeners();
+    return await _authService.removeJwt();
   }
+
+  Future<void> checkAuthentication(String? authCode) async {
+    if (authCode != null) {
+      _isAuthenticated = await logIn(authCode);
+    } else {
+      _isAuthenticated = await isLoggedIn();
+    }
+    // notify UI of changed value of _isAuthenticated
+    notifyListeners();
+  }
+
+
 }
