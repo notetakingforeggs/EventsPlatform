@@ -48,6 +48,7 @@ class AuthRepository extends ChangeNotifier {
   }
 
   Future<void> logOut() async {
+    print("logging out");
     _isAuthenticated = false;
     notifyListeners();
     return await _authService.removeJwt();
