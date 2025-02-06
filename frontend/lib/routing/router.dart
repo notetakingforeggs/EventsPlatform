@@ -14,53 +14,15 @@ import '../presentation/pages/home/home_page.dart';
 import '../presentation/viewmodels/auth_viewmodel.dart';
 
 class MyRouter {
-  GoRouter router(AuthRepository authRepository,) =>
-      GoRouter(
+  GoRouter router(AuthRepository authRepository) => GoRouter(
         initialLocation: Routes.home,
         debugLogDiagnostics: true,
         redirect: _redirect,
         refreshListenable: authRepository,
         routes: [
           GoRoute(
-            path: '/',
-            builder: (context, state) {
-              //Future<bool> isLoggedIn = AuthService().isLoggedIn();
-              Uri uri = state.uri;
-              print("uri: $uri}");
-              String? authCode = uri.queryParameters["code"];
-              final authViewModel =
-              Provider.of<AuthViewmodel>(context, listen: false);
-              // future builder to get the result of an async function to be able to use it in a non async function?
-              // first check if the user is logged in by checking the exp of any jwt
-              return FutureBuilder(
-                future: authViewModel.checkAuthentication(authCode),
-                // check if already logged in
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: LinearProgressIndicator());
-                  }
-                  if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}");
-                  }
-
-                  if (authViewModel.isAuthenticated) {
-                    print("✅ is authenticated, redirecting to home screen");
-                    return (HomePage());
-                  }
-                  print("❌ issue with authentication, try logging in");
-                  return LoginPage();
-                },
-              );
-            },
-          ),
-          GoRoute(
-            path: Routes.login,
-            builder: (context, state) {
-              return LoginPage(
-                // viewModel: LoginPageViewmodel(
-                //   authRepository: context.read(),
-              );
-            },
+            path: Routes.home,
+            builder: (context, state) => HomePage(),
           ),
           GoRoute(
             path: Routes.httplayground,
@@ -83,19 +45,37 @@ class MyRouter {
 
 // From https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/redirection.dart
   Future<String?> _redirect(BuildContext context, GoRouterState state) async {
-// if the user is not logged in, they need to login
-    final loggedIn = await context
-        .read<AuthRepository>()
-        .isLoggedIn();
-    final loggingIn = state.matchedLocation == Routes.login;
-    if (!loggedIn) {
-      return Routes.login;
-    }
+    final authRepository = context.read<AuthRepository>();
 
-// if the user is logged in but still on the login page, send them to
-// the home pagechangenotifier
-    if (loggingIn) {
+    // Are we logging in? check for code in the query param
+    Uri uri = state.uri;
+    print("uri: $uri}");
+    String? authCode = uri.queryParameters["code"];
+    // if we have a non-null auth code, we must be logging in/registering
+    if(authCode != null){
+      // log in/register, and then check authentication status before continuing to page
+
+    bool successfullyLoggedIn = await authRepository.logIn(authCode!);
+
+    if(successfullyLoggedIn){
+      print("✅ is authenticated, redirecting to home screen");
       return Routes.home;
+    }
+    print("❌ issue with authentication, try logging in");
+    return Routes.login;
+  }
+    // there was no auth code so we are just checking if we are currently logged in
+    else {
+      bool loggedIn = await authRepository.isLoggedIn();
+      if (!loggedIn) {
+        return Routes.login;
+      }
+// if the user is logged in but still on the login page, or trying to navaigate to it?, send them to
+// the home page
+      final loggingIn = state.matchedLocation == Routes.login;
+      if (loggingIn) {
+        return Routes.home;
+      }
     }
     return null;
   }

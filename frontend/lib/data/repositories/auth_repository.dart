@@ -9,9 +9,9 @@ class AuthRepository extends ChangeNotifier {
 
   bool get isAuthenticated => _isAuthenticated;
 
-  // for checking if person is logged in
+  // for checking if person is logged in - checks JWT time
   Future<bool> isLoggedIn() async {
-    print("here?");
+    print("in the 'isloggedin");
     try {
       // do i need to nullcheck here? null checking is done within the decode jwt method and exceptions are thrown...?
       JWT decodedJwt = await _authService.decodeJwt();
@@ -55,8 +55,11 @@ class AuthRepository extends ChangeNotifier {
 
   Future<void> checkAuthentication(String? authCode) async {
     if (authCode != null) {
+      print("authcode received from OAuth server, attempting to login");
       _isAuthenticated = await logIn(authCode);
+      print("changing status to authenticated as a result of sccesful login");
     } else {
+      print("no authcode, checking if already logged in... and setting isAuthenticated to the result");
       _isAuthenticated = await isLoggedIn();
     }
     // notify UI of changed value of _isAuthenticated

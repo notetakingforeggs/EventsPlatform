@@ -7,7 +7,8 @@ import 'package:flutter/cupertino.dart';
 import '../../core/services/custom_tabs_service.dart';
 
 class AuthViewmodel extends ChangeNotifier{
-  final AuthRepository _repository = AuthRepository();
+  final AuthRepository _repository;
+  AuthViewmodel(this._repository);
 
   Future<void> startOAuthFlow(BuildContext context) async {
     try{

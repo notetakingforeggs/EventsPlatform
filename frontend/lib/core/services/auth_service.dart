@@ -41,7 +41,7 @@ class AuthService {
         body: {"code": authCode});
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print("response good: ${response.body}");
+      print("response good, the new token is: ${response.body}");
 
       print("storing JWT in secure storage");
       await _storage.write(key: 'jwt_token', value: response.body);
@@ -184,4 +184,4 @@ class AuthService {
     //     print("there has been some error signing out: $e");
     //   }
   }
-}
+
