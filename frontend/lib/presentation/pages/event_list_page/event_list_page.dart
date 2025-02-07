@@ -1,3 +1,4 @@
+import 'package:events_platform_frontend/presentation/pages/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -27,16 +28,21 @@ class EventListPage extends StatefulWidget {
 }
 
 class _EventListPageState extends State<EventListPage> {
-  final EventListViewmodel _controller = EventListViewmodel();
-
   @override
   void initState() {
     super.initState();
-    Provider.of<EventListViewmodel>(context, listen: false).getEvents();
+    // post frame callback schedules the data fetch for after the initial build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<EventListViewmodel>().getEvents();
+    });
+
   }
 
   @override
   Widget build(BuildContext context) {
+    EventListViewmodel eventListViewmodel =
+        Provider.of<EventListViewmodel>(context, listen: false);
+    HomeViewModel homeViewModel = context.read<HomeViewModel>();
     return Scaffold(
       appBar: AppBar(title: Text("Events")),
       body: Consumer<EventListViewmodel>(
@@ -44,7 +50,6 @@ class _EventListPageState extends State<EventListPage> {
           if (_controller.events.isEmpty) {
             // return Center(child: CircularProgressIndicator());
             return Center(child: Text("No events found"));
-
           }
 
           return Column(
@@ -88,7 +93,10 @@ class _EventListPageState extends State<EventListPage> {
                                           : "Failed to attend the event"),
                                     ),
                                   );
-                                  context.go(Routes.home);
+                                  print('trying to go home?');
+                                  context.read()<HomeViewModel>().currentIndex = 0;
+                                  // context.go(Routes.home);
+                                  Navigator.pop(context);
                                 },
                                 child: Text("Attend"),
                               ),

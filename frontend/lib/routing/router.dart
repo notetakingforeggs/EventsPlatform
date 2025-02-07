@@ -1,6 +1,6 @@
 import 'package:events_platform_frontend/presentation/pages/add_event/add_event_page.dart';
 import 'package:events_platform_frontend/presentation/pages/event_list_page/event_list_page.dart';
-import 'package:events_platform_frontend/presentation/pages/loading_page.dart';
+import 'package:events_platform_frontend/presentation/pages/loading_overlay.dart';
 import 'package:events_platform_frontend/presentation/pages/login/login_page.dart';
 import 'package:events_platform_frontend/presentation/pages/login/login_page_viewmodel.dart';
 import 'package:events_platform_frontend/routing/routes.dart';
@@ -14,6 +14,8 @@ import '../presentation/pages/home/home_page.dart';
 import '../presentation/viewmodels/auth_viewmodel.dart';
 
 class MyRouter {
+
+
   GoRouter router(AuthRepository authRepository) => GoRouter(
         initialLocation: Routes.home,
         debugLogDiagnostics: true,
@@ -39,7 +41,7 @@ class MyRouter {
           ),
           GoRoute(
             path: Routes.loading,
-            builder: (context, state) => LoadingPage(),
+            builder: (context, state) => LoadingOverlay(),
           ),
 
         ],
@@ -47,11 +49,7 @@ class MyRouter {
 
 // From https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/redirection.dart
   Future<String?> _redirect(BuildContext context, GoRouterState state) async {
-    final authRepository = context.read<AuthRepository>();
-
-    if(authRepository.isLoading){
-      return Routes.login;
-    }
+    final AuthRepository authRepository = Provider.of<AuthRepository>(context, listen:false);
 
 
     // Are we logging in? check for code in the query param

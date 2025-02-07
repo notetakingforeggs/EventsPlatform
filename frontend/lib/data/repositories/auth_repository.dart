@@ -1,14 +1,17 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:events_platform_frontend/core/services/auth_service.dart';
+import 'package:events_platform_frontend/data/providers/loading_provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 // repository is for business logic , deciding when to refresh tokens, decode jwts and store/retrieve creds
 class AuthRepository extends ChangeNotifier {
   final AuthService _authService = AuthService();
   bool _isAuthenticated = false;
-  bool _isLoading = false;
+  final LoadingProvider loadingProvider;
 
-  bool get isLoading => _isLoading;
+  AuthRepository(this.loadingProvider);
+
   bool get isAuthenticated => _isAuthenticated;
 
   // for checking if person is logged in - checks JWT time
@@ -57,7 +60,7 @@ class AuthRepository extends ChangeNotifier {
   }
 
   Future<void> checkAuthentication(String? authCode) async {
-    _isLoading = true;
+    loadingProvider.setLoading(true);
     notifyListeners();
     if (authCode != null) {
       print("authcode received from OAuth server, attempting to login");
@@ -68,7 +71,7 @@ class AuthRepository extends ChangeNotifier {
       _isAuthenticated = await isLoggedIn();
     }
     // notify UI of changed value of _isAuthenticated
-    _isLoading = false;
+    loadingProvider.setLoading(false);
     notifyListeners();
   }
 
