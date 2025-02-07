@@ -53,6 +53,7 @@ It has the assetlinks.json file in the .well-known dir and is used for deep link
 SHA key might change if someone else clones this repo, meaning:
 
 Either they upload a new assetlinks.json to a website they have access to and put the SHA in there...
+AND then also change the intent filters in the android manifest to be in accordance to it. 
 
 OR I could manually add their hash to mine so they can try it out 
 
