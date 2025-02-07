@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         // New User - if there is no user of the google id create and add user
         if (!existsByGoogleUid(userGoogleId)) {
             if(refreshToken == null || refreshToken.isEmpty()){
-                System.out.println("refresh token is coming in null in a new user");
+                System.out.println("refresh token is coming in null in a new user - have you emptied the db without deleting connections in the google account?");
                 throw new MissingRefreshTokenException("blank refresh token on a new user?");
             }
             AppUser newAppUser = new AppUser();

@@ -8,7 +8,7 @@
 
 **Frontend:** Flutter with MVVM / Clean Architecture, Go Routing, Provider for state management, deep linking, custom tabs.
 
-**Deep Linking:** Uses ludicacid.com, which... may occasionally redirect you to a cat puppet website 🐱🎭 (don't ask). Has .well-known/assetlinks but you might need to update SHA (more on this below).
+**Deep Linking:** Uses ludicacid.com, which... may occasionally redirect you to a cat puppet website 🐱🎭 (don't ask). Has .well-known/assetlinks.json but you might need to update SHA (more on this below).
 
 ## How to Run ⚡
 
