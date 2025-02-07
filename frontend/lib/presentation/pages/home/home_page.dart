@@ -41,37 +41,31 @@ class _HomePageState extends State<HomePage> {
               )),
           body: homeViewModel.homeScreens[homeViewModel.currentIndex],
           floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TableEventsExample()));
+              child: Icon(Icons.exit_to_app),
+              onPressed: () async {
+
+                await context.read<AuthRepository>().logOut();
+                context.push(Routes.login);
+
               }),
           bottomNavigationBar: BottomNavigationBar(
               onTap: (int index) async {
                 print("tapped index is $index");
-                if (index == 0) {
-                  await context.read<AuthRepository>().logOut();
-                  if (context.mounted) {
-                    context.push(Routes.login);
-                  }
-                  return;
-                }
+
                 homeViewModel.currentIndex = index;
               },
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.exit_to_app),
-                  label: "Log Out",
+                  icon: Icon(Icons.home),
+                  label: "Home",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.safety_check),
-                  label: "get req",
+                  icon: Icon(Icons.fingerprint),
+                  label: "Attend",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_2_sharp),
-                  label: "profile",
+                  icon: Icon(Icons.plus_one),
+                  label: "Create",
                 ),
               ]),
         );

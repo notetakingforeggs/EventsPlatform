@@ -1,4 +1,5 @@
 import 'package:events_platform_frontend/presentation/pages/add_event/add_event_page.dart';
+import 'package:events_platform_frontend/presentation/pages/home/blank.dart';
 import 'package:events_platform_frontend/presentation/pages/home/playground.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,7 @@ class HomeViewModel extends ChangeNotifier{
   int _currentIndex = 0;
 
   final List<Widget> _homeScreens = [
-    Playground(),
+    Blank(),
     EventListPage(),
     AddEventPage(),
   ];
