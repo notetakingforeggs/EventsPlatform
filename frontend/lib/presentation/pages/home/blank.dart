@@ -8,11 +8,12 @@ class Blank extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        SizedBox(
-          height: 20,
+
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ClipOval(
+              child: Image.asset('assets/images/limbs.jpeg', fit: BoxFit.cover)),
         ),
-        ClipOval(
-            child: Image.asset('assets/images/limbs.jpeg', fit: BoxFit.cover)),
         Text(
           "Circus Events",
           style: TextStyle(fontSize: 64),

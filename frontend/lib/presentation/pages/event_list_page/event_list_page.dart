@@ -94,7 +94,7 @@ class _EventListPageState extends State<EventListPage> {
                                     ),
                                   );
                                   context.read<HomeViewModel>().currentIndex = 0;
-                                  Navigator.pop(context);
+                                  context.go(Routes.home);
                                 },
                                 child: Text("Attend"),
                               ),

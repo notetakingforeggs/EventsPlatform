@@ -139,11 +139,10 @@ class _AddEventPageState extends State<AddEventPage> {
                     _formKey.currentState!.save();
                     _addEventViewmodel.submitForm();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Submitting Form Data')),
+                      const SnackBar(content: Text('Event Added!')),
                     );
                     context.read<HomeViewModel>().currentIndex = 0;
-                    Navigator.pop(context);
-                    // context.go(Routes.home);
+                    context.go(Routes.home);
                   }
                 },
                 child: Text(
