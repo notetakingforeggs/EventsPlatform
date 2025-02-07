@@ -1,3 +1,4 @@
+import 'package:events_platform_frontend/presentation/pages/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ class _AddEventPageState extends State<AddEventPage> {
   @override
   Widget build(BuildContext context) {
 
+    final _homeViewmodel = Provider.of<HomeViewModel>(context, listen:false);
     final _addEventViewmodel = Provider.of<AddEventViewmodel>(context, listen:false);
     final _formKey = _addEventViewmodel.getFormKey();
 
@@ -139,7 +141,9 @@ class _AddEventPageState extends State<AddEventPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Submitting Form Data')),
                     );
-                    context.go(Routes.home);
+                    context.read<HomeViewModel>().currentIndex = 0;
+                    Navigator.pop(context);
+                    // context.go(Routes.home);
                   }
                 },
                 child: Text(

@@ -1,3 +1,4 @@
+import 'package:events_platform_frontend/presentation/pages/add_event/add_event_page.dart';
 import 'package:events_platform_frontend/presentation/pages/home/playground.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ class HomeViewModel extends ChangeNotifier{
   final List<Widget> _homeScreens = [
     Playground(),
     EventListPage(),
-    Playground(),
+    AddEventPage(),
   ];
 
   int get currentIndex => _currentIndex;

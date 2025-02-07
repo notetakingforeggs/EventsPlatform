@@ -89,13 +89,11 @@ class _EventListPageState extends State<EventListPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(success
-                                          ? "Successfully attended the event!"
+                                          ? "This event has been added to your calendar!"
                                           : "Failed to attend the event"),
                                     ),
                                   );
-                                  print('trying to go home?');
-                                  context.read()<HomeViewModel>().currentIndex = 0;
-                                  // context.go(Routes.home);
+                                  context.read<HomeViewModel>().currentIndex = 0;
                                   Navigator.pop(context);
                                 },
                                 child: Text("Attend"),
