@@ -41,3 +41,5 @@ __ the answer is out there, and will be found__
 I'm basically still doing MVVM in flutter, Widgets should contain no state or business logic... Service layer should just make calls to api/os/whatever, repository layer does some logic passes to viewmodel/controller which preps stuff for views, then data goes to widgest.
 
 ## source of truth for google auth api stuff: https://github.com/googleapis/google-auth-library-java
+
+**make your model attributes have the same names between the front and backends, why are they even different you are the only person working on this project?!?**
