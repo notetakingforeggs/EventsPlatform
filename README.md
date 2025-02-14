@@ -28,6 +28,9 @@ Switch Hibernate to update mode with init on to seed data.
 
 Then, turn init off and keep it on update for future runs.
 
+Swagger documentation will be available at: http://localhost:8080/swagger-ui/index.html
+Health endpoint is at: http://localhost:8080/actuator/health
+
 **Frontend setup:**
 
 Android Studio.
