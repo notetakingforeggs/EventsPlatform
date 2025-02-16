@@ -9,7 +9,7 @@ participant "Flutter App (Frontend)" as FlutterApp
 participant "Backend" as Backend
 participant "Google API" as GoogleAPI
 participant "Firebase" as Firebase
-participant "Hosted GitHub Pages" as GitHubPages
+participant "ludicacid.com" as ludicacid.com
 
 == Initialization ==
 User -> FlutterApp: Opens app and presses "Sign-In/Login"
@@ -19,19 +19,21 @@ GoogleAPI --> Backend: Returns OAuth2 URL
 Backend --> FlutterApp: Sends OAuth2 URL
 FlutterApp -> FlutterApp: Opens URL in custom tabs browser
 
-== OAuth2 Process ==
-User -> GoogleAPI: Completes OAuth2 login
-GoogleAPI --> Backend: Redirects with tokens (refresh, ID, access)
-Backend -> Backend: Stores refresh token in user object
-Backend -> Firebase: Sends ID token to get Firebase token
-Firebase --> Backend: Returns Firebase token
-Backend -> FlutterApp: Sends Firebase token and response.redirect (deep link)
 
-== Deep Link Handling ==
-FlutterApp -> GitHubPages: Follows deep link to hosted GitHub Pages
-GitHubPages -> GitHubPages: Validates request (JSON validation)
-GitHubPages --> FlutterApp: Redirects back to Flutter app
-FlutterApp -> FlutterApp: Handles deep link with Flutter App Links package
+== OAuth2 Process ==
+
+User -> GoogleAPI: Completes OAuth2 login
+GoogleAPI -> ludicacid.com: redirect to "ludicacid.com" with Authorization code
+ludicacid.com --> FlutterApp: Deep link intercepted
+FlutterApp -> Backend: Auth code sent to backend
+Backend -> Backend: Auth code verified
+Backend -> GoogleAPI: Auth sent to be exchanged for tokens
+GoogleAPI --> Backend: ID token, Auth token and Refresh token returned to backend
+Backend -> Backend: Refresh and ID token stored in db,
+
+Backend -> Backend: JWT created using ID token
+Backend -> FlutterApp: JWT sent to "Flutter App (Frontend)"
+FlutterApp -> FlutterApp: JWT stored in secure storage and user is verified as logged in
 FlutterApp -> User: Navigates to home screen (successful login)
 
 @enduml

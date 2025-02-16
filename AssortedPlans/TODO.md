@@ -19,3 +19,7 @@ Misc "to do" list
 - implement internal calendar, and the ability to attend events without G-calendar 
 
 - implement other logins, and then a way to allow google access to calendar after being logged in with them
+
+- Backend Validation
+
+- DTOs
